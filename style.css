@@ -67,8 +67,12 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
   overflow: hidden;
 }
 
+#pc-left-top {
+  height: calc(50% - 65px);
+}
+
 #pc-left-bottom {
-  height: calc(50% - 65px)
+  height: calc(50% - 5px);
 }
 
 /* ================================================================ */
@@ -76,7 +80,7 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 /* ================================================================ */
 /* country list */
 ul#country-pick {
-  border-left: 1px solid black;
+  border-left: 1px solid rgb(50,50,50);
   box-sizing: border-box;
   margin: 0;
   overflow-y: scroll;
