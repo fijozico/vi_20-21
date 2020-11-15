@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Club vs Country | G22</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="scrollbar.css">
+    <link rel="shortcut icon" href="images/IST_Logo.ico">
+    <script type="text/javascript" src="jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="jquery-ui.min.js"></script>
+    <script type="text/javascript" src="d3.min.js"></script>
+  </head>
+  <body>
+    <!-- Left Tall Container -->
+    <div class="primary-container" id="left">
+      <!-- Top Left Container -->
+      <div class="secondary-container top" id="pc-left-top">
+        <svg id="map-svg" viewBox="1754 161 8578.5 6968.8">
+          <rect width="12386.153" height="7934.9712" x="-1722.1534" y="-782.5993" id="ocean" fill="#0d4b77"/>
+        </svg>
+        <ul id="country-pick"></ul>
+      </div>
+
+      <!-- Country Name and Flag Bar -->
+      <div class="secondary-container" id="country-title-bar">
+        <div id="country-title-1">
+          <div class="flag-div">
+            <img src="" height="36" style="display:none;">
+          </div>
+          <span class="country-name"></span>
+          <span class="close-country" title="" style="display:none;">❌</span>
+        </div>
+        <div id="country-title-2"></div>
+      </div>
+
+      <!-- Bottom Left Container -->
+      <div class="secondary-container bottom" id="pc-left-bottom">
+      </div>
+    </div>
+
+    <!-- Middle Tall Container -->
+    <div class="primary-container" id="middle">
+      <div class="secondary-container top" id="pc-right-top"></div>
+      <div class="secondary-container bottom" id="pc-right-bottom"></div>
+    </div>
+    <!-- Right Tall Container -->
+    <div class="primary-container" id="right"></div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>

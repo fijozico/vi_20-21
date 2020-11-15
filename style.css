@@ -1,0 +1,170 @@
+/* ================================================================ */
+/*                           GENERAL RULES                          */
+/* ================================================================ */
+
+* { font-family: Segoe UI, sans-serif; }
+
+html {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+body {
+  align-content: space-evenly;
+  background-color: rgb(29,29,29);
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  justify-content: space-evenly;
+  margin: 0;
+}
+
+/* map cursors */
+svg#map-svg path:not(.greyed-out) { cursor: pointer; }
+svg#map-svg path.greyed-out { cursor: not-allowed; }
+
+/* ================================================================ */
+/*                      MAIN CONTENT CONTAINERS                     */
+/* ================================================================ */
+/* major 3 tall containers */
+.primary-container {
+  align-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  height: calc(100% - 20px);
+  justify-content: space-evenly;
+  max-width: calc(50% - 15px);
+  overflow: hidden;
+}
+
+.primary-container#middle {
+  min-width: calc(50% - 15% - 20px);
+}
+
+.primary-container#right {
+  background-color: rgb(51,51,51);
+  border-radius: 4px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  min-width: 15%;
+}
+
+/* secondary containers */
+.secondary-container {
+  background-color: rgb(51,51,51);
+  border-radius: 4px;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
+.secondary-container.top,
+.secondary-container.bottom {
+  display: flex;
+  height: calc(50% - 5px);
+  min-width: 100%;
+  overflow: hidden;
+}
+
+#pc-left-bottom {
+  height: calc(50% - 65px)
+}
+
+/* ================================================================ */
+/*           TOP-LEFT BIG CONTAINER (MAP AND COUNTRY LIST)          */
+/* ================================================================ */
+/* country list */
+ul#country-pick {
+  border-left: 1px solid black;
+  box-sizing: border-box;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 0;
+  width: 30.5%;
+}
+
+ul#country-pick li {
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 17px;
+  font-weight: 500;
+  list-style: none;
+  padding: 2px 10px 2px 0;
+}
+
+/* this will go off when we pick and use each country's colors */
+ul#country-pick li.hovered,
+ul#country-pick li.active {
+  background-color: #72de78 !important;
+  color: black;
+}
+/* ///////// */
+
+ul#country-pick li.active { cursor: default; }
+
+ul#country-pick li:nth-child(even) { background-color: rgb(255,255,255,.1); }
+ul#country-pick li:nth-child(odd) { background-color: rgb(255,255,255,.15); }
+
+ul#country-pick li span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* flag icons */
+ul#country-pick li i.flag-icon {
+  background-position-x: center;
+  background-size: auto 12px;
+  border-radius: 50%;
+  border: 2px solid rgb(128,128,128);
+  box-sizing: content-box;
+  height: 12px;
+  width: 12px;
+  margin: 0 4px;
+}
+
+/* ================================================================ */
+/*       MIDDLE-LEFT BIG CONTAINER (COUNTRY NAME AND FLAG BAR)      */
+/* ================================================================ */
+
+#country-title-bar {
+  border-bottom: 1px solid black;
+  height: 50px;
+  width: 100%;
+  display: inherit;
+}
+
+#country-title-bar > div {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#country-title-1 { border-right: 1px solid black; }
+
+#country-title-bar > div .flag-div {
+  min-width: 72px;
+  display: flex;
+  justify-content: center;
+  margin: 0 6px;
+}
+
+#country-title-bar > div .flag-div img {
+  border: 1px solid black;
+}
+
+#country-title-bar > div span.country-name {
+  color: white;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+#country-title-bar > div span.close-country {
+  margin: 0 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
