@@ -100,9 +100,12 @@ ul#country-pick li {
 }
 
 /* this will go off when we pick and use each country's colors */
-ul#country-pick li.hovered,
-ul#country-pick li.active {
+ul#country-pick li[data-hovered=true] {
   background-color: #72de78 !important;
+  color: black;
+}
+ul#country-pick li[data-active=true] {
+  background-color: #4bc551 !important;
   color: black;
 }
 /* ///////// */
