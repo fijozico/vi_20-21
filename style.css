@@ -34,7 +34,6 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
   display: flex;
   flex-wrap: wrap;
   height: calc(100% - 20px);
-  justify-content: space-evenly;
   max-width: calc(50% - 15px);
   overflow: hidden;
 }
@@ -129,7 +128,7 @@ ul#country-pick li i.flag-icon {
   border: 2px solid rgb(128,128,128);
   box-sizing: content-box;
   height: 12px;
-  width: 12px;
+  min-width: 12px;
   margin: 0 4px;
 }
 
