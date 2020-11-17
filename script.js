@@ -2,6 +2,8 @@ var map;
 var no_countries_mode = 1;
 var country_colours = {"hover": "#72de78", "active": " #4bc551", "normal": "#aaa"}
 
+
+
 // holds the current active countries
 var active_countries = ["",""];
 
@@ -181,13 +183,31 @@ $(window).on("resize", function() {
 
 function createStadium() {
     // go through each stadium section radiuses
-    var stadium = $("#stadium");
+    var stadium = d3.select("#stadium");
     var center = {"x":380,"y":505};
     var angle_step = Math.PI / 5;
     var start_angle = 3 * Math.PI / 2;
     var radius = [{"x":375,"y":500},{"x":315,"y":420},{"x":255,"y":340},{"x":235,"y":320},{"x":175,"y":240},{"x":115,"y":160}];
     var point_1, point_2;
 
+    //attendances data
+    var data;
+    $.ajax({
+        async: false,
+        type: "GET",  
+        url: "data/attendances.csv",
+        dataType: "text",       
+        success: function (response) {
+            data = $.csv.toObjects(response);
+        }   
+    });
+    console.log(data)
+
+    var colours = d3.scaleLinear()
+                    .domain([0, 1])
+                    .range(['white', 'blue']);
+
+    var g;
     // create four sections
     for (var i = 0; i < 5; i++) {
         if (i == 2) continue;
@@ -198,32 +218,44 @@ function createStadium() {
             point_3 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + (j + 1) * angle_step);
             point_4 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + j * angle_step);
 
-            var thing1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            var thing2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            g = stadium.append("g")
+                .attr("class", "slice")
+                .attr("data-sector", j)
+                .attr("data-section", i);
 
-            thing1.setAttributeNS(null, "d", [
-                "M", point_1.x, point_1.y,
-                "A", radius[i].x, radius[i].y, 0, 0, 1, point_2.x, point_2.y,
-                "L", point_3.x, point_3.y,
-                "A", radius[i+1].x, radius[i+1].y, 0, 0, 0, point_4.x, point_4.y,
-                "Z"
-            ].join(" "));
-            thing2.setAttributeNS(null, "d", [
-                "M", point_1.x, point_1.y,
-                "A", radius[i].x, radius[i].y, 0, 0, 1, point_2.x, point_2.y,
-                "L", point_3.x, point_3.y,
-                "A", radius[i+1].x, radius[i+1].y, 0, 0, 0, point_4.x, point_4.y,
-                "Z"
-            ].join(" "));
-
-            thing1.setAttributeNS(null, "fill", "rgb(" + [[0,0,255],[86,86,255],0,[171,171,255],[255,255,255],][i].join() + ")");
-            thing2.setAttributeNS(null, "fill", "transparent");
-            thing2.setAttributeNS(null, "stroke", "rgb(30,30,30)");
-            thing2.setAttributeNS(null, "stroke-width", "7px");
-            stadium[0].appendChild(thing1);
-            stadium[0].appendChild(thing2);
+            g.append("path")
+                .attr("class", "inside")
+                .attr("d", [
+                    "M", point_1.x, point_1.y,
+                    "A", radius[i].x, radius[i].y, 0, 0, 1, point_2.x, point_2.y,
+                    "L", point_3.x, point_3.y,
+                    "A", radius[i+1].x, radius[i+1].y, 0, 0, 0, point_4.x, point_4.y,
+                    "Z"
+                ].join(" "));
+                            
+            g.append("path")
+                .attr("class", "borders")
+                .attr("d", [
+                    "M", point_1.x, point_1.y,
+                    "A", radius[i].x, radius[i].y, 0, 0, 1, point_2.x, point_2.y,
+                    "L", point_3.x, point_3.y,
+                    "A", radius[i+1].x, radius[i+1].y, 0, 0, 0, point_4.x, point_4.y,
+                    "Z"
+                ].join(" "))
+                .attr("fill", "transparent")
+                .attr("stroke", "rgb(30,30,30)")
+                .attr("stroke-width", "7px");
         }
+
+        d3.selectAll($("g.slice[data-section=" + i + "]").toArray())
+            .data([0.1,0.2,0.3,0.7,0.3,0.8,0.2,0.8,0.7,0.3])
+            .join("g");
+        
+        d3.selectAll($("#stadium g.slice[data-section=" + i + "]").toArray())
+            .attr("fill", d => `${colours(d)}`);
     }
+
+    document.getElementById("pc-left-bottom").appendChild(stadium.node());
 }
 
 function polarToCartesian(center_x, center_y, radius_x, radius_y, angle) {
