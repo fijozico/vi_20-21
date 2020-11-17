@@ -169,6 +169,20 @@ $(window).on("load", function() {
     bindCountryHover();
     bindCountryUnhover();
     bindCountryClick();
+<<<<<<< Updated upstream
+=======
+    createStadium();
+
+    $.ajax({
+        type: "GET",
+        url: "data/attendances.csv",
+        dataType: "text",
+        success: function (response) {
+            data = $.csv.toObjects(response);
+            console.log(data)
+        }
+    });
+>>>>>>> Stashed changes
 });
 
 // what to  do on window resize
