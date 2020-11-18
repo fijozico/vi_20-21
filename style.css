@@ -34,7 +34,7 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
   display: flex;
   flex-wrap: wrap;
   height: calc(100% - 20px);
-  max-width: calc(50% - 15px);
+  max-width: calc(50% - 20px);
   overflow: hidden;
 }
 
@@ -43,15 +43,16 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 }
 
 .primary-container#right {
-  background-color: rgb(51,51,51);
-  border-radius: 4px;
-  border: 1px solid black;
-  box-sizing: border-box;
   min-width: 15%;
 }
 
 /* secondary containers */
-.secondary-container {
+.primary-container#right,
+#pc-left-top,
+#country-title-bar,
+#pc-right-top,
+#pc-right-bottom,
+.terciary-container {
   background-color: rgb(51,51,51);
   border-radius: 4px;
   border: 1px solid black;
@@ -71,7 +72,30 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 }
 
 #pc-left-bottom {
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
   height: calc(50% - 5px);
+}
+
+/* terciary containers */
+#spider-chart-container {
+  width: calc(50% - 5px);
+  height: calc(50% - 5px);
+}
+
+#line-chart-container {
+  width: calc(50% - 5px);
+  height: calc(50% - 5px);
+}
+
+#stadium-container {
+  width: calc(50% - 5px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ================================================================ */
@@ -137,7 +161,6 @@ ul#country-pick li i.flag-icon {
 /* ================================================================ */
 
 #country-title-bar {
-  border-bottom: 1px solid black;
   height: 50px;
   width: 100%;
   display: inherit;
@@ -173,4 +196,14 @@ ul#country-pick li i.flag-icon {
   margin: 0 10px;
   font-size: 12px;
   cursor: pointer;
+}
+
+/* ================================================================ */
+/*                       STADIUM VISUALIZATION                      */
+/* ================================================================ */
+
+svg#stadium text {
+  fill: white;
+  font-weight: 600;
+  font-size: 40px;
 }

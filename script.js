@@ -1,19 +1,46 @@
+/* ================================================================ */
+/*                         GLOBAL VARIABLES                         */
+/* ================================================================ */
 var map;
 var no_countries_mode = 1;
 var country_colours = {"hover": "#72de78", "active": " #4bc551", "normal": "#aaa"}
 
-
-
 // holds the current active countries
 var active_countries = ["",""];
+var attendance_data = [];
+var empty_attendance = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+var current_attendance = [empty_attendance,empty_attendance,empty_attendance,empty_attendance]
 
-function resizeMap() {
-    var map_container = map.parent();
-    map.attr("height", map_container.height() + 2);
-    map.attr("width", (map_container.height() + 2) * 1.45);
+/* ================================================================ */
+/*                              SCALES                              */
+/* ================================================================ */
+// colour scale; to be changed when country gets selected
+var colours = d3.scaleLinear()
+    .domain([-1, 0, 0, 1])
+    .range(['#666', '#666', 'white', 'hsl(123, 100%, 25%)']);
 
-    $("ul#country-pick").css("width", map_container.width() - map.width());
-}
+/* ================================================================ */
+/*                               CODE                               */
+/* ================================================================ */
+// what to do when the page loads
+$(window).on("load", function() {
+    loadMapStuff();
+    resizeBody($(this));
+    resizeMap();
+    createStadium();
+    resizeStadium();
+
+    bindCountryHover();
+    bindCountryUnhover();
+    bindCountryClick();
+});
+
+// what to  do on window resize
+$(window).on("resize", function() {
+    resizeBody($(this));
+    resizeMap();
+    resizeStadium();
+});
 
 // keeps the body element at 16:9
 function resizeBody(win) {
@@ -24,6 +51,27 @@ function resizeBody(win) {
 
     if (new_height <= w_height) $("body").width(w_width).height(new_height);
     else $("body").width(new_width).height(w_height);
+}
+
+// make the map always fit its container
+function resizeMap() {
+    var map_container = map.parent();
+    map.attr("height", map_container.height() + 2);
+    map.attr("width", (map_container.height() + 2) * 1.45);
+
+    $("ul#country-pick").css("width", map_container.width() - map.width());
+}
+
+// makes the stadium always fit its container
+function resizeStadium() {
+    var stadium_container = $("svg#stadium").parent();
+    var c_height = stadium_container.height();
+    var c_width = stadium_container.width();
+    var new_height = c_width * 10/9;
+    var new_width = c_height * 9/10;
+
+    if (new_height <= c_height) $("svg#stadium").attr({"width": c_width, "height": new_height});
+    else $("svg#stadium").attr({"width": new_width, "height": c_height});
 }
 
 // loads the SVG map and the country list from countries-svg.json
@@ -74,8 +122,8 @@ function loadMapStuff() {
     });
 }
 
+// what happens when we hover a country
 function bindCountryHover() {
-    // hover on country (map or list)
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("mouseover", function () {
         // this way, it deals with all the country's paths, along with the list item
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
@@ -91,8 +139,8 @@ function bindCountryHover() {
     });
 }
 
+// what happens when we unhover a country
 function bindCountryUnhover() {
-    // taking the mouse off the country (map or list)
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("mouseout", function () {
         if (this.dataset.active === "true");
 
@@ -127,6 +175,17 @@ function bindCountryClick() {
 
             // stores country name as first one selected
             active_countries[0] = this.dataset.country;
+
+            // adds country to stadium chart
+            current_attendance[0] = attendance_data.find(
+                x => (x.country === this.dataset.country && x.occ_type === "league")
+            ).years;
+
+            current_attendance[1] = attendance_data.find(
+                x => (x.country === this.dataset.country && x.occ_type === "national")
+            ).years;
+
+            udpateStadium();
         }
 
         // there can be two countries selected
@@ -140,7 +199,6 @@ function bindCountryClick() {
             $("li#li-" + this.dataset.country)[0].dataset.active = true;
             $("li#li-" + this.dataset.country)[0].dataset.hovered = false;
         });
-
     });
 }
 
@@ -161,106 +219,134 @@ function closeCountry(country) {
         <span class=\"close-country\" title=\"\" style=\"display:none;\">❌</span>\
         </div>"
     );
+
+    // remove from stadium chart
+    current_attendance[2*(index - 1)] = empty_attendance;
+    current_attendance[2*(index - 1) + 1] = empty_attendance;
+    udpateStadium();
 }
 
-// what to do when he page loads
-$(window).on("load", function() {
-    loadMapStuff();
-    resizeBody($(this));
-    resizeMap();
-
-    bindCountryHover();
-    bindCountryUnhover();
-    bindCountryClick();
-    createStadium();
-});
-
-// what to  do on window resize
-$(window).on("resize", function() {
-    resizeBody($(this));
-    resizeMap();
-});
-
+// creating the stadium visualization
 function createStadium() {
-    // go through each stadium section radiuses
+    var indexes = [3,2,0,1,0]; // needed to have the interior circles with lower section number
     var stadium = d3.select("#stadium");
-    var center = {"x":380,"y":505};
-    var angle_step = Math.PI / 5;
-    var start_angle = 3 * Math.PI / 2;
-    var radius = [{"x":375,"y":500},{"x":315,"y":420},{"x":255,"y":340},{"x":235,"y":320},{"x":175,"y":240},{"x":115,"y":160}];
-    var point_1, point_2;
+    var center = {"x":450,"y":600};
+    var angle_step = (-1) * Math.PI / 5; // we'll be having steps of 36 degrees
+    var start_angle = Math.PI / 2; // starting at 90 degrees south
+    var point_1, point_2, d, g, i, j;
 
-    //attendances data
-    var data;
+    // radiuses of each ellipsis drawn
+    var radius = [
+        {"x": 375, "y": 500},
+        {"x": 315, "y": 420},
+        {"x": 255, "y": 340},
+        {"x": 235, "y": 320},
+        {"x": 175, "y": 240},
+        {"x": 115, "y": 160}
+    ];
+
+    // load attendances data
     $.ajax({
         async: false,
         type: "GET",  
         url: "data/attendances.csv",
         dataType: "text",       
         success: function (response) {
-            data = $.csv.toObjects(response);
+            $.csv.toObjects(response).forEach(function (item) {
+                item.years = [];
+                for (var y = 2011; y <= 2020; y++) {
+                    item.years.push(item[y]);
+                    delete item[y];
+                }
+                attendance_data.push(item);
+            });
         }   
     });
-    console.log(data)
 
-    var colours = d3.scaleLinear()
-                    .domain([0, 1])
-                    .range(['white', 'blue']);
-
-    var g;
-    // create four sections
-    for (var i = 0; i < 5; i++) {
+    // actually creating the stadium
+    for (i = 0; i < 5; i++) {
+        // ignore inner padding circle
         if (i == 2) continue;
+
         // create ten sectors for each section
-        for (var j = 0; j < 10; j++) {
+        for (j = 0; j < 10; j++) {
             point_1 = polarToCartesian(center.x, center.y, radius[i].x, radius[i].y, start_angle + j * angle_step);
             point_2 = polarToCartesian(center.x, center.y, radius[i].x, radius[i].y, start_angle + (j + 1) * angle_step);
             point_3 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + (j + 1) * angle_step);
             point_4 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + j * angle_step);
 
+            // generate path string
+            d = [
+                "M", point_1.x, point_1.y,
+                "A", radius[i].x, radius[i].y, 0, 0, 0, point_2.x, point_2.y,
+                "L", point_3.x, point_3.y,
+                "A", radius[i+1].x, radius[i+1].y, 0, 0, 1, point_4.x, point_4.y,
+                "Z"
+            ].join(" ")
+
             g = stadium.append("g")
                 .attr("class", "slice")
                 .attr("data-sector", j)
-                .attr("data-section", i);
+                .attr("data-section", indexes[i]);
 
+            // add filled slice
             g.append("path")
                 .attr("class", "inside")
-                .attr("d", [
-                    "M", point_1.x, point_1.y,
-                    "A", radius[i].x, radius[i].y, 0, 0, 1, point_2.x, point_2.y,
-                    "L", point_3.x, point_3.y,
-                    "A", radius[i+1].x, radius[i+1].y, 0, 0, 0, point_4.x, point_4.y,
-                    "Z"
-                ].join(" "));
-                            
+                .attr("d", d);
+
+            // add stroke, always on top
             g.append("path")
-                .attr("class", "borders")
-                .attr("d", [
-                    "M", point_1.x, point_1.y,
-                    "A", radius[i].x, radius[i].y, 0, 0, 1, point_2.x, point_2.y,
-                    "L", point_3.x, point_3.y,
-                    "A", radius[i+1].x, radius[i+1].y, 0, 0, 0, point_4.x, point_4.y,
-                    "Z"
-                ].join(" "))
+                .attr("class", "border")
+                .attr("d", d)
                 .attr("fill", "transparent")
                 .attr("stroke", "rgb(30,30,30)")
                 .attr("stroke-width", "7px");
+
+            // adds the possibility of having a tooltip displaying the percentage
+            g.append("title");
         }
 
-        d3.selectAll($("g.slice[data-section=" + i + "]").toArray())
-            .data([0.1,0.2,0.3,0.7,0.3,0.8,0.2,0.8,0.7,0.3])
-            .join("g");
-        
-        d3.selectAll($("#stadium g.slice[data-section=" + i + "]").toArray())
-            .attr("fill", d => `${colours(d)}`);
     }
+    // bind data to filled 
+    udpateStadium();
 
-    document.getElementById("pc-left-bottom").appendChild(stadium.node());
+    // addin year labels
+    // 'baseline' needed to position them correctly
+    var baseline = ["hanging","hanging","middle","baseline","baseline","baseline","baseline","middle","hanging","hanging"];
+    start_angle = 2 * Math.PI / 5;
+
+    for (i = 0; i < 10; i++) {
+        point_1 = polarToCartesian(center.x, center.y, radius[0].x + 15, radius[0].y + 15, start_angle + i * angle_step);
+        stadium.append("text")
+            .text(2011 + i)
+            .attr("text-anchor", i > 4 ? "end" : "start")
+            .attr("alignment-baseline", baseline[i])
+            .attr("x", point_1.x)
+            .attr("y", point_1.y);
+    }
 }
 
+// gets cartesian coordinates given a center point, radiuses and angle
 function polarToCartesian(center_x, center_y, radius_x, radius_y, angle) {
     return {
         x: center_x + (radius_x * Math.cos(angle)),
         y: center_y + (radius_y * Math.sin(angle))
     };
+}
+
+// called when a stadium data should be updated
+function udpateStadium() {
+    for (var i = 0; i < 4; i++) {
+        // update colours
+        d3.selectAll($("g.slice[data-section=" + i + "]").toArray())
+            .data(current_attendance[i])
+            .join("g")
+            .attr("fill", d => `${colours(d)}`);
+
+        // update tooltip with the percentages
+        d3.selectAll($("g.slice[data-section=" + i + "] title").toArray())
+            .data(current_attendance[i])
+            .join("g")
+            .text(function (d) { return d >= 0 ? Math.round(d * 100) + "%" : ""; });
+    }
 }
