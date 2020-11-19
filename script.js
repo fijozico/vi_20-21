@@ -2,8 +2,8 @@
 /*                         GLOBAL VARIABLES                         */
 /* ================================================================ */
 var map;
-var no_countries_mode = 1;
-var country_colours = {"hover": "#72de78", "active": " #4bc551", "normal": "#aaa"}
+var no_countries_mode = 0;
+var country_colours = {"hover": ["#72de78", "#a873de"], "active": ["#4bc551", "#874ac4"], "normal": "#aaa"}
 
 // holds the current active countries
 var active_countries = ["",""];
@@ -15,9 +15,14 @@ var current_attendance = [empty_attendance,empty_attendance,empty_attendance,emp
 /*                              SCALES                              */
 /* ================================================================ */
 // colour scale; to be changed when country gets selected
-var colours = d3.scaleLinear()
-    .domain([-1, 0, 0, 1])
-    .range(['#666', '#666', 'white', 'hsl(123, 100%, 25%)']);
+var colours = [
+    d3.scaleLinear()
+        .domain([-1, 0, 0, 1])
+        .range(["#666", "#666", "white", "#00ff0e"]),
+    d3.scaleLinear()
+        .domain([-1, 0, 0, 1])
+        .range(["#666", "#666", "white", "#7f00ff"])
+];
 
 /* ================================================================ */
 /*                               CODE                               */
@@ -86,7 +91,7 @@ function loadMapStuff() {
         url: "data/countries-svg.json",
         success: function (json) {
             json.forEach(function (item) {
-                // adds each country to the SVG; needs to be done in pure JS because jQuery doesn't handle SVG
+                // adds each country to the SVG; needs to be done in pure JS because jQuery doesn"t handle SVG
                 new_path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 new_path.setAttributeNS(null, "d", item.d);
                 new_path.setAttributeNS(null, "fill", item.country == "" ? "#666" : "#aaa");
@@ -114,7 +119,7 @@ function loadMapStuff() {
             country_list.sort().forEach(function (item) {
                 list_ul.append($(
                     "<li id=\"li-" + item + "\" data-country=\"" + item + "\">\
-                        <i class=\"flag-icon flag-" + item + "\" style=\"background-image: url('images/flags/flag-" + item + ".png');\"></i><span>" + item.replaceAll("-"," ") + "</span>\
+                        <i class=\"flag-icon flag-" + item + "\" style=\"background-image: url(images/flags/flag-" + item + ".png);\"></i><span>" + item.replaceAll("-"," ") + "</span>\
                     </li>"
                 ));
             });
@@ -125,16 +130,19 @@ function loadMapStuff() {
 // what happens when we hover a country
 function bindCountryHover() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("mouseover", function () {
-        // this way, it deals with all the country's paths, along with the list item
+        // this way, it deals with all the country"s paths, along with the list item
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
-            // if it's the path, just changes its color
-            if (this.localName == "path" && $(this).attr("fill") != country_colours.active)
-                $(this).attr("fill", country_colours.hover);
+            // if it"s the path, just changes its color
+            if (this.localName == "path" && $(this).attr("fill") == country_colours.normal)
+                $(this).attr("fill", country_colours.hover[no_countries_mode]);
 
-            // if it's the list item, only "hovers" it if item not active
+            // if it"s the list item, only "hovers" it if item not active
             // important because list item may be "hovered" (temporary highlight) or "active" (permanent highlight)
-            else if (this.localName == "li" && (!this.dataset.active || this.dataset.active === "false"))
-                this.dataset.hovered = true;
+            else if (this.localName == "li" && (this.dataset.active === undefined || this.dataset.active === "-1"))
+                $(this).css({
+                    "background-color": country_colours.hover[no_countries_mode],
+                    "color": textColour(country_colours.hover[no_countries_mode])
+                })[0].dataset.hovered = no_countries_mode;
         });
     });
 }
@@ -142,14 +150,14 @@ function bindCountryHover() {
 // what happens when we unhover a country
 function bindCountryUnhover() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("mouseout", function () {
-        if (this.dataset.active === "true");
+        if (this.dataset.active === no_countries_mode.toString());
 
         else $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
-            if (this.localName == "path")
+            if (this.localName == "path" && (this.dataset.active === undefined || this.dataset.active === "-1"))
                 $(this).attr("fill", country_colours.normal);
 
-            else
-                this.dataset.hovered = false;
+            else if (this.dataset.active === undefined || this.dataset.active === "-1")
+                $(this).attr("style", "")[0].dataset.hovered = -1;
         });
     });
 }
@@ -157,72 +165,101 @@ function bindCountryUnhover() {
 // clicking on the country (map or list)
 function bindCountryClick() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("click", function () {
-        // there can only be one country selected
-        if (no_countries_mode == 1) {
-            // deselect active country
-            $("svg#map-svg path:not(.greyed-out)[data-active=true]").each(function () {
-                $(this).attr("fill", country_colours.normal)[0].dataset.active = false;
-                $("li#li-" + this.dataset.country)[0].dataset.active = false;
-            });
+        if (this.dataset.active !== undefined && this.dataset.active !== "-1") return;
+        // deselect active country
+        $("svg#map-svg path:not(.greyed-out)[data-active=" + no_countries_mode + "]").each(function () {
+            $(this).attr("fill", country_colours.normal)[0].dataset.active = -1;
+            $("li#li-" + this.dataset.country).attr("style", "")[0].dataset.active = -1;
+        });
 
-            // puts flag and name in the first country slot
-            $("#country-title-1 > .flag-div > img").attr("src", "images/flags/flag-" + this.dataset.country + ".png").show();
-            $("#country-title-1 > .country-name").html(this.dataset.country.replaceAll("-"," "));
-            $("#country-title-1 > .close-country")
-                .attr("title", "Remove " + this.dataset.country.replaceAll("-"," ") + " from selected countries")
-                .attr("onclick", "closeCountry(\"" + this.dataset.country + "\")")
-                .show();
+        // puts flag and name in the first country slot
+        $("#country-title-" + (no_countries_mode+1)).empty().append(insertCountryBar(
+            "images/flags/flag-" + this.dataset.country + ".png", // image source
+            this.dataset.country.replaceAll("-"," "), // country name with spaces
+            this.dataset.country // country name with dashes
+        ));
 
-            // stores country name as first one selected
-            active_countries[0] = this.dataset.country;
+        // stores country name as first one selected
+        active_countries[no_countries_mode] = this.dataset.country;
 
-            // adds country to stadium chart
-            current_attendance[0] = attendance_data.find(
-                x => (x.country === this.dataset.country && x.occ_type === "league")
-            ).years;
+        // adds country to stadium chart
+        current_attendance[2*no_countries_mode] = attendance_data.find(
+            x => (x.country === this.dataset.country && x.occ_type === "league")
+        ).years;
 
-            current_attendance[1] = attendance_data.find(
-                x => (x.country === this.dataset.country && x.occ_type === "national")
-            ).years;
+        current_attendance[2*no_countries_mode+1] = attendance_data.find(
+            x => (x.country === this.dataset.country && x.occ_type === "national")
+        ).years;
 
-            udpateStadium();
-        }
-
-        // there can be two countries selected
-        else if (no_countries_mode == 2) {
-
-        }
+        udpateStadium();
 
         // permanently select clicked country
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
-            $(this).attr("fill", country_colours.active)[0].dataset.active = true;
-            $("li#li-" + this.dataset.country)[0].dataset.active = true;
-            $("li#li-" + this.dataset.country)[0].dataset.hovered = false;
+            $(this).attr("fill", country_colours.active[no_countries_mode])[0].dataset.active = no_countries_mode;
+            $("li#li-" + this.dataset.country)[0].dataset.active = no_countries_mode;
+            $("li#li-" + this.dataset.country).css({
+                "background-color": country_colours.active[no_countries_mode],
+                "color": textColour(country_colours.active[no_countries_mode])
+            })[0].dataset.hovered = -1;
         });
+
+        // needed so people may add a second country
+        if (no_countries_mode === 0) $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
+
     });
 }
 
 function closeCountry(country) {
     // deselect country on map and list
     $("svg#map-svg path[data-country=" + country + "], ul#country-pick li#li-" + country).each(function () {
-        $(this).attr("fill", country_colours.normal)[0].dataset.active = false;
-        $("li#li-" + country)[0].dataset.active = false;
+        if (this.localName == "path") $(this).attr("fill", country_colours.normal)[0].dataset.active = -1;
+        else $(this).attr("style", "")[0].dataset.active = -1;
     });
 
-    // remove from selected country bar
-    var index = active_countries.indexOf(country) + 1;
-    active_countries[index - 1] = "";
-    $("#country-title-" + index).replaceWith(
-        "<div class=\"country-title\" id=\"country-title-" + index + "\">\
-        <div class=\"flag-div\"><img src=\"\" height=\"36\" style=\"display:none;\"></div>\
-        <span class=\"country-name\"></span>\
-        <span class=\"close-country\" title=\"\" style=\"display:none;\">❌</span>\
-        </div>"
-    );
+    var index = active_countries.indexOf(country);
 
-    // remove from stadium chart
-    current_attendance[2*(index - 1)] = empty_attendance;
-    current_attendance[2*(index - 1) + 1] = empty_attendance;
+    // if it was the second, simply removes it
+    if (index === 1) {
+        active_countries[1] = "";
+        $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
+
+        // remove from stadium chart
+        current_attendance[2] = current_attendance[3] = empty_attendance;
+    }
+
+    // if it's the first, and the second's defined, moves the second to its place
+    else if (index === 0 && $("#country-title-2").children().length > 1) {
+        $("#pc-left-top [data-country=" + active_countries[1] + "]").each(function () {
+            if (this.localName == "path")
+                $(this).attr({
+                    "fill": country_colours.active[0],
+                    "data-active": 0
+                });
+
+            else
+                $(this).attr("data-active", 0).css({
+                    "background-color": country_colours.active[0],
+                    "color": textColour(country_colours.active[0])
+                });
+        });
+        active_countries = active_countries.slice(1,2).concat([""]);
+        $("#country-title-1").empty().append($("#country-title-2").children());
+        $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
+
+        // remove from stadium chart
+        current_attendance = current_attendance.slice(2,4).concat([empty_attendance,empty_attendance]);
+    }
+
+    // if it's the first and only, removes it
+    else {
+        $("#country-title-1").empty().append("<span class=\"suggestion\">Select a country above...</span>");
+        $("#country-title-2").empty();
+
+        // remove from stadium chart
+        current_attendance[0] = current_attendance[1] = empty_attendance;
+    }
+
+    no_countries_mode = 0;
     udpateStadium();
 }
 
@@ -231,7 +268,7 @@ function createStadium() {
     var indexes = [3,2,0,1,0]; // needed to have the interior circles with lower section number
     var stadium = d3.select("#stadium");
     var center = {"x":450,"y":600};
-    var angle_step = (-1) * Math.PI / 5; // we'll be having steps of 36 degrees
+    var angle_step = (-1) * Math.PI / 5; // we"ll be having steps of 36 degrees
     var start_angle = Math.PI / 2; // starting at 90 degrees south
     var point_1, point_2, d, g, i, j;
 
@@ -311,7 +348,7 @@ function createStadium() {
     udpateStadium();
 
     // addin year labels
-    // 'baseline' needed to position them correctly
+    // "baseline" needed to position them correctly
     var baseline = ["hanging","hanging","middle","baseline","baseline","baseline","baseline","middle","hanging","hanging"];
     start_angle = 2 * Math.PI / 5;
 
@@ -341,7 +378,7 @@ function udpateStadium() {
         d3.selectAll($("g.slice[data-section=" + i + "]").toArray())
             .data(current_attendance[i])
             .join("g")
-            .attr("fill", d => `${colours(d)}`);
+            .attr("fill", d => `${colours[parseInt(i/2)](d)}`);
 
         // update tooltip with the percentages
         d3.selectAll($("g.slice[data-section=" + i + "] title").toArray())
@@ -349,4 +386,33 @@ function udpateStadium() {
             .join("g")
             .text(function (d) { return d >= 0 ? Math.round(d * 100) + "%" : ""; });
     }
+}
+
+// generates the element for inside the country bar
+function insertCountryBar(src, name_s, name_d) {
+    return $(
+        `<img src=\"${src}\" height=\"36\">
+        <span class=\"country-name\">${name_s}</span>
+        <span class=\"close-country\" onclick=\"closeCountry('${name_d}')\" title=\"Remove ${name_s} from selected countries\">❌</span>`
+    );
+}
+
+// calculate text colour depending on background
+function textColour(colour) {
+    // convert from HEX to RGB if necessary
+    if (colour[0] === "#") {
+        var value = [0,0,0];
+        value[0] = parseInt(colour.substring(1,3), 16);
+        value[1] = parseInt(colour.substring(3,5), 16);
+        value[2] = parseInt(colour.substring(5,7), 16);
+    }
+    // in case it"s RGB
+    else value = colour.replace(/[^\d,]/g, "").split(",");
+
+    return 1 - (0.299 * value[0] + 0.587 * value[1] + 0.114 * value[2]) / 255 < 0.5 ? "black" : "white";
+}
+
+// change country state
+function switchCountryState(no) {
+    no_countries_mode = no - 1;
 }

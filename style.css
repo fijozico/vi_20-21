@@ -122,17 +122,6 @@ ul#country-pick li {
   padding: 2px 10px 2px 0;
 }
 
-/* this will go off when we pick and use each country's colors */
-ul#country-pick li[data-hovered=true] {
-  background-color: #72de78 !important;
-  color: black;
-}
-ul#country-pick li[data-active=true] {
-  background-color: #4bc551 !important;
-  color: black;
-}
-/* ///////// */
-
 ul#country-pick li.active { cursor: default; }
 
 ul#country-pick li:nth-child(even) { background-color: rgb(255,255,255,.1); }
@@ -171,22 +160,19 @@ ul#country-pick li i.flag-icon {
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 #country-title-1 { border-right: 1px solid black; }
 
-#country-title-bar > div .flag-div {
-  min-width: 72px;
-  display: flex;
-  justify-content: center;
-  margin: 0 6px;
-}
-
-#country-title-bar > div .flag-div img {
+#country-title-bar > div img {
   border: 1px solid black;
+  margin: 0 10px;
 }
 
-#country-title-bar > div span.country-name {
+#country-title-bar > div span.country-name,
+#country-title-bar span.add-country,
+#country-title-bar span.suggestion {
   color: white;
   font-weight: 700;
   font-size: 24px;
@@ -196,6 +182,11 @@ ul#country-pick li i.flag-icon {
   margin: 0 10px;
   font-size: 12px;
   cursor: pointer;
+}
+
+#country-title-bar span.add-country {
+  cursor: pointer;
+  color: rgb(65, 194, 255);
 }
 
 /* ================================================================ */
