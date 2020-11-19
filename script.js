@@ -29,8 +29,8 @@ var colours = [
 /* ================================================================ */
 // what to do when the page loads
 $(window).on("load", function() {
-    loadMapStuff();
     resizeBody($(this));
+    createMap();
     resizeMap();
     createStadium();
     resizeStadium();
@@ -72,15 +72,15 @@ function resizeStadium() {
     var stadium_container = $("svg#stadium").parent();
     var c_height = stadium_container.height();
     var c_width = stadium_container.width();
-    var new_height = c_width * 10/9;
-    var new_width = c_height * 9/10;
+    var new_height = c_width * 5/4;
+    var new_width = c_height * 4/5;
 
     if (new_height <= c_height) $("svg#stadium").attr({"width": c_width, "height": new_height});
     else $("svg#stadium").attr({"width": new_width, "height": c_height});
 }
 
 // loads the SVG map and the country list from countries-svg.json
-function loadMapStuff() {
+function createMap() {
     map = $("svg#map-svg");
     var list_ul = $("#country-pick");
     var country_list = [];
@@ -203,6 +203,9 @@ function bindCountryClick() {
             })[0].dataset.hovered = -1;
         });
 
+        // place colours on legend
+        changeLegend("", this.dataset.country.replaceAll("-"," "));
+
         // needed so people may add a second country
         if (no_countries_mode === 0) $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
 
@@ -225,6 +228,10 @@ function closeCountry(country) {
 
         // remove from stadium chart
         current_attendance[2] = current_attendance[3] = empty_attendance;
+
+        // remove legend
+        changeLegend("delete");
+        no_countries_mode = 0;
     }
 
     // if it's the first, and the second's defined, moves the second to its place
@@ -248,6 +255,11 @@ function closeCountry(country) {
 
         // remove from stadium chart
         current_attendance = current_attendance.slice(2,4).concat([empty_attendance,empty_attendance]);
+
+        // remove legend
+        changeLegend("delete");
+        no_countries_mode = 0;
+        changeLegend("", active_countries[0]);
     }
 
     // if it's the first and only, removes it
@@ -257,9 +269,13 @@ function closeCountry(country) {
 
         // remove from stadium chart
         current_attendance[0] = current_attendance[1] = empty_attendance;
+
+        // remove legend
+        changeLegend("delete");
+        $("#stadium #legend").hide();
+        no_countries_mode = 0;
     }
 
-    no_countries_mode = 0;
     udpateStadium();
 }
 
@@ -344,6 +360,25 @@ function createStadium() {
         }
 
     }
+
+    // add ridge between 2020 an 2011
+    stadium.append("path")
+        .attr("d", ["M", center.x, center.y + radius[0].y - 2, "L", center.x, center.y + radius[2].y, "Z"].join(" "))
+        .attr("fill", "transparent")
+        .attr("stroke", "rgb(30,30,30)")
+        .attr("stroke-width", "20px");
+    stadium.append("path")
+        .attr("d", ["M", center.x, center.y + radius[3].y - 2, "L", center.x, center.y + radius[5].y, "Z"].join(" "))
+        .attr("fill", "transparent")
+        .attr("stroke", "rgb(30,30,30)")
+        .attr("stroke-width", "20px");
+
+    // add "Club" and "NT" markers
+    stadium.append("text").attr("class", "cnt-label").text("Club").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[4].y + radius[5].y) / 2);
+    stadium.append("text").attr("class", "cnt-label").text("NT").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[3].y + radius[4].y) / 2);
+    stadium.append("text").attr("class", "cnt-label").text("Club").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[1].y + radius[2].y) / 2);
+    stadium.append("text").attr("class", "cnt-label").text("NT").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[0].y + radius[1].y) / 2);
+
     // bind data to filled 
     udpateStadium();
 
@@ -391,7 +426,7 @@ function udpateStadium() {
 // generates the element for inside the country bar
 function insertCountryBar(src, name_s, name_d) {
     return $(
-        `<img src=\"${src}\" height=\"36\">
+        `<img src=\"${src}\">
         <span class=\"country-name\">${name_s}</span>
         <span class=\"close-country\" onclick=\"closeCountry('${name_d}')\" title=\"Remove ${name_s} from selected countries\">❌</span>`
     );
@@ -415,4 +450,20 @@ function textColour(colour) {
 // change country state
 function switchCountryState(no) {
     no_countries_mode = no - 1;
+}
+
+// change legend
+function changeLegend(mode, country = "") {
+    if (mode === "delete") {
+        $("#stadium #legend-line-" + (no_countries_mode+1)).hide();
+        return;
+    }
+
+    $("#stadium #legend").show()
+        .children("#legend-line-" + (no_countries_mode+1)).show()
+        .children("circle").attr("fill", function (index) {
+            return colours[no_countries_mode]([0,0.5,1][index]);
+        });
+
+    $("#stadium #legend-line-" + (no_countries_mode+1) + " text").html(country);
 }
