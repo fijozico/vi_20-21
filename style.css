@@ -34,8 +34,7 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
   display: flex;
   flex-wrap: wrap;
   height: calc(100% - 20px);
-  justify-content: space-evenly;
-  max-width: calc(50% - 15px);
+  max-width: calc(50% - 20px);
   overflow: hidden;
 }
 
@@ -44,15 +43,16 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 }
 
 .primary-container#right {
-  background-color: rgb(51,51,51);
-  border-radius: 4px;
-  border: 1px solid black;
-  box-sizing: border-box;
   min-width: 15%;
 }
 
 /* secondary containers */
-.secondary-container {
+.primary-container#right,
+#pc-left-top,
+#country-title-bar,
+#pc-right-top,
+#pc-right-bottom,
+.terciary-container {
   background-color: rgb(51,51,51);
   border-radius: 4px;
   border: 1px solid black;
@@ -72,7 +72,30 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 }
 
 #pc-left-bottom {
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
   height: calc(50% - 5px);
+}
+
+/* terciary containers */
+#spider-chart-container {
+  width: calc(50% - 5px);
+  height: calc(50% - 5px);
+}
+
+#line-chart-container {
+  width: calc(50% - 5px);
+  height: calc(50% - 5px);
+}
+
+#stadium-container {
+  width: calc(50% - 5px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ================================================================ */
@@ -99,17 +122,6 @@ ul#country-pick li {
   padding: 2px 10px 2px 0;
 }
 
-/* this will go off when we pick and use each country's colors */
-ul#country-pick li[data-hovered=true] {
-  background-color: #72de78 !important;
-  color: black;
-}
-ul#country-pick li[data-active=true] {
-  background-color: #4bc551 !important;
-  color: black;
-}
-/* ///////// */
-
 ul#country-pick li.active { cursor: default; }
 
 ul#country-pick li:nth-child(even) { background-color: rgb(255,255,255,.1); }
@@ -129,7 +141,7 @@ ul#country-pick li i.flag-icon {
   border: 2px solid rgb(128,128,128);
   box-sizing: content-box;
   height: 12px;
-  width: 12px;
+  min-width: 12px;
   margin: 0 4px;
 }
 
@@ -138,7 +150,6 @@ ul#country-pick li i.flag-icon {
 /* ================================================================ */
 
 #country-title-bar {
-  border-bottom: 1px solid black;
   height: 50px;
   width: 100%;
   display: inherit;
@@ -149,22 +160,19 @@ ul#country-pick li i.flag-icon {
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 #country-title-1 { border-right: 1px solid black; }
 
-#country-title-bar > div .flag-div {
-  min-width: 72px;
-  display: flex;
-  justify-content: center;
-  margin: 0 6px;
-}
-
-#country-title-bar > div .flag-div img {
+#country-title-bar > div img {
   border: 1px solid black;
+  margin: 0 10px;
 }
 
-#country-title-bar > div span.country-name {
+#country-title-bar > div span.country-name,
+#country-title-bar span.add-country,
+#country-title-bar span.suggestion {
   color: white;
   font-weight: 700;
   font-size: 24px;
@@ -174,4 +182,19 @@ ul#country-pick li i.flag-icon {
   margin: 0 10px;
   font-size: 12px;
   cursor: pointer;
+}
+
+#country-title-bar span.add-country {
+  cursor: pointer;
+  color: rgb(65, 194, 255);
+}
+
+/* ================================================================ */
+/*                       STADIUM VISUALIZATION                      */
+/* ================================================================ */
+
+svg#stadium text {
+  fill: white;
+  font-weight: 600;
+  font-size: 40px;
 }

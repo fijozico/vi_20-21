@@ -7,13 +7,13 @@ position,country,points2018,variation,points2008
 7,Sweden,7.343,-0.035,7.378
 10,Austria,7.246,0.094,7.152
 15,England,7.054,0.137,6.917
-15,Northern Ireland,7.054,0.137,6.917
+15,Northern-Ireland,7.054,0.137,6.917
 15,Scotland,7.054,0.137,6.917
 15,Wales,7.054,0.137,6.917
 16,Ireland,7.021,-0.377,7.398
 17,Germany,6.985,0.469,6.516
 18,Belgium,6.923,0,6.923
-20,Czech Republic,6.852,0.381,6.471
+20,Czech-Republic,6.852,0.381,6.471
 24,France,6.592,-0.282,6.874
 30,Spain,6.354,-0.793,7.147
 36,Italy,6.223,-0.512,6.735
@@ -26,7 +26,7 @@ position,country,points2018,variation,points2008
 68,Russia,5.648,0.385,5.263
 70,Serbia,5.603,0.853,4.75
 75,Croatia,5.432,-0.389,5.821
-78,Bosnia and Herzegovina,5.386,0.487,4.899
+78,Bosnia-and-Herzegovina,5.386,0.487,4.899
 79,Turkey,5.373,0.218,5.155
 82,Greece,5.287,-1.04,6.327
 97,Bulgaria,5.011,1.167,3.844
