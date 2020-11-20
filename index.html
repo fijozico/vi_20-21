@@ -90,7 +90,36 @@
     </div>
 
     <!-- Right Tall Container -->
-    <div class="primary-container" id="right"></div>
+    <div class="primary-container" id="right">
+      <form id="player-barchart-form">
+        <p>ORDER BY:</p>
+        <div>
+          <input type="radio" id="alpha" name="order" value="alpha" checked>
+          <label for="alpha">Alphabetically</label>
+        </div>
+        <div>
+          <input type="radio" id="nt-gpm" name="order" value="nt-gpm">
+          <label for="nt-gpm"><abbr title="National Team">NT</abbr> <abbr title="Goals Per Match">GPM</abbr></label>
+        </div>
+        <div>
+          <input type="radio" id="under" name="order" value="under">
+          <label for="under">Underscorability</label>
+        </div>
+        <div>
+          <input type="radio" id="club-gpm" name="order" value="club-gpm">
+          <label for="club-gpm">Club <abbr title="Goals Per Match">GPM</abbr></label>
+        </div>
+        <div>
+          <input type="radio" id="years-active" name="order" value="years-active">
+          <label for="years-active">Years Active</label>
+        </div>
+        <div class="ascdesc">
+          <label for="ascdesc">Ascending</label>
+          <input type="checkbox" id="ascdesc" name="ascdesc" value="ascdesc">
+          <label for="ascdesc">Descending</label>
+        </div>
+      </form>
+    </div>
 
     <script type="text/javascript" src="script.js"></script>
   </body>

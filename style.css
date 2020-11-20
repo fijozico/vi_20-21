@@ -43,7 +43,7 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 }
 
 .primary-container#right {
-  min-width: 15%;
+  width: 15%;
 }
 
 /* secondary containers */
@@ -218,6 +218,7 @@ svg#stadium g#legend text {
 /* ================================================================ */
 /*                           INFO BUTTONS                           */
 /* ================================================================ */
+
 i.info-button {
   background-color: #1b1bdc;
   border-radius: 50%;
@@ -235,3 +236,95 @@ i.info-button {
   width: 1.9vh;
   z-index: 10;
 }
+
+/* ================================================================ */
+/*                         PLAYER BAR CHART                         */
+/* ================================================================ */
+/* submission form */
+form#player-barchart-form {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  color: white;
+  padding: 10px 10px 0 10px;
+}
+
+form#player-barchart-form > *:not(.ascdesc) {
+  height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+form#player-barchart-form > p {
+  margin: 0;
+  font-weight: 500;
+}
+
+form#player-barchart-form > *:not(.ascdesc):nth-child(even) { width: 55%; }
+form#player-barchart-form > *:not(.ascdesc):nth-child(odd) { width: 45%; }
+
+/* radio buttons */
+form#player-barchart-form > *:not(.ascdesc) input[type=radio] {
+  appearance: none;
+  background-color: white;
+  border-radius: 50px;
+  border: 2px solid grey;
+  height: 16px;
+  margin: 3px 6px 0 0;
+  position: relative;
+  width: 16px;
+}
+
+form#player-barchart-form > *:not(.ascdesc) input[type=radio]:before {
+  background-color: black;
+  border-radius: 50px;
+  content: "";
+  margin: 2px;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  height: 0;
+  width: 0;
+  transition: height .2s, top .2s, width .2s, left .2s;
+}
+
+form#player-barchart-form > *:not(.ascdesc) input[type=radio]:checked:before {
+  left: 0;
+  top: 0;
+  height: 8px;
+  width: 8px;
+}
+
+/* checkbox */
+form#player-barchart-form > div.ascdesc {
+  height: 22px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form#player-barchart-form > div.ascdesc input[type=checkbox] {
+  appearance: none;
+  background-color: white;
+  border-radius: 50px;
+  border: 2px solid grey;
+  height: 18px;
+  margin: 3px 8px 0 8px;
+  position: relative;
+  width: 30px;
+}
+
+form#player-barchart-form > div.ascdesc input[type=checkbox]:before {
+  background-color: black;
+  border-radius: 50px;
+  content: "";
+  height: 10px;
+  left: 0;
+  margin: 2px;
+  position: absolute;
+  transition: left .2s;
+  width: 10px;
+}
+
+form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { left: 12px; }
