@@ -16,6 +16,7 @@
     <div class="primary-container" id="left">
       <!-- Top Left Container (Map and List) -->
       <div class="secondary-container top" id="pc-left-top">
+        <i class="info-button" title="Click a country's position or name to select it. Add a second country to compare with by clicking '+ add country' below. Remove countries by closing them with the cross.">i</i>
         <svg id="map-svg" viewBox="1180 161 8578.5 6968.8">
           <rect width="12386.153" height="7934.9712" x="-1722.1534" y="-782.5993" id="ocean" fill="#b6ddff"/>
         </svg>
@@ -36,7 +37,10 @@
         <div class="terciary-container" id="spider-chart-container"></div>
         <div class="terciary-container" id="line-chart-container"></div>
         <div class="terciary-container" id="stadium-container">
-          <svg viewBox="0 50 900 1100" width="300" height="400" xmlns="http://www.w3.org/2000/svg" id="stadium">
+          <div style="width: 100%;">
+            <i class="info-button" title="Hover on top of a section to see it's percentual value.">i</i>
+          </div>
+          <svg viewBox="-54 50 1008 1260" xmlns="http://www.w3.org/2000/svg" id="stadium">
             <g style="transform: translate(378px, 494px) scale(0.32);" stroke="#fff" stroke-width="15" fill="none" id="pitch">
               <path d="m12.233 24.31v638.68h429.51v-638.84l-429.51 0.15501z"/>
               <path d="m105.89 24.661v98.7h242.21v-99.165"/>
@@ -57,6 +61,23 @@
               <path transform="matrix(1 0 0 -1 53.345 416.18)" d="m129.1 292.57a54.789 54.789 0 0 1 89.083 0.13891"/>
               <path transform="translate(.72924 -236.1)" d="m227.61 579.56a1.3442 1.3442 0 1 1-2.6884 0 1.3442 1.3442 0 1 1 2.6884 0z"/>
             </g>
+            <g id="legend" transform="translate(135 1175)" style="display:none">
+              <text x="215" y="0" style="text-anchor:end">Attendance %</text>
+              <text x="255" y="0" style="text-anchor:middle">0</text>
+              <text x="375" y="0" style="text-anchor:middle">100</text>
+              <g id="legend-line-1" style="display:none">
+                <circle cx="255" cy="45" r="18" />
+                <circle cx="315" cy="45" r="18" />
+                <circle cx="375" cy="45" r="18" />
+                <text x="415" y="49" style="alignment-baseline:middle"></text>
+              </g>
+              <g id="legend-line-2" style="display:none">
+                <circle cx="255" cy="100" r="18" />
+                <circle cx="315" cy="100" r="18" />
+                <circle cx="375" cy="100" r="18" />
+                <text x="415" y="104" style="alignment-baseline:middle"></text>
+              </g>
+            </g>
           </svg>
         </div>
       </div>
@@ -69,7 +90,36 @@
     </div>
 
     <!-- Right Tall Container -->
-    <div class="primary-container" id="right"></div>
+    <div class="primary-container" id="right">
+      <form id="player-barchart-form">
+        <p>ORDER BY:</p>
+        <div>
+          <input type="radio" id="alpha" name="order" value="alpha" checked>
+          <label for="alpha">Alphabetically</label>
+        </div>
+        <div>
+          <input type="radio" id="nt-gpm" name="order" value="nt-gpm">
+          <label for="nt-gpm"><abbr title="National Team">NT</abbr> <abbr title="Goals Per Match">GPM</abbr></label>
+        </div>
+        <div>
+          <input type="radio" id="under" name="order" value="under">
+          <label for="under">Underscorability</label>
+        </div>
+        <div>
+          <input type="radio" id="club-gpm" name="order" value="club-gpm">
+          <label for="club-gpm">Club <abbr title="Goals Per Match">GPM</abbr></label>
+        </div>
+        <div>
+          <input type="radio" id="years-active" name="order" value="years-active">
+          <label for="years-active">Years Active</label>
+        </div>
+        <div class="ascdesc">
+          <label for="ascdesc">Ascending</label>
+          <input type="checkbox" id="ascdesc" name="ascdesc" value="ascdesc">
+          <label for="ascdesc">Descending</label>
+        </div>
+      </form>
+    </div>
 
     <script type="text/javascript" src="script.js"></script>
   </body>
