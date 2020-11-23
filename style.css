@@ -2,7 +2,8 @@
 /*                           GENERAL RULES                          */
 /* ================================================================ */
 
-* { font-family: Segoe UI, sans-serif; }
+* {font-family: Segoe UI, sans-serif; }
+*:focus { outline: none; }
 
 html {
   align-items: center;
@@ -39,11 +40,11 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 }
 
 .primary-container#middle {
-  min-width: calc(50% - 15% - 20px);
+  min-width: calc(50% - 20% - 20px);
 }
 
 .primary-container#right {
-  width: 15%;
+  width: 20%;
 }
 
 /* secondary containers */
@@ -138,7 +139,7 @@ ul#country-pick li i.flag-icon {
   background-position-x: center;
   background-size: auto 1.11vh;
   border-radius: 50%;
-  border: 0.19vh solid rgb(128,128,128);
+  border: .19vh solid rgb(128,128,128);
   box-sizing: content-box;
   height: 1.11vh;
   margin: 0 4px;
@@ -222,7 +223,7 @@ svg#stadium g#legend text {
 i.info-button {
   background-color: #1b1bdc;
   border-radius: 50%;
-  border: 0.19vh solid white;
+  border: .19vh solid white;
   color: white;
   cursor: help;
   font-family: monospace;
@@ -230,7 +231,7 @@ i.info-button {
   font-weight: bold;
   height: 1.9vh;
   line-height: 2vh;
-  margin: 0.46vh;
+  margin: .46vh;
   position: absolute;
   text-align: center;
   width: 1.9vh;
@@ -242,89 +243,95 @@ i.info-button {
 /* ================================================================ */
 /* submission form */
 form#player-barchart-form {
+  color: white;
   display: flex;
   flex-wrap: wrap;
+  font-size: 1.85vh;
   max-width: 100%;
-  color: white;
-  padding: 10px 10px 0 10px;
+  padding: 1.3vh;
 }
 
 form#player-barchart-form > *:not(.ascdesc) {
-  height: 22px;
-  display: flex;
   align-items: center;
+  display: flex;
+  height: 2.5vh;
+  width: 50%;
 }
 
 form#player-barchart-form > p {
-  margin: 0;
   font-weight: 500;
+  margin: 0;
 }
 
-form#player-barchart-form > *:not(.ascdesc):nth-child(even) { width: 55%; }
-form#player-barchart-form > *:not(.ascdesc):nth-child(odd) { width: 45%; }
-
-/* radio buttons */
+/* designing the radio buttons */
 form#player-barchart-form > *:not(.ascdesc) input[type=radio] {
+  align-items: center;
   appearance: none;
   background-color: white;
-  border-radius: 50px;
-  border: 2px solid grey;
-  height: 16px;
-  margin: 3px 6px 0 0;
+  border-radius: 10vh;
+  border: .19vh solid grey;
+  display: flex;
+  height: 1.48vh;
+  justify-content: center;
+  margin: .28vh .56vh 0 0;
+  min-width: 1.48vh;
   position: relative;
-  width: 16px;
 }
 
 form#player-barchart-form > *:not(.ascdesc) input[type=radio]:before {
   background-color: black;
-  border-radius: 50px;
+  border-radius: 10vh;
   content: "";
-  margin: 2px;
-  position: absolute;
-  left: 4px;
-  top: 4px;
   height: 0;
+  margin: .19vh;
+  position: absolute;
+  transition: height .2s, width .2s;
   width: 0;
-  transition: height .2s, top .2s, width .2s, left .2s;
 }
 
 form#player-barchart-form > *:not(.ascdesc) input[type=radio]:checked:before {
-  left: 0;
-  top: 0;
-  height: 8px;
-  width: 8px;
+  height: .74vh;
+  width: .74vh;
 }
 
-/* checkbox */
+/* designing the checkbox */
 form#player-barchart-form > div.ascdesc {
-  height: 22px;
-  width: 100%;
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 form#player-barchart-form > div.ascdesc input[type=checkbox] {
   appearance: none;
   background-color: white;
-  border-radius: 50px;
-  border: 2px solid grey;
-  height: 18px;
-  margin: 3px 8px 0 8px;
+  border-radius: 10vh;
+  border: .19vh solid grey;
+  height: 1.67vh;
+  margin: .28vh .74vh 0 .74vh;
   position: relative;
-  width: 30px;
+  width: 2.78vh;
 }
 
 form#player-barchart-form > div.ascdesc input[type=checkbox]:before {
   background-color: black;
-  border-radius: 50px;
+  border-radius: 10vh;
   content: "";
-  height: 10px;
+  height: .93vh;
   left: 0;
-  margin: 2px;
+  margin: .19vh;
   position: absolute;
   transition: left .2s;
-  width: 10px;
+  width: .93vh;
 }
 
 form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { left: 12px; }
+
+/* div cointining the actual SVG chart */
+#bar-chart-div {
+  align-self: flex-end;
+  height: calc(100% - 13.6vh);
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

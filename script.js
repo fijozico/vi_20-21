@@ -11,6 +11,9 @@ var attendance_data = [];
 var empty_attendance = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
 var current_attendance = [empty_attendance,empty_attendance,empty_attendance,empty_attendance]
 
+// players
+var players_compact_data = [];
+
 /* ================================================================ */
 /*                              SCALES                              */
 /* ================================================================ */
@@ -25,7 +28,7 @@ var colours = [
 ];
 
 /* ================================================================ */
-/*                               CODE                               */
+/*                        INITIAL GENERATION                        */
 /* ================================================================ */
 // what to do when the page loads
 $(window).on("load", function() {
@@ -34,6 +37,7 @@ $(window).on("load", function() {
     resizeMap();
     createStadium();
     resizeStadium();
+    createPlayersBarChart();
 
     bindCountryHover();
     bindCountryUnhover();
@@ -47,6 +51,9 @@ $(window).on("resize", function() {
     resizeStadium();
 });
 
+/* ================================================================ */
+/*                             RESIZING                             */
+/* ================================================================ */
 // keeps the body element at 16:9
 function resizeBody(win) {
     var w_height = win.height();
@@ -79,6 +86,9 @@ function resizeStadium() {
     else $("svg#stadium").attr({"width": new_width, "height": c_height});
 }
 
+/* ================================================================ */
+/*                     (1) COUNTRY LIST AND MAP                     */
+/* ================================================================ */
 // loads the SVG map and the country list from countries-svg.json
 function createMap() {
     map = $("svg#map-svg");
@@ -209,9 +219,12 @@ function bindCountryClick() {
         // needed so people may add a second country
         if (no_countries_mode === 0) $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
 
+        // puts the players on the bar chart
+        formChange();
     });
 }
 
+// what happens when you click the cross next to the country name
 function closeCountry(country) {
     // deselect country on map and list
     $("svg#map-svg path[data-country=" + country + "], ul#country-pick li#li-" + country).each(function () {
@@ -279,6 +292,18 @@ function closeCountry(country) {
     udpateStadium();
 }
 
+// generates the element for inside the country bar
+function insertCountryBar(src, name_s, name_d) {
+    return $(
+        `<img src=\"${src}\">
+        <span class=\"country-name\">${name_s}</span>
+        <span class=\"close-country\" onclick=\"closeCountry('${name_d}')\" title=\"Remove ${name_s} from selected countries\">❌</span>`
+    );
+}
+
+/* ================================================================ */
+/*                     (4) STADIUM VISUALIZATION                    */
+/* ================================================================ */
 // creating the stadium visualization
 function createStadium() {
     var indexes = [3,2,0,1,0]; // needed to have the interior circles with lower section number
@@ -382,7 +407,7 @@ function createStadium() {
     // bind data to filled 
     udpateStadium();
 
-    // addin year labels
+    // adding year labels
     // "baseline" needed to position them correctly
     var baseline = ["hanging","hanging","middle","baseline","baseline","baseline","baseline","middle","hanging","hanging"];
     start_angle = 2 * Math.PI / 5;
@@ -423,42 +448,14 @@ function udpateStadium() {
     }
 }
 
-// generates the element for inside the country bar
-function insertCountryBar(src, name_s, name_d) {
-    return $(
-        `<img src=\"${src}\">
-        <span class=\"country-name\">${name_s}</span>
-        <span class=\"close-country\" onclick=\"closeCountry('${name_d}')\" title=\"Remove ${name_s} from selected countries\">❌</span>`
-    );
-}
-
-// calculate text colour depending on background
-function textColour(colour) {
-    // convert from HEX to RGB if necessary
-    if (colour[0] === "#") {
-        var value = [0,0,0];
-        value[0] = parseInt(colour.substring(1,3), 16);
-        value[1] = parseInt(colour.substring(3,5), 16);
-        value[2] = parseInt(colour.substring(5,7), 16);
-    }
-    // in case it"s RGB
-    else value = colour.replace(/[^\d,]/g, "").split(",");
-
-    return 1 - (0.299 * value[0] + 0.587 * value[1] + 0.114 * value[2]) / 255 < 0.5 ? "black" : "white";
-}
-
-// change country state
-function switchCountryState(no) {
-    no_countries_mode = no - 1;
-}
-
 // change legend
 function changeLegend(mode, country = "") {
+    // if a delete was requested, removes the line
     if (mode === "delete") {
-        $("#stadium #legend-line-" + (no_countries_mode+1)).hide();
-        return;
+        $("#stadium #legend-line-" + (no_countries_mode+1)).hide(); return;
     }
 
+    // otherwise changes the legend line according to 'no_countries_mode'
     $("#stadium #legend").show()
         .children("#legend-line-" + (no_countries_mode+1)).show()
         .children("circle").attr("fill", function (index) {
@@ -466,4 +463,175 @@ function changeLegend(mode, country = "") {
         });
 
     $("#stadium #legend-line-" + (no_countries_mode+1) + " text").html(country);
+}
+
+/* ================================================================ */
+/*                      (7) PLAYERS' BAR CHART                      */
+/* ================================================================ */
+// players' bar chart
+function createPlayersBarChart() {
+    // load compact players data (no need to have a yearly discrimination)
+    $.ajax({
+        async: false,
+        type: "GET",  
+        url: "data/players_gpm_compact.csv",
+        dataType: "text",       
+        success: function (response) {
+            players_compact_data = $.csv.toObjects(response);
+        }   
+    });
+
+    $("#bar-chart-div")[0].appendChild(d3.create("svg")
+        .attr("id", "players-bar-chart")
+        .attr("width", 368)
+        .attr("height", 266)
+        .node()
+    );
+}
+
+// with the SVG created, we now need to call this function to do the
+// actual work when we click a country
+// if ascdesc == undefined, ascending; if ascdesc != undefined, descending
+function updatePlayersBarChart(mode, ascdesc) {
+    var decode = {
+        "total-gpm": "player_avg",
+        "nt-gpm": "nt_avg",
+        "club-gpm": "club_avg",
+        "under": "diff_avg",
+        "years-active": "years_active",
+    };
+
+    var players = players_compact_data.filter(
+        x => (x.country === active_countries[no_countries_mode])
+    ).sort(function(a, b) {
+        var keyA = parseFloat(a[decode[mode]]);
+        var keyB = parseFloat(b[decode[mode]]);
+        if (ascdesc === undefined) {
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+        }
+        else {
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
+            return 0;
+        }
+    });
+
+    var padding = 14;
+
+    // maximum width value
+    var max_w = Math.max.apply(Math, players.map(function(o) { return o[decode[mode]]; }));
+
+    // maximum width tick value
+    var max_w_scale = Math.ceil(max_w * 10) / 10;
+    var y_scale_data = players.map((p) => p.full_name);
+
+    var svg = d3.select("#players-bar-chart").attr("height", players.length * 40 + 40);
+
+    // discrete scale for the players axis
+    var y_scale = d3.scaleBand()
+        .domain(y_scale_data)
+        .range([55, players.length * 40 + 55]);
+
+    // continuous linear scale for the values
+    var w_scale = d3.scaleLinear()
+        .domain([0, max_w_scale])
+        .range([padding, 215]);
+
+    // drawing the bars
+    svg.selectAll(".player-bar-rect")
+        .data(players)
+        .join("rect")
+        .attr("class", "player-bar-rect")
+        .attr("fill", "#72de78")
+        .attr("x", padding)
+        .attr("y", function (d) { return y_scale(d.full_name); })
+        .attr("height", y_scale.bandwidth() - 15)
+        .attr("width", function (d) { return w_scale(d[decode[mode]]) - padding; });
+
+    // putting the players' name on the right
+    svg.selectAll(".player-bar-text")
+        .data(players)
+        .join("text")
+        .attr("class", "player-bar-text")
+        .attr("style", "text-anchor: start; alignment-baseline: middle")
+        .attr("fill", "white")
+        .attr("x", function (d) { return w_scale(d[decode[mode]]) + 10; })
+        .attr("y", function (d) { return y_scale(d.full_name) + (y_scale.bandwidth() - 12) / 2; })
+        .text(function (d) {
+            return (d.first_name !== "" ? `${d.first_name[0]}. ` : "") +
+                `${d.last_name} - ${d[decode[mode]]}`;
+        })
+        .attr("textLength", function (d) {
+            if (this.getBoundingClientRect().width > 354 - 15 - w_scale(d[decode[mode]]))
+                return 354 - 10 - w_scale(d[decode[mode]]);
+            return 0;
+        });
+
+    // remove previous width axis and add new one
+    svg.select("#w_axis").remove();
+    svg.append("g")
+        .attr("transform", "translate(0,40)")
+        .attr("id", "w_axis")
+        .attr("color", "white")
+        .call(d3.axisTop()
+            .scale(w_scale)
+            .ticks(max_w_scale > 1 ? max_w_scale / 2 : max_w_scale * 10)
+        );
+
+
+    // remove previous width axis label and add new one
+    svg.select("#axis-label").remove()
+    svg.append("text")
+        .attr("id", "axis-label")
+        .attr("style", "text-anchor: middle; alignment-baseline: baseline; transform: translate(114px, 12px)")
+        .attr("fill", "white")
+        .attr("class", "label")
+        .text($(`label[for=${mode}]`).text());
+
+    // remove previous height axis and add new one
+    svg.select("#y_axis").remove();
+    svg.append("g")
+        .attr("transform", "translate(14,-15)")
+        .attr("id", "y_axis")
+        .attr("color", "white")
+        .call(d3.axisLeft()
+            .scale(y_scale)
+            .tickSize(0)
+            .tickValues([])
+        );
+}
+
+/* ================================================================ */
+/*                         GENERAL FUNCTIONS                        */
+/* ================================================================ */
+// calculate text colour depending on background
+function textColour(colour) {
+    // convert from HEX to RGB if necessary
+    if (colour[0] === "#") {
+        var value = {"r": 0, "g": 0, "b": 0};
+        value.r = parseInt(colour.substring(1,3), 16);
+        value.g = parseInt(colour.substring(3,5), 16);
+        value.b = parseInt(colour.substring(5,7), 16);
+    }
+    // in case it"s RGB
+    else value = colour.replace(/[^\d,]/g, "").split(",");
+
+    return 1 - (0.299 * value.r + 0.587 * value.g + 0.114 * value.b) / 255 < 0.5 ? "black" : "white";
+}
+
+// change country state
+function switchCountryState(no) {
+    no_countries_mode = no - 1;
+}
+
+// function called when form receives a change
+function formChange() {
+    if (active_countries[0] === "") return;
+    var form_values = $('form#player-barchart-form').serializeArray().reduce(function(obj, item) {
+        obj[item.name] = item.value;
+        return obj;
+    }, {});
+    updatePlayersBarChart(form_values.order, form_values.ascdesc);
 }

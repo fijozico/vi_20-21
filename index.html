@@ -91,11 +91,11 @@
 
     <!-- Right Tall Container -->
     <div class="primary-container" id="right">
-      <form id="player-barchart-form">
+      <form id="player-barchart-form" onchange="formChange()">
         <p>ORDER BY:</p>
         <div>
-          <input type="radio" id="alpha" name="order" value="alpha" checked>
-          <label for="alpha">Alphabetically</label>
+          <input type="radio" id="total-gpm" name="order" value="total-gpm" checked>
+          <label for="total-gpm">Total <abbr title="Goals Per Match">GPM</abbr></label>
         </div>
         <div>
           <input type="radio" id="nt-gpm" name="order" value="nt-gpm">
@@ -103,7 +103,7 @@
         </div>
         <div>
           <input type="radio" id="under" name="order" value="under">
-          <label for="under">Underscorability</label>
+          <label for="under">Underscore</label>
         </div>
         <div>
           <input type="radio" id="club-gpm" name="order" value="club-gpm">
@@ -119,6 +119,7 @@
           <label for="ascdesc">Descending</label>
         </div>
       </form>
+      <div id="bar-chart-div"></div>
     </div>
 
     <script type="text/javascript" src="script.js"></script>
