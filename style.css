@@ -79,6 +79,11 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
   justify-content: space-between;
 }
 
+#pc-right-bottom {
+  justify-content: center;
+  align-items: center;
+}
+
 /* terciary containers */
 #spider-chart-container {
   height: calc(50% - 5px);

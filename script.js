@@ -521,23 +521,60 @@ function updateScatterplot(){
     
     var x = d3.scaleLinear()
               .domain([0, max_x_scale])
-              .range([ margin.left, width-21 ]);
+              .range([ 2*margin.left+25, width-40 ]);
     svg.select("#x_scale")
        .remove();          
     svg.append("g")
-       .attr("transform", "translate("+ margin.left + "," + (height - 21)  + ")")
+       .attr("transform", "translate(0," + (height - 40)  + ")")
        .attr("id", "x_scale")
+       .attr("color", "white")
        .call(d3.axisBottom(x).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
 
     var y = d3.scaleLinear()
               .domain([0, max_x_scale])
-              .range([ height - 21, margin.bottom]);
+              .range([ height - 40, margin.bottom+25]);
     svg.select("#y_scale")
        .remove();
     svg.append("g")
-       .attr("transform", "translate(" + 2*margin.left + ",0)")
+       .attr("transform", "translate(" + (2*margin.left+25) + ",0)")
        .attr("id", "y_scale")
+       .attr("color", "white")
        .call(d3.axisLeft(y).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
+
+
+    svg.select("#club_label")
+       .remove();
+    svg.append("text")   
+        .attr("id", "club_label")   
+        .attr("x", 168 )
+        .attr("y", 311 )
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .text("Club GPM");
+
+
+    svg.select("#nt_label")
+       .remove();
+    svg.append("text")
+        .attr("id", "nt_label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", - margin.left + 20)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .style("alignment-baseline", "baseline")
+        .text("NT GPM");
+
+    svg.select("#scatterline")
+       .remove();
+    svg.append("line")
+       .attr("id", "scatterline")
+       .attr("stroke", "red")
+       .attr("x1",x(0))
+       .attr("x2",x(max_x_scale))
+       .attr("y1",y(0))
+       .attr("y2",y(max_x_scale));
 
     svg.selectAll("circle")
        .data(players)
@@ -545,5 +582,5 @@ function updateScatterplot(){
        .attr("cx", function (d) { return x(d.club_avg); } )
        .attr("cy", function (d) { return y(d.nt_avg); } )
        .attr("r", 3)
-       .attr("fill", "#69b3a2")
+       .attr("fill", "#72de78")
 }
