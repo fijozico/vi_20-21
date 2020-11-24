@@ -214,7 +214,7 @@ function bindCountryClick() {
         });
 
         // place colours on legend
-        changeLegend("", this.dataset.country.replaceAll("-"," "));
+        changeStadiumLegend("", this.dataset.country.replaceAll("-"," "));
 
         // needed so people may add a second country
         if (no_countries_mode === 0) $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
@@ -242,9 +242,12 @@ function closeCountry(country) {
         // remove from stadium chart
         current_attendance[2] = current_attendance[3] = empty_attendance;
 
-        // remove legend
-        changeLegend("delete");
+        // remove stadium legend
+        changeStadiumLegend("delete");
         no_countries_mode = 0;
+
+        // fetches current form state and updates bar chart
+        formChange();
     }
 
     // if it's the first, and the second's defined, moves the second to its place
@@ -270,13 +273,17 @@ function closeCountry(country) {
         current_attendance = current_attendance.slice(2,4).concat([empty_attendance,empty_attendance]);
 
         // remove legend
-        changeLegend("delete");
+        changeStadiumLegend("delete");
         no_countries_mode = 0;
-        changeLegend("", active_countries[0]);
+        changeStadiumLegend("", active_countries[0]);
+
+        // fetches current form state and updates bar chart
+        formChange();
     }
 
     // if it's the first and only, removes it
     else {
+        active_countries[0] = "";
         $("#country-title-1").empty().append("<span class=\"suggestion\">Select a country above...</span>");
         $("#country-title-2").empty();
 
@@ -284,9 +291,12 @@ function closeCountry(country) {
         current_attendance[0] = current_attendance[1] = empty_attendance;
 
         // remove legend
-        changeLegend("delete");
+        changeStadiumLegend("delete");
         $("#stadium #legend").hide();
         no_countries_mode = 0;
+
+        // remove bar chart
+        updatePlayersBarChart("total-gpm", "delete");
     }
 
     udpateStadium();
@@ -449,7 +459,7 @@ function udpateStadium() {
 }
 
 // change legend
-function changeLegend(mode, country = "") {
+function changeStadiumLegend(mode, country = "") {
     // if a delete was requested, removes the line
     if (mode === "delete") {
         $("#stadium #legend-line-" + (no_countries_mode+1)).hide(); return;
@@ -497,12 +507,12 @@ function updatePlayersBarChart(mode, ascdesc) {
         "total-gpm": "player_avg",
         "nt-gpm": "nt_avg",
         "club-gpm": "club_avg",
-        "under": "diff_avg",
+        "under": "under",
         "years-active": "years_active",
     };
 
     var players = players_compact_data.filter(
-        x => (x.country === active_countries[no_countries_mode])
+        x => (active_countries.includes(x.country))
     ).sort(function(a, b) {
         var keyA = parseFloat(a[decode[mode]]);
         var keyB = parseFloat(b[decode[mode]]);
@@ -544,7 +554,7 @@ function updatePlayersBarChart(mode, ascdesc) {
         .data(players)
         .join("rect")
         .attr("class", "player-bar-rect")
-        .attr("fill", "#72de78")
+        .attr("fill", function (d) { return country_colours.hover[active_countries.indexOf(d.country)]; })
         .attr("x", padding)
         .attr("y", function (d) { return y_scale(d.full_name); })
         .attr("height", y_scale.bandwidth() - 15)
@@ -564,7 +574,8 @@ function updatePlayersBarChart(mode, ascdesc) {
                 `${d.last_name} - ${d[decode[mode]]}`;
         })
         .attr("textLength", function (d) {
-            if (this.getBoundingClientRect().width > 354 - 15 - w_scale(d[decode[mode]]))
+            // checks if compressing the player label is needed
+            if (this.getBoundingClientRect().width > 354 - w_scale(d[decode[mode]]))
                 return 354 - 10 - w_scale(d[decode[mode]]);
             return 0;
         });
@@ -580,9 +591,8 @@ function updatePlayersBarChart(mode, ascdesc) {
             .ticks(max_w_scale > 1 ? max_w_scale / 2 : max_w_scale * 10)
         );
 
-
     // remove previous width axis label and add new one
-    svg.select("#axis-label").remove()
+    svg.select("#axis-label").remove();
     svg.append("text")
         .attr("id", "axis-label")
         .attr("style", "text-anchor: middle; alignment-baseline: baseline; transform: translate(114px, 12px)")
@@ -601,6 +611,13 @@ function updatePlayersBarChart(mode, ascdesc) {
             .tickSize(0)
             .tickValues([])
         );
+
+    // if no country's selected, delete axes
+    if (ascdesc === "delete") {
+        svg.select("#w_axis").remove();
+        svg.select("#axis-label").remove();
+        svg.select("#y_axis").remove();
+    }
 }
 
 /* ================================================================ */
