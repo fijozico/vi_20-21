@@ -39,11 +39,11 @@ svg#map-svg path.greyed-out { cursor: not-allowed; }
 }
 
 .primary-container#middle {
-  min-width: calc(50% - 15% - 20px);
+  min-width: calc(50% - 20% - 20px);
 }
 
 .primary-container#right {
-  width: 15%;
+  width: 20%;
 }
 
 /* secondary containers */

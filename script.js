@@ -10,6 +10,7 @@ var active_countries = ["",""];
 var attendance_data = [];
 var empty_attendance = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
 var current_attendance = [empty_attendance,empty_attendance,empty_attendance,empty_attendance]
+var players_compact_data = [];
 
 /* ================================================================ */
 /*                              SCALES                              */
@@ -34,6 +35,7 @@ $(window).on("load", function() {
     resizeMap();
     createStadium();
     resizeStadium();
+    createScatterPlot();
 
     bindCountryHover();
     bindCountryUnhover();
@@ -209,6 +211,7 @@ function bindCountryClick() {
         // needed so people may add a second country
         if (no_countries_mode === 0) $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
 
+        updateScatterplot();
     });
 }
 
@@ -264,6 +267,7 @@ function closeCountry(country) {
 
     // if it's the first and only, removes it
     else {
+        active_countries[0] = "";
         $("#country-title-1").empty().append("<span class=\"suggestion\">Select a country above...</span>");
         $("#country-title-2").empty();
 
@@ -277,6 +281,7 @@ function closeCountry(country) {
     }
 
     udpateStadium();
+    updateScatterplot();
 }
 
 // creating the stadium visualization
@@ -466,4 +471,79 @@ function changeLegend(mode, country = "") {
         });
 
     $("#stadium #legend-line-" + (no_countries_mode+1) + " text").html(country);
+}
+
+function createScatterPlot(){
+    var margin = {top: 14, right: 14, bottom: 14, left: 14},
+    width = 346 - margin.left - margin.right,
+    height = 346 - margin.top - margin.bottom;
+
+    var svg = d3.select("#pc-right-bottom")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("id", "gpm_scatterplot")
+                
+
+    $.ajax({
+    async: false,
+    type: "GET",  
+    url: "data/players_gpm_compact.csv",
+    dataType: "text",       
+    success: function (response) {
+        players_compact_data = $.csv.toObjects(response);
+    }   
+    });
+
+    
+
+    
+
+}
+
+function updateScatterplot(){
+
+    var margin = {top: 14, right: 14, bottom: 14, left: 14},
+    width = 346 - margin.left - margin.right,
+    height = 346 - margin.top - margin.bottom;
+
+    var players = players_compact_data.filter(
+    x => (x.country === active_countries[no_countries_mode])
+    );
+
+    var svg = d3.select("#gpm_scatterplot");
+
+    var max_club = Math.max.apply(Math, players.map(function(o) { return o.club_avg; }));
+    var max_nt = Math.max.apply(Math, players.map(function(o) { return o.nt_avg; }));
+    var max = Math.max(max_nt, max_club);
+    var max_x_scale = Math.ceil(max * 10) / 10;
+
+    
+    var x = d3.scaleLinear()
+              .domain([0, max_x_scale])
+              .range([ margin.left, width-21 ]);
+    svg.select("#x_scale")
+       .remove();          
+    svg.append("g")
+       .attr("transform", "translate("+ margin.left + "," + (height - 21)  + ")")
+       .attr("id", "x_scale")
+       .call(d3.axisBottom(x).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
+
+    var y = d3.scaleLinear()
+              .domain([0, max_x_scale])
+              .range([ height - 21, margin.bottom]);
+    svg.select("#y_scale")
+       .remove();
+    svg.append("g")
+       .attr("transform", "translate(" + 2*margin.left + ",0)")
+       .attr("id", "y_scale")
+       .call(d3.axisLeft(y).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
+
+    svg.selectAll("circle")
+       .data(players)
+       .join("circle")
+       .attr("cx", function (d) { return x(d.club_avg); } )
+       .attr("cy", function (d) { return y(d.nt_avg); } )
+       .attr("r", 3)
+       .attr("fill", "#69b3a2")
 }
