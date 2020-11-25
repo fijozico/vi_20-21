@@ -40,6 +40,7 @@ $(window).on("load", function() {
     resizeStadium();
     createPlayersBarChart();
     createScatterPlot();
+    resizeScatterplot();
 
     bindCountryHover();
     bindCountryUnhover();
@@ -51,6 +52,7 @@ $(window).on("resize", function() {
     resizeBody($(this));
     resizeMap();
     resizeStadium();
+    resizeScatterplot();
 });
 
 /* ================================================================ */
@@ -86,6 +88,13 @@ function resizeStadium() {
 
     if (new_height <= c_height) $("svg#stadium").attr({"width": c_width, "height": new_height});
     else $("svg#stadium").attr({"width": new_width, "height": c_height});
+}
+
+// make the player scatterplot fit the container
+function resizeScatterplot() {
+    var scatter = $("#gpm_scatterplot");
+    var dim = Math.min(scatter.parent().height(), scatter.parent().width()) - 28;
+    scatter.attr({"height": dim, "width": dim});
 }
 
 /* ================================================================ */
@@ -215,11 +224,11 @@ function bindCountryClick() {
             })[0].dataset.hovered = -1;
         });
 
-        // place colours on legend
-        changeStadiumLegend("", this.dataset.country.replaceAll("-"," "));
-
         // needed so people may add a second country
         if (no_countries_mode === 0) $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
+
+        // place colours on legend
+        changeStadiumLegend("", this.dataset.country.replaceAll("-"," "));
 
         // puts the players on the bar chart
         formChange();
@@ -325,7 +334,7 @@ function createStadium() {
     var indexes = [3,2,0,1,0]; // needed to have the interior circles with lower section number
     var stadium = d3.select("#stadium");
     var center = {"x":450,"y":600};
-    var angle_step = (-1) * Math.PI / 5; // we"ll be having steps of 36 degrees
+    var angle_step = (-1) * Math.PI / 5; // we'll be having steps of 36 degrees
     var start_angle = Math.PI / 2; // starting at 90 degrees south
     var point_1, point_2, d, g, i, j;
 
@@ -399,7 +408,6 @@ function createStadium() {
             // adds the possibility of having a tooltip displaying the percentage
             g.append("title");
         }
-
     }
 
     // add ridge between 2020 an 2011
@@ -485,33 +493,24 @@ function changeStadiumLegend(mode, country = "") {
 /*                      (6) PLAYER SCATTER PLOT                     */
 /* ================================================================ */
 
-function createScatterPlot(){
+function createScatterPlot() {
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
-    width = 346 - margin.left - margin.right,
-    height = 346 - margin.top - margin.bottom;
+    width = 495 - margin.left - margin.right,
+    height = 495 - margin.top - margin.bottom;
 
     var svg = d3.select("#pc-right-bottom")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
-        .attr("id", "gpm_scatterplot")
-
-    $.ajax({
-        async: false,
-        type: "GET",
-        url: "data/players_gpm_compact.csv",
-        dataType: "text",
-        success: function (response) {
-            players_compact_data = $.csv.toObjects(response);
-        }
-    });
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("id", "gpm_scatterplot");
 }
 
-function updateScatterplot(){
+function updateScatterplot() {
 
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
-    width = 346 - margin.left - margin.right,
-    height = 346 - margin.top - margin.bottom;
+    width = 495 - margin.left - margin.right,
+    height = 495 - margin.top - margin.bottom;
 
     var players = players_compact_data.filter(
         x => (x.country === active_countries[no_countries_mode])
@@ -524,24 +523,24 @@ function updateScatterplot(){
     var max = Math.max(max_nt, max_club);
     var max_x_scale = Math.ceil(max * 10) / 10;
 
-    
     var x = d3.scaleLinear()
         .domain([0, max_x_scale])
         .range([ 2 * margin.left + 25, width - 40 ]);
+    var y = d3.scaleLinear()
+        .domain([0, max_x_scale])
+        .range([ height - 40, margin.bottom + 25]);
+
     svg.select("#x_scale")
         .remove();          
-    svg.append("g")
+    svg.insert("g", ":first-child")
         .attr("transform", "translate(0," + (height - 40)  + ")")
         .attr("id", "x_scale")
         .attr("color", "white")
         .call(d3.axisBottom(x).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
 
-    var y = d3.scaleLinear()
-        .domain([0, max_x_scale])
-        .range([ height - 40, margin.bottom + 25]);
     svg.select("#y_scale")
        .remove();
-    svg.append("g")
+    svg.insert("g", ":first-child")
        .attr("transform", "translate(" + (2 * margin.left + 25) + ",0)")
        .attr("id", "y_scale")
        .attr("color", "white")
@@ -552,8 +551,8 @@ function updateScatterplot(){
         .remove();
     svg.append("text")
         .attr("id", "club_label")
-        .attr("x", 168 )
-        .attr("y", 311 )
+        .attr("x", width / 2 + 5 )
+        .attr("y", height )
         .attr("fill", "white")
         .style("text-anchor", "middle")
         .text("Club GPM");
@@ -572,23 +571,24 @@ function updateScatterplot(){
         .style("alignment-baseline", "baseline")
         .text("NT GPM");
 
+    svg.selectAll("circle")
+        .data(players)
+        .join("circle")
+        .attr("cx", function (d) { return x(d.club_avg); } )
+        .attr("cy", function (d) { return y(d.nt_avg); } )
+        .attr("r", 8)
+        .attr("fill", "#72de78aa")
+
+    // creating and inserting before anything else makes it stay below all items
     svg.select("#scatterline")
         .remove();
-    svg.append("line")
+    svg.insert("line", ":first-child")
         .attr("id", "scatterline")
         .attr("stroke", "red")
         .attr("x1",x(0))
         .attr("x2",x(max_x_scale))
         .attr("y1",y(0))
         .attr("y2",y(max_x_scale));
-
-    svg.selectAll("circle")
-        .data(players)
-        .join("circle")
-        .attr("cx", function (d) { return x(d.club_avg); } )
-        .attr("cy", function (d) { return y(d.nt_avg); } )
-        .attr("r", 3)
-        .attr("fill", "#72de78")
 }
 
 /* ================================================================ */
@@ -767,6 +767,7 @@ function formChange() {
         return obj;
     }, {});
     updatePlayersBarChart(form_values.order, form_values.ascdesc);
+}
 
 // change legend
 function changeLegend(mode, country = "") {
