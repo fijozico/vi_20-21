@@ -39,6 +39,7 @@ $(window).on("load", function() {
     createStadium();
     resizeStadium();
     createPlayersBarChart();
+    //resizePlayersBarChart();
     createScatterPlot();
     resizeScatterplot();
 
@@ -52,6 +53,7 @@ $(window).on("resize", function() {
     resizeBody($(this));
     resizeMap();
     resizeStadium();
+    //resizePlayersBarChart();
     resizeScatterplot();
 });
 
@@ -83,8 +85,8 @@ function resizeStadium() {
     var stadium_container = $("svg#stadium").parent();
     var c_height = stadium_container.height();
     var c_width = stadium_container.width();
-    var new_height = c_width * 5/4;
-    var new_width = c_height * 4/5;
+    var new_height = c_width * 10/10.5;
+    var new_width = c_height * 10.5/10;
 
     if (new_height <= c_height) $("svg#stadium").attr({"width": c_width, "height": new_height});
     else $("svg#stadium").attr({"width": new_width, "height": c_height});
@@ -95,6 +97,30 @@ function resizeScatterplot() {
     var scatter = $("#gpm_scatterplot");
     var dim = Math.min(scatter.parent().height(), scatter.parent().width()) - 28;
     scatter.attr({"height": dim, "width": dim});
+}
+
+// 
+function resizePlayersBarChart() {
+    var axis = $("#players-bar-chart-axis");
+    var axis_dim = { "width": axis.width(), "height": axis.height() };
+    console.log(axis_dim);
+    var chart = $("#players-bar-chart");
+    var chart_dim = { "width": chart.width(), "height": chart.height() };
+    console.log(chart_dim);
+    var parent = $("#gpm-bar-container");
+    var parent_dim = { "width": parent.width(), "height": parent.height() };
+    console.log(parent_dim);
+
+    // resize axis
+    axis.attr({
+        "width": parent_dim.width,
+        "height": parent_dim.width * (axis_dim.height / axis_dim.width)
+    });
+
+    chart.attr({
+        "width": parent_dim.width,
+        "height": parent_dim.width * (chart_dim.height / chart_dim.width)
+    });
 }
 
 /* ================================================================ */
@@ -204,12 +230,12 @@ function bindCountryClick() {
         active_countries[no_countries_mode] = this.dataset.country;
 
         // adds country to stadium chart
-        current_attendance[2*no_countries_mode] = attendance_data.find(
-            x => (x.country === this.dataset.country && x.occ_type === "league")
-        ).years;
-
         current_attendance[2*no_countries_mode+1] = attendance_data.find(
             x => (x.country === this.dataset.country && x.occ_type === "national")
+        ).years;
+
+        current_attendance[2*no_countries_mode] = attendance_data.find(
+            x => (x.country === this.dataset.country && x.occ_type === "league")
         ).years;
 
         udpateStadium();
@@ -331,20 +357,22 @@ function insertCountryBar(src, name_s, name_d) {
 /* ================================================================ */
 // creating the stadium visualization
 function createStadium() {
-    var indexes = [3,2,0,1,0]; // needed to have the interior circles with lower section number
+    var indexes = [0,0,1,0,2,0,3]; // needed to have the interior circles with lower section number
     var stadium = d3.select("#stadium");
-    var center = {"x":450,"y":600};
-    var angle_step = (-1) * Math.PI / 5; // we'll be having steps of 36 degrees
-    var start_angle = Math.PI / 2; // starting at 90 degrees south
+    var center = {"x":450,"y":500};
+    var angle_step = (-1) * Math.PI / 10; // we'll be having steps of 36 degrees
+    var start_angle = - Math.PI / 2; // starting at 90 degrees south
     var point_1, point_2, d, g, i, j;
 
     // radiuses of each ellipsis drawn
     var radius = [
-        {"x": 375, "y": 500},
-        {"x": 315, "y": 420},
-        {"x": 255, "y": 340},
-        {"x": 235, "y": 320},
-        {"x": 175, "y": 240},
+        {"x": 285, "y": 380},
+        {"x": 210, "y": 280},
+        {"x": 190, "y": 260},
+        {"x": 115, "y": 160},
+        {"x": 285, "y": 380},
+        {"x": 210, "y": 280},
+        {"x": 190, "y": 260},
         {"x": 115, "y": 160}
     ];
 
@@ -367,23 +395,23 @@ function createStadium() {
     });
 
     // actually creating the stadium
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 7; i++) {
         // ignore inner padding circle
-        if (i == 2) continue;
+        if ([1,5].includes(i)) continue;
 
         // create ten sectors for each section
         for (j = 0; j < 10; j++) {
-            point_1 = polarToCartesian(center.x, center.y, radius[i].x, radius[i].y, start_angle + j * angle_step);
-            point_2 = polarToCartesian(center.x, center.y, radius[i].x, radius[i].y, start_angle + (j + 1) * angle_step);
-            point_3 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + (j + 1) * angle_step);
-            point_4 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + j * angle_step);
+            point_1 = polarToCartesian(center.x, center.y, radius[i].x, radius[i].y, start_angle + j * (i > 3 ? -1 : 1) * angle_step);
+            point_2 = polarToCartesian(center.x, center.y, radius[i].x, radius[i].y, start_angle + (j + 1) * (i > 3 ? -1 : 1) * angle_step);
+            point_3 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + (j + 1) * (i > 3 ? -1 : 1) * angle_step);
+            point_4 = polarToCartesian(center.x, center.y, radius[i+1].x, radius[i+1].y, start_angle + j * (i > 3 ? -1 : 1) * angle_step);
 
             // generate path string
             d = [
                 "M", point_1.x, point_1.y,
-                "A", radius[i].x, radius[i].y, 0, 0, 0, point_2.x, point_2.y,
+                "A", radius[i].x, radius[i].y, 0, 0, i > 3 ? 1 : 0, point_2.x, point_2.y,
                 "L", point_3.x, point_3.y,
-                "A", radius[i+1].x, radius[i+1].y, 0, 0, 1, point_4.x, point_4.y,
+                "A", radius[i+1].x, radius[i+1].y, 0, 0, (i < 3 ? 1 : 0), point_4.x, point_4.y,
                 "Z"
             ].join(" ")
 
@@ -410,40 +438,38 @@ function createStadium() {
         }
     }
 
-    // add ridge between 2020 an 2011
-    stadium.append("path")
-        .attr("d", ["M", center.x, center.y + radius[0].y - 2, "L", center.x, center.y + radius[2].y, "Z"].join(" "))
-        .attr("fill", "transparent")
-        .attr("stroke", "rgb(30,30,30)")
-        .attr("stroke-width", "20px");
-    stadium.append("path")
-        .attr("d", ["M", center.x, center.y + radius[3].y - 2, "L", center.x, center.y + radius[5].y, "Z"].join(" "))
-        .attr("fill", "transparent")
-        .attr("stroke", "rgb(30,30,30)")
-        .attr("stroke-width", "20px");
+    // add ridge between countries
+    for (i = 0; i < 3; i++) {
+        if (i == 1) continue;
+
+        for (j = -1; j <= 1; j += 2) {
+            stadium.append("path")
+                .attr("d", ["M", center.x, center.y + j * radius[i].y - 2, "L", center.x, center.y + j * radius[i+1].y, "Z"].join(" "))
+                .attr("fill", "transparent")
+                .attr("stroke", "rgb(30,30,30)")
+                .attr("stroke-width", "20px");
+        }
+    } 
 
     // add "Club" and "NT" markers
-    stadium.append("text").attr("class", "cnt-label").text("Club").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[4].y + radius[5].y) / 2);
-    stadium.append("text").attr("class", "cnt-label").text("NT").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[3].y + radius[4].y) / 2);
-    stadium.append("text").attr("class", "cnt-label").text("Club").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[1].y + radius[2].y) / 2);
-    stadium.append("text").attr("class", "cnt-label").text("NT").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y + (radius[0].y + radius[1].y) / 2);
+    stadium.append("text").attr("class", "cnt-label").text("League").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y - (radius[0].y + radius[1].y) / 2);
+    stadium.append("text").attr("class", "cnt-label").text("NT").attr("text-anchor", "middle").attr("alignment-baseline", "middle").attr("x", center.x).attr("y", 2 + center.y - (radius[2].y + radius[3].y) / 2);
 
     // bind data to filled 
     udpateStadium();
 
     // adding year labels
-    // "baseline" needed to position them correctly
-    var baseline = ["hanging","hanging","middle","baseline","baseline","baseline","baseline","middle","hanging","hanging"];
-    start_angle = 2 * Math.PI / 5;
-
-    for (i = 0; i < 10; i++) {
-        point_1 = polarToCartesian(center.x, center.y, radius[0].x + 15, radius[0].y + 15, start_angle + i * angle_step);
-        stadium.append("text")
-            .text(2011 + i)
-            .attr("text-anchor", i > 4 ? "end" : "start")
-            .attr("alignment-baseline", baseline[i])
-            .attr("x", point_1.x)
-            .attr("y", point_1.y);
+    for (i = 0; i < 2; i++) {
+        start_angle = - (i > 0 ? 11 : 9) * Math.PI / 20;
+        for (j = 0; j < 10; j++) {
+            point_1 = polarToCartesian(center.x, center.y, radius[0].x + 15, radius[0].y + 15, start_angle + j * (i > 0 ? 1 : -1) * angle_step);
+            stadium.append("text")
+                .text(2011 + j)
+                .attr("text-anchor", i > 0 ? "end" : "start")
+                .attr("alignment-baseline", j > 4 ? "hanging" : "baseline")
+                .attr("x", point_1.x)
+                .attr("y", point_1.y);
+        }
     }
 }
 
@@ -498,12 +524,10 @@ function createScatterPlot() {
     width = 495 - margin.left - margin.right,
     height = 495 - margin.top - margin.bottom;
 
-    var svg = d3.select("#pc-right-bottom")
-        .append("svg")
+    var svg = d3.select("#gpm_scatterplot")
         .attr("width", width)
         .attr("height", height)
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("id", "gpm_scatterplot");
+        .attr("viewBox", `0 0 ${width} ${height}`);
 }
 
 function updateScatterplot() {
@@ -513,7 +537,7 @@ function updateScatterplot() {
     height = 495 - margin.top - margin.bottom;
 
     var players = players_compact_data.filter(
-        x => (x.country === active_countries[no_countries_mode])
+        x => (active_countries.includes(x.country))
     );
 
     var svg = d3.select("#gpm_scatterplot");
@@ -571,13 +595,20 @@ function updateScatterplot() {
         .style("alignment-baseline", "baseline")
         .text("NT GPM");
 
-    svg.selectAll("circle")
+    svg.selectAll(".player-circle")
         .data(players)
         .join("circle")
+        .attr("class", "player-circle")
+        .attr("data-playerid", function (d) { return d.id; })
         .attr("cx", function (d) { return x(d.club_avg); } )
         .attr("cy", function (d) { return y(d.nt_avg); } )
         .attr("r", 8)
-        .attr("fill", "#72de78aa")
+        .attr("fill", function (d) { return country_colours.active[active_countries.indexOf(d.country)]; })
+        .attr("style", "opacity: 0.85")
+        /*.append("title")
+        .text(function (d) {
+            return (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}`;
+        })*/;
 
     // creating and inserting before anything else makes it stay below all items
     svg.select("#scatterline")
@@ -589,6 +620,17 @@ function updateScatterplot() {
         .attr("x2",x(max_x_scale))
         .attr("y1",y(0))
         .attr("y2",y(max_x_scale));
+
+    // guide lines for hover / click
+    d3.selectAll(".shl").remove();
+    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-hover-x").attr("class", "shl").attr("stroke", "grey");
+    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-hover-y").attr("class", "shl").attr("stroke", "grey");
+    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-active-x").attr("class", "shl").attr("stroke", "grey");
+    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-active-y").attr("class", "shl").attr("stroke", "grey");
+
+    bindPlayerHover();
+    bindPlayerUnhover();
+    bindPlayerClick();
 }
 
 /* ================================================================ */
@@ -623,8 +665,6 @@ function updatePlayersBarChart(mode, ascdesc) {
         "total-gpm": "player_avg",
         "nt-gpm": "nt_avg",
         "club-gpm": "club_avg",
-        "under": "under",
-        "years-active": "years_active",
     };
 
     var players = players_compact_data.filter(
@@ -647,43 +687,84 @@ function updatePlayersBarChart(mode, ascdesc) {
     var padding = 14;
 
     // maximum width value
-    var max_w = Math.max.apply(Math, players.map(function(o) { return o[decode[mode]]; }));
+    var max_w = Math.max(
+        Math.max.apply(Math, players.map(function(o) { return o.nt_avg; })),
+        Math.max.apply(Math, players.map(function(o) { return o.club_avg; }))
+    );
 
     // maximum width tick value
     var max_w_scale = Math.ceil(max_w * 10) / 10;
     var y_scale_data = players.map((p) => p.full_name);
 
-    var svg = d3.select("#players-bar-chart").attr("height", players.length * 40 + 40);
+    var svg = d3.select("#players-bar-chart")
+        .attr("height", players.length * 40 + 10)
+        .attr("viewBox", "0 0 368 " + (players.length * 40 + 10));
+    var axis = d3.select("#players-bar-chart-axis");
 
     // discrete scale for the players axis
     var y_scale = d3.scaleBand()
         .domain(y_scale_data)
-        .range([55, players.length * 40 + 55]);
+        .range([15, players.length * 40]);
 
     // continuous linear scale for the values
     var w_scale = d3.scaleLinear()
         .domain([0, max_w_scale])
         .range([padding, 215]);
 
-    // drawing the bars
-    svg.selectAll(".player-bar-rect")
+    // adding the nt gpm
+    svg.selectAll(".player-bar-rect-nt")
         .data(players)
         .join("rect")
-        .attr("class", "player-bar-rect")
-        .attr("fill", function (d) { return country_colours.hover[active_countries.indexOf(d.country)]; })
+        .attr("class", "player-bar-rect-nt")
+        .attr("data-playerid", function (d) { return d.id; })
+        .attr("fill", function (d) { return country_colours.active[active_countries.indexOf(d.country)]; })
         .attr("x", padding)
         .attr("y", function (d) { return y_scale(d.full_name); })
-        .attr("height", y_scale.bandwidth() - 15)
-        .attr("width", function (d) { return w_scale(d[decode[mode]]) - padding; });
+        .attr("height", (y_scale.bandwidth() - 15) / 2)
+        .attr("width", function (d) { return w_scale(d.nt_avg) - padding; })
+        .append("title")
+        .text(function (d) { return d.nt_avg; });
+
+    // adding the club gpm
+    svg.selectAll(".player-bar-rect-club")
+        .data(players)
+        .join("rect")
+        .attr("class", "player-bar-rect-club")
+        .attr("data-playerid", function (d) { return d.id; })
+        .attr("fill", function (d) { return country_colours.hover[active_countries.indexOf(d.country)]; })
+        .attr("x", padding)
+        .attr("y", function (d) { return y_scale(d.full_name) + (y_scale.bandwidth() - 15) / 2; })
+        .attr("height", (y_scale.bandwidth() - 15) / 2)
+        .attr("width", function (d) { return w_scale(d.club_avg) - padding; })
+        .append("title")
+        .text(function (d) { return d.club_avg; });
+
+    // adding the red marker for total gpm
+    svg.selectAll(".player-bar-rect-avg")
+        .data(players)
+        .join("path")
+        .attr("d", function(d) {
+            return [
+                "M", w_scale(d.player_avg), y_scale(d.full_name),
+                "L", w_scale(d.player_avg) - 5, y_scale(d.full_name) - 5,
+                "L", w_scale(d.player_avg) + 5, y_scale(d.full_name) - 5,
+            ].join(" ");
+        })
+        .attr("class", "player-bar-rect-avg")
+        .attr("data-playerid", function (d) { return d.id; })
+        .attr("fill", "red")
+        .append("title")
+        .text(function (d) { return d.player_avg; });
 
     // putting the players' name on the right
     svg.selectAll(".player-bar-text")
         .data(players)
         .join("text")
         .attr("class", "player-bar-text")
+        .attr("data-playerid", function (d) { return d.id; })
         .attr("style", "text-anchor: start; alignment-baseline: middle")
         .attr("fill", "white")
-        .attr("x", function (d) { return w_scale(d[decode[mode]]) + 10; })
+        .attr("x", function (d) { return w_scale(Math.max(d.club_avg, d.nt_avg)) + 10; })
         .attr("y", function (d) { return y_scale(d.full_name) + (y_scale.bandwidth() - 12) / 2; })
         .text(function (d) {
             return (d.first_name !== "" ? `${d.first_name[0]}. ` : "") +
@@ -691,14 +772,14 @@ function updatePlayersBarChart(mode, ascdesc) {
         })
         .attr("textLength", function (d) {
             // checks if compressing the player label is needed
-            if (this.getBoundingClientRect().width > 354 - w_scale(d[decode[mode]]))
-                return 354 - 10 - w_scale(d[decode[mode]]);
+            if (this.getBoundingClientRect().width * 1.15 > 354 - w_scale(Math.max(d.club_avg, d.nt_avg)))
+                return 354 - 10 - w_scale(Math.max(d.club_avg, d.nt_avg));
             return 0;
         });
 
     // remove previous width axis and add new one
-    svg.select("#w_axis").remove();
-    svg.append("g")
+    axis.select("#w_axis").remove();
+    axis.append("g")
         .attr("transform", "translate(0,40)")
         .attr("id", "w_axis")
         .attr("color", "white")
@@ -708,8 +789,8 @@ function updatePlayersBarChart(mode, ascdesc) {
         );
 
     // remove previous width axis label and add new one
-    svg.select("#axis-label").remove();
-    svg.append("text")
+    axis.select("#axis-label").remove();
+    axis.append("text")
         .attr("id", "axis-label")
         .attr("style", "text-anchor: middle; alignment-baseline: baseline; transform: translate(114px, 12px)")
         .attr("fill", "white")
@@ -719,11 +800,12 @@ function updatePlayersBarChart(mode, ascdesc) {
     // remove previous height axis and add new one
     svg.select("#y_axis").remove();
     svg.append("g")
-        .attr("transform", "translate(14,-15)")
+        .attr("transform", "translate(14,-1)")
         .attr("id", "y_axis")
         .attr("color", "white")
         .call(d3.axisLeft()
-            .scale(y_scale)
+            .scale(d3.scaleBand()
+            .range([0, players.length * 40]))
             .tickSize(0)
             .tickValues([])
         );
@@ -734,6 +816,99 @@ function updatePlayersBarChart(mode, ascdesc) {
         svg.select("#axis-label").remove();
         svg.select("#y_axis").remove();
     }
+
+    bindPlayerHover();
+    bindPlayerUnhover();
+    bindPlayerClick();
+}
+
+// binds hovering to a player's bars and dot
+function bindPlayerHover() {
+    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("mouseover", function () {
+        // if the hovered item is active, ignore all this
+        if (this.dataset.playeractive === "true") return;
+
+        var circle = $(`.player-circle[data-playerid=${this.dataset.playerid}]`);
+        var text = $(`.player-bar-text[data-playerid=${this.dataset.playerid}]`);
+
+        // style the hovered player
+        text.css("font-weight", 900);
+        circle.css({"stroke": "white", "stroke-width": 3});
+
+        // scroll bar chart if player not in sight
+        var top_el = $(`.player-bar-rect-avg[data-playerid=${this.dataset.playerid}]`).position().top;
+        var top_dad = $("#bar-chart-div").position().top;
+        var height_dad = $("#bar-chart-div").height();
+
+        if (this.localName === "circle")
+            if (top_el < top_dad || top_el + 29 > top_dad + height_dad)
+                $("#bar-chart-div").animate({
+                    scrollTop: top_el - top_dad
+                }, 500);
+
+        // set up the hover guide lines
+        d3.select("#scatter-help-line-hover-y")
+            .attr("x1", circle.attr("cx"))
+            .attr("x2", circle.attr("cx"))
+            .attr("y1", parseInt(circle.attr("cy")) + parseInt(circle.attr("r")))
+            .attr("y2", 427);
+        $("#scatter-help-line-hover-y").show();
+
+        d3.select("#scatter-help-line-hover-x")
+            .attr("x1", parseInt(circle.attr("cx")) - parseInt(circle.attr("r")))
+            .attr("x2", 53)
+            .attr("y1", circle.attr("cy"))
+            .attr("y2", circle.attr("cy"));
+        $("#scatter-help-line-hover-x").show();
+    });
+}
+
+// binds unhovering to a player's bars and dot
+function bindPlayerUnhover() {
+    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("mouseout", function () {
+        // if the unhovered item is active, ignore all this
+        if (this.dataset.playeractive === "true") return;
+
+        // remove the styling from the unhovered player
+        $(`.player-bar-text[data-playerid=${this.dataset.playerid}]`).css("font-weight", "normal");
+        $(`.player-circle[data-playerid=${this.dataset.playerid}]`).css({"stroke": "none"});
+
+        // hide the hover lines
+        $("#scatter-help-line-hover-y").hide();
+        $("#scatter-help-line-hover-x").hide();
+    });
+}
+
+// binds the clicking event to a circle or a bar
+function bindPlayerClick() {
+    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("click", function () {
+        var circle = $(`.player-circle[data-playerid=${this.dataset.playerid}]`);
+
+        // remove the styling from all elements except the one clicked
+        $(`.player-bar-text:not([data-playerid=${this.dataset.playerid}])`).css("font-weight", "normal");
+        $(`.player-circle:not([data-playerid=${this.dataset.playerid}])`).css({"stroke": "none"});
+
+        // remove the "active" tag from all elements and add it to the one clicked
+        $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").attr("data-playeractive", "false");
+        $(`[data-playerid=${this.dataset.playerid}]`).attr("data-playeractive", "true");
+
+        // set up the active lines and remove the hover one
+        d3.select("#scatter-help-line-active-y")
+            .attr("x1", circle.attr("cx"))
+            .attr("x2", circle.attr("cx"))
+            .attr("y1", parseInt(circle.attr("cy")) + parseInt(circle.attr("r")))
+            .attr("y2", 427);
+        $("#scatter-help-line-active-y").show();
+        $("#scatter-help-line-hover-y").hide();
+
+        d3.select("#scatter-help-line-active-x")
+            .attr("x1", parseInt(circle.attr("cx")) - parseInt(circle.attr("r")))
+            .attr("x2", 53)
+            .attr("y1", circle.attr("cy"))
+            .attr("y2", circle.attr("cy"));
+        $("#scatter-help-line-active-x").show();
+        $("#scatter-help-line-hover-x").hide();
+    });
 }
 
 /* ================================================================ */
@@ -748,7 +923,7 @@ function textColour(colour) {
         value.g = parseInt(colour.substring(3,5), 16);
         value.b = parseInt(colour.substring(5,7), 16);
     }
-    // in case it"s RGB
+    // in case it's RGB
     else value = colour.replace(/[^\d,]/g, "").split(",");
 
     return 1 - (0.299 * value.r + 0.587 * value.g + 0.114 * value.b) / 255 < 0.5 ? "black" : "white";
@@ -762,7 +937,7 @@ function switchCountryState(no) {
 // function called when form receives a change
 function formChange() {
     if (active_countries[0] === "") return;
-    var form_values = $('form#player-barchart-form').serializeArray().reduce(function(obj, item) {
+    var form_values = $("form#player-barchart-form").serializeArray().reduce(function(obj, item) {
         obj[item.name] = item.value;
         return obj;
     }, {});

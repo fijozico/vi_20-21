@@ -36,49 +36,52 @@
       <div class="secondary-container bottom" id="pc-left-bottom">
         <div class="terciary-container" id="spider-chart-container"></div>
         <div class="terciary-container" id="line-chart-container"></div>
+
+        <!-- Stadium Idiom -->
         <div class="terciary-container" id="stadium-container">
-          <div style="width: 100%;">
-            <i class="info-button" title="Hover on top of a section to see it's percentual value.">i</i>
+          <i class="info-button" title="Hover on top of a section to see it's percentual value.">i</i>
+          <h1 class="idiom-title">League vs National Team<br/>Attendance Comparison</h1>
+          <div class="before-svg">
+            <svg viewBox="-54 50 1000 1050" xmlns="http://www.w3.org/2000/svg" id="stadium">
+              <g style="transform: translate(378px, 390px) scale(0.32);" stroke="#fff" stroke-width="15" fill="none" id="pitch">
+                <path d="m12.233 24.31v638.68h429.51v-638.84l-429.51 0.15501z"/>
+                <path d="m105.89 24.661v98.7h242.21v-99.165"/>
+                <path d="m172.34 24.195v33.001h109.3v-33.001"/>
+                <path d="m105.89 662.27v-98.7h242.21v99.165"/>
+                <path d="m172.34 662.74v-33.001h109.3v33.001"/>
+                <path d="m12.11 343.57h429.47"/>
+                <path transform="translate(53.395 16)" d="m228.38 324.55a54.789 54.789 0 1 1-109.58 0 54.789 54.789 0 1 1 109.58 0z"/>
+                <path d="m205.07 663.91v14.695h43.833v-14.949"/>
+                <path d="m205.07 23.248v-14.695h43.833v14.949"/>
+                <path transform="translate(.72924 16)" d="m227.61 579.56a1.3442 1.3442 0 1 1-2.6884 0 1.3442 1.3442 0 1 1 2.6884 0z"/>
+                <path transform="translate(.72924 -488.13)" d="m227.61 579.56a1.3442 1.3442 0 1 1-2.6884 0 1.3442 1.3442 0 1 1 2.6884 0z"/>
+                <path transform="translate(-15.479 38.402)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
+                <path transform="matrix(1 0 0 -1 -14.892 649.6)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
+                <path transform="matrix(-1 0 0 -1 468.82 649.43)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
+                <path transform="matrix(-1 0 0 1 468.86 37.746)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
+                <path transform="translate(53.345 270.83)" d="m129.1 292.57a54.789 54.789 0 0 1 89.083 0.13891"/>
+                <path transform="matrix(1 0 0 -1 53.345 416.18)" d="m129.1 292.57a54.789 54.789 0 0 1 89.083 0.13891"/>
+                <path transform="translate(.72924 -236.1)" d="m227.61 579.56a1.3442 1.3442 0 1 1-2.6884 0 1.3442 1.3442 0 1 1 2.6884 0z"/>
+              </g>
+              <g id="legend" transform="translate(135 975)" style="display:none">
+                <text x="215" y="0" style="text-anchor:end">Attendance %</text>
+                <text x="255" y="0" style="text-anchor:middle">0</text>
+                <text x="375" y="0" style="text-anchor:middle">100</text>
+                <g id="legend-line-1" style="display:none">
+                  <circle cx="255" cy="45" r="18" />
+                  <circle cx="315" cy="45" r="18" />
+                  <circle cx="375" cy="45" r="18" />
+                  <text x="415" y="49" style="alignment-baseline:middle"></text>
+                </g>
+                <g id="legend-line-2" style="display:none">
+                  <circle cx="255" cy="100" r="18" />
+                  <circle cx="315" cy="100" r="18" />
+                  <circle cx="375" cy="100" r="18" />
+                  <text x="415" y="104" style="alignment-baseline:middle"></text>
+                </g>
+              </g>
+            </svg>
           </div>
-          <svg viewBox="-54 50 1008 1260" xmlns="http://www.w3.org/2000/svg" id="stadium">
-            <g style="transform: translate(378px, 494px) scale(0.32);" stroke="#fff" stroke-width="15" fill="none" id="pitch">
-              <path d="m12.233 24.31v638.68h429.51v-638.84l-429.51 0.15501z"/>
-              <path d="m105.89 24.661v98.7h242.21v-99.165"/>
-              <path d="m172.34 24.195v33.001h109.3v-33.001"/>
-              <path d="m105.89 662.27v-98.7h242.21v99.165"/>
-              <path d="m172.34 662.74v-33.001h109.3v33.001"/>
-              <path d="m12.11 343.57h429.47"/>
-              <path transform="translate(53.395 16)" d="m228.38 324.55a54.789 54.789 0 1 1-109.58 0 54.789 54.789 0 1 1 109.58 0z"/>
-              <path d="m205.07 663.91v14.695h43.833v-14.949"/>
-              <path d="m205.07 23.248v-14.695h43.833v14.949"/>
-              <path transform="translate(.72924 16)" d="m227.61 579.56a1.3442 1.3442 0 1 1-2.6884 0 1.3442 1.3442 0 1 1 2.6884 0z"/>
-              <path transform="translate(.72924 -488.13)" d="m227.61 579.56a1.3442 1.3442 0 1 1-2.6884 0 1.3442 1.3442 0 1 1 2.6884 0z"/>
-              <path transform="translate(-15.479 38.402)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
-              <path transform="matrix(1 0 0 -1 -14.892 649.6)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
-              <path transform="matrix(-1 0 0 -1 468.82 649.43)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
-              <path transform="matrix(-1 0 0 1 468.86 37.746)" d="m28.036 619.14a5.3841 5.3841 0 0 1 5.1306 5.1878"/>
-              <path transform="translate(53.345 270.83)" d="m129.1 292.57a54.789 54.789 0 0 1 89.083 0.13891"/>
-              <path transform="matrix(1 0 0 -1 53.345 416.18)" d="m129.1 292.57a54.789 54.789 0 0 1 89.083 0.13891"/>
-              <path transform="translate(.72924 -236.1)" d="m227.61 579.56a1.3442 1.3442 0 1 1-2.6884 0 1.3442 1.3442 0 1 1 2.6884 0z"/>
-            </g>
-            <g id="legend" transform="translate(135 1175)" style="display:none">
-              <text x="215" y="0" style="text-anchor:end">Attendance %</text>
-              <text x="255" y="0" style="text-anchor:middle">0</text>
-              <text x="375" y="0" style="text-anchor:middle">100</text>
-              <g id="legend-line-1" style="display:none">
-                <circle cx="255" cy="45" r="18" />
-                <circle cx="315" cy="45" r="18" />
-                <circle cx="375" cy="45" r="18" />
-                <text x="415" y="49" style="alignment-baseline:middle"></text>
-              </g>
-              <g id="legend-line-2" style="display:none">
-                <circle cx="255" cy="100" r="18" />
-                <circle cx="315" cy="100" r="18" />
-                <circle cx="375" cy="100" r="18" />
-                <text x="415" y="104" style="alignment-baseline:middle"></text>
-              </g>
-            </g>
-          </svg>
         </div>
       </div>
     </div>
@@ -86,40 +89,50 @@
     <!-- Middle Tall Container -->
     <div class="primary-container" id="middle">
       <div class="secondary-container top" id="pc-right-top"></div>
-      <div class="secondary-container bottom" id="pc-right-bottom"></div>
+
+      <!-- Player Scatterplot -->
+      <div class="secondary-container bottom" id="pc-right-bottom">
+        <i class="info-button" title="some barchart info...">i</i>
+        <h1 class="idiom-title">Player Scatterplot</h1>
+        <div class="before-svg">
+          <svg id="gpm_scatterplot"></svg>
+        </div>
+      </div>
     </div>
 
     <!-- Right Tall Container -->
     <div class="primary-container" id="right">
-      <form id="player-barchart-form" onchange="formChange()">
-        <p>ORDER BY:</p>
-        <div>
-          <input type="radio" id="total-gpm" name="order" value="total-gpm" checked>
-          <label for="total-gpm">Total <abbr title="Goals Per Match">GPM</abbr></label>
-        </div>
-        <div>
-          <input type="radio" id="nt-gpm" name="order" value="nt-gpm">
-          <label for="nt-gpm"><abbr title="National Team">NT</abbr> <abbr title="Goals Per Match">GPM</abbr></label>
-        </div>
-        <div>
-          <input type="radio" id="under" name="order" value="under">
-          <label for="under">Underscore</label>
-        </div>
-        <div>
-          <input type="radio" id="club-gpm" name="order" value="club-gpm">
-          <label for="club-gpm">Club <abbr title="Goals Per Match">GPM</abbr></label>
-        </div>
-        <div>
-          <input type="radio" id="years-active" name="order" value="years-active">
-          <label for="years-active">Years Active</label>
-        </div>
-        <div class="ascdesc">
-          <label for="ascdesc">Ascending</label>
-          <input type="checkbox" id="ascdesc" name="ascdesc" value="ascdesc" checked>
-          <label for="ascdesc">Descending</label>
-        </div>
-      </form>
-      <div id="bar-chart-div"></div>
+      <!-- GPM Bar Charts -->
+      <div class="secondary-container top" id="gpm-bar-container">
+        <i class="info-button" title="scome bar chart info...">i</i>
+        <h1 class="idiom-title">Players' Bar Chart</h1>
+        <form id="player-barchart-form" onchange="formChange()">
+          <p>ORDER BY:</p>
+          <div>
+            <input type="radio" id="nt-gpm" name="order" value="nt-gpm">
+            <label for="nt-gpm"><abbr title="National Team">NT</abbr> <abbr title="Goals Per Match">GPM</abbr></label>
+          </div>
+          <div>
+            <input type="radio" id="total-gpm" name="order" value="total-gpm" checked>
+            <label for="total-gpm">Average <abbr title="Goals Per Match">GPM</abbr></label>
+          </div>
+          <div>
+            <input type="radio" id="club-gpm" name="order" value="club-gpm">
+            <label for="club-gpm">Club <abbr title="Goals Per Match">GPM</abbr></label>
+          </div>
+          <div class="ascdesc">
+            <label for="ascdesc">Ascending</label>
+            <input type="checkbox" id="ascdesc" name="ascdesc" value="ascdesc" checked>
+            <label for="ascdesc">Descending</label>
+          </div>
+        </form>
+        <svg id="players-bar-chart-axis" viewBox="0 0 382 40" width="382" height="45"></svg>
+        <div id="bar-chart-div"></div>
+      </div>
+
+      <!-- Underscore -->
+      <div class="secondary-container bottom" id="underscore-container"></div>
+
     </div>
 
     <script type="text/javascript" src="script.js"></script>
