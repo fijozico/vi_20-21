@@ -45,6 +45,9 @@ $(window).on("load", function() {
     bindCountryHover();
     bindCountryUnhover();
     bindCountryClick();
+
+    // to always have a country selcted
+    $("#map-svg path[data-country=Austria]").trigger("click");
 });
 
 // what to  do on window resize
@@ -291,6 +294,10 @@ function closeCountry(country) {
 
     // if it's the first, and the second's defined, moves the second to its place
     else if (index === 0 && $("#country-title-2").children().length > 1) {
+        country_colours.hover.reverse();
+        country_colours.active.reverse();
+        colours.reverse();
+
         $("#pc-left-top [data-country=" + active_countries[1] + "]").each(function () {
             if (this.localName == "path")
                 $(this).attr({
@@ -324,7 +331,7 @@ function closeCountry(country) {
     else {
         active_countries[0] = "";
         $("#country-title-1").empty().append("<span class=\"suggestion\">Select a country above...</span>");
-        $("#country-title-2").empty();
+        $("#country-title-2").empty().append("<span class=\"suggestion inactive\">+ add country</span>");
 
         // remove from stadium chart
         current_attendance[0] = current_attendance[1] = empty_attendance;
@@ -336,6 +343,11 @@ function closeCountry(country) {
 
         // remove bar chart
         updatePlayersBarChart("total-gpm", "delete");
+
+        // to always have a country selcted
+        country_colours = {"hover": ["#72de78", "#a873de"], "active": ["#4bc551", "#874ac4"], "normal": "#aaa"}
+        colours = [d3.scaleLinear().domain([-1,0,0,1]).range(["#666", "#666", "white", "#00ff0e"]),d3.scaleLinear().domain([-1,0,0,1]).range(["#666", "#666", "white", "#7f00ff"])];
+        $("#map-svg path[data-country=Austria]").trigger("click");
     }
 
     udpateStadium();

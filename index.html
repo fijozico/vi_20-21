@@ -14,7 +14,7 @@
   <body>
     <!-- Left Tall Container -->
     <div class="primary-container" id="left">
-      <!-- Top Left Container (Map and List) -->
+      <!-- Country Map and List -->
       <div class="secondary-container top" id="pc-left-top">
         <i class="info-button" title="Click a country's position or name to select it. Add a second country to compare with by clicking '+ add country' below. Remove countries by closing them with the cross.">i</i>
         <svg id="map-svg" viewBox="1180 161 8578.5 6968.8">
@@ -29,13 +29,25 @@
           <span class="suggestion">Select a country above...</span>
         </div>
         <div class="country-title" id="country-title-2">
+          <span class="suggestion inactive">+ add country</span>
         </div>
       </div>
 
       <!-- Bottom Left Container -->
       <div class="secondary-container bottom" id="pc-left-bottom">
-        <div class="terciary-container" id="spider-chart-container"></div>
-        <div class="terciary-container" id="line-chart-container"></div>
+        <!-- Spider Chart -->
+        <div class="terciary-container" id="spider-chart-container">
+          <i class="info-button" title="some spider chart info...">i</i>
+          <h1 class="idiom-title">Quick Stats on <span class="fill-in-country-name">the Country</span></h1>
+          <img src="images/spider.png" style="height: 17.33vh; margin: 1.5vh;">
+        </div>
+
+        <!-- Country Line Chart -->
+        <div class="terciary-container" id="line-chart-container">
+          <i class="info-button" title="some line chart info...">i</i>
+          <h1 class="idiom-title">Happiness vs <abbr title="National Team">NT</abbr> Performance</h1>
+          <img src="images/line.png" style="height: 17.33vh; margin: 1.5vh;">
+        </div>
 
         <!-- Stadium Idiom -->
         <div class="terciary-container" id="stadium-container">
@@ -86,47 +98,19 @@
       </div>
     </div>
 
-    <!-- Player ID -->
+    <!-- Middle Tall Container -->
     <div class="primary-container" id="middle">
+      <!-- Player ID -->
       <div class="secondary-container top" id="pc-right-top">
-        <div id="player-id" style="display: none;">
-          <img class = "image" alt="Avatar"/>
-          <div id="player-info">
-            <div id="player-name"></div><br/>
-            <div id="player-birth"></div><br/>
-            <div id="player-years-active"></div>
-          </div>
-          <div id="player-bars" >
-            <div class="player-bar-title">
-              NT GPM
-              <svg class="player-bar" id="player-bar-nt-gpm">
-                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
-              </svg>
-            </div>
-            <div class="player-bar-title">
-              Club GPM
-              <svg class="player-bar" id="player-bar-club-gpm">
-                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
-              </svg>
-            </div>
-            <div class="player-bar-title">
-              Underscore
-              <svg class="player-bar" id="player-bar-underscore" >
-                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
-              </svg>
-            </div>
-          </div>
-        </div>        
-        <div id="player-gpm">
-          <svg id="player-line-gpm">
-          </svg>
-        </div>        
-      </div>
+          <i class="info-button" title="some player info...">i</i>
+          <h1 class="idiom-title"><span class="fill-in-country-name">Player's Stats</span></h1>
+          <img src="images/player.png" style="height: 33.33vh; margin: 5vh;">
+        </div>
 
       <!-- Player Scatterplot -->
       <div class="secondary-container bottom" id="pc-right-bottom">
         <i class="info-button" title="some barchart info...">i</i>
-        <h1 class="idiom-title">Player Scatterplot</h1>
+        <h1 class="idiom-title">Players' Scatterplot</h1>
         <div class="before-svg">
           <svg id="gpm_scatterplot"></svg>
         </div>
@@ -164,7 +148,11 @@
       </div>
 
       <!-- Underscore -->
-      <div class="secondary-container bottom" id="underscore-container"></div>
+      <div class="secondary-container bottom" id="underscore-container">
+        <i class="info-button" title="scome underscorability info...">i</i>
+        <h1 class="idiom-title">Players' Underscore</h1>
+        <img src="">
+      </div>
 
     </div>
 
