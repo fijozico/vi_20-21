@@ -11,9 +11,7 @@ var attendance_data = [];
 var empty_attendance = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
 var current_attendance = [empty_attendance,empty_attendance,empty_attendance,empty_attendance]
 var players_compact_data = [];
-
-// players
-var players_compact_data = [];
+var players_data = [];
 
 /* ================================================================ */
 /*                              SCALES                              */
@@ -40,6 +38,7 @@ $(window).on("load", function() {
     resizeStadium();
     createPlayersBarChart();
     //resizePlayersBarChart();
+    //createPlayerStats();
     createScatterPlot();
     resizeScatterplot();
 
@@ -516,6 +515,123 @@ function changeStadiumLegend(mode, country = "") {
 }
 
 /* ================================================================ */
+/*                           (5) PLAYER ID                          */
+/* ================================================================ */
+function createPlayerStats(){
+    $.ajax({
+        async: false,
+        type: "GET",  
+        url: "data/players_gpm.csv",
+        dataType: "text",       
+        success: function (response) {
+            $.csv.toObjects(response).forEach(function (item) {
+                item.years = [];
+                for (var y = 2011; y <= 2020; y++) {
+                    item.years.push(item[y]);
+                    delete item[y];
+                }
+                players_data.push(item);
+            });
+            console.log(players_data);
+        }   
+    });
+}
+function updatePlayerStats(playerID){
+    height = 150;
+    corner_round = 0;
+
+    var player_club = players_data.filter(
+        x => (x.id === playerID && x.type === "club")
+    )
+
+    var player_nt = players_data.filter(
+        x => (x.id === playerID && x.type === "nt")
+    )
+    console.log(player_club);
+    var gpm_nat = d3.scaleLinear()
+                .domain([0, 1])
+                .range([0, height]);
+
+    var gpm_club = d3.scaleLinear()
+                .domain([0, 1])
+                .range([0, height]);
+
+    underscore = 0;
+
+    //IMAGE
+    $("#player-id").show();
+    $("#player-id .image").attr("src", "images/players/" + playerID + ".png")
+
+    //INFO
+    var age = new Date(Date.now() - Date.parse(player_club[0].dob)).getFullYear() - 1970
+    $("#player-name").html("<b>Name: </b>"+ player_club[0].full_name);
+    $("#player-birth").html("<b>Date of Birth: </b>"+ player_club[0].dob + " (" + age + " years)");
+    $("#player-years-active").html("<b>Years Active: </b>"+ player_club[0].years_active);
+
+    //GPM-NT
+    d3.select("#player-bar-nt-gpm")
+        .append("rect")
+        .attr("x", 1)
+        .attr("y", height + 1 - gpm_nat)
+        .attr("rx", corner_round)
+        .attr("fill", "red") //change to color of country
+        .attr("height", gpm_nat)
+        .attr("width", 28);
+
+    //GPM-CLUB
+    d3.select("#player-bar-club-gpm")
+        .append("rect")
+        .attr("x", 1)
+        .attr("y", height + 1 - gpm_club)
+        .attr("rx", corner_round)
+        .attr("fill", "red") //change to color of country
+        .attr("height", gpm_club)
+        .attr("width", 28);
+
+    //Underscoreability
+    d3.select("#player-bar-underscore")
+        .append("rect")
+        .attr("x", 1)
+        .attr("y", height + 1 - underscore)
+        .attr("rx", corner_round)
+        .attr("fill", "red") //change to color of country
+        .attr("height", underscore)
+        .attr("width", 28);
+    
+    //GPM LINE CHART
+    var margin = {top: 14, right: 14, bottom: 14, left: 14},
+    width = 475 - margin.left - margin.right,
+    height = 250 - margin.top - margin.bottom;
+
+    var svg = d3.select("#player-line-gpm")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    // Add X axis --> it is a date format
+    var x = d3.scaleBand()
+                .domain([2011,2012,2013,2014,2015,2016,2017,2018,2019,2020])
+                .range([margin.left, width - margin.right]);
+
+    svg.append("g")
+        .attr("transform", "translate(0," + (height - margin.top) + ")")        
+        .attr("color", "white")
+        .call(d3.axisBottom(x));
+  
+    // Add Y axis
+    var y = d3.scaleLinear()
+                .domain([0, 1.5])
+                .range([height - margin.top, margin.bottom]);
+
+    svg.append("g")
+        .attr("transform", "translate(" + margin.left + ",0)")
+        .attr("color", "white")
+        .call(d3.axisLeft(y));
+    
+}
+
+/* ================================================================ */
 /*                      (6) PLAYER SCATTER PLOT                     */
 /* ================================================================ */
 
@@ -908,6 +1024,8 @@ function bindPlayerClick() {
             .attr("y2", circle.attr("cy"));
         $("#scatter-help-line-active-x").show();
         $("#scatter-help-line-hover-x").hide();
+
+        //updatePlayerStats(this.dataset.playerid);
     });
 }
 

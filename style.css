@@ -384,3 +384,64 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 .player-circle[data-playeractive=true] {
   cursor: default;
 }
+
+/* ================================================================ */
+/*                             PLAYER ID                            */
+/* ================================================================ */
+#pc-right-top{
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.67em;
+}
+
+.image{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #555;
+}
+
+#player-gpm{
+  width:100%;
+  height: fit-content;
+}
+
+#player-id{
+  display: flex;
+  height: fit-content;
+  width: 100%;  
+  justify-content: space-between;
+}
+#player-info{
+  margin-left: 0.67em;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  overflow:hidden;
+  word-wrap: break-word;
+  justify-content: center;
+  height: 100%;
+  font-size: 16px;
+  
+}
+
+#player-bars{
+  justify-content: space-between;
+  display: flex;
+  height: fit-content;
+}
+
+.player-bar-title{
+  text-align: center;
+  -webkit-text-stroke: 0.1px black;
+  color: white;
+  margin-left: 0.67em;
+  width: 50px;  
+  font-size: 10px;
+}
+
+.player-bar{
+  height: 152px;
+  width: 30px;
+  margin-top: 0.67em;
+}
