@@ -31,7 +31,7 @@ h1.idiom-title {
   color: white;
   font-size: 2.04vh;
   line-height: 2.04vh;
-  margin: 1.3vh 0 0 0;
+  margin: 0.75vh 0 0 0;
   text-align: center;
   text-transform: uppercase;
   width: 100%;
@@ -86,18 +86,22 @@ h1.idiom-title {
 
 #pc-left-bottom {
   align-content: space-between;
-  flex-direction: column;
   flex-wrap: wrap;
   height: calc(50% - 5px);
   justify-content: space-between;
 }
 
-#pc-right-bottom {
+#pc-left-bottom,
+#pc-left-bottom > *,
+#pc-right-top,
+#pc-right-bottom,
+#stadium-container,
+#gpm-bar-container,
+#underscore-container {
+  display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-#gpm-bar-container { flex-direction: column; }
 
 /* terciary containers */
 #spider-chart-container {
@@ -111,9 +115,6 @@ h1.idiom-title {
 }
 
 #stadium-container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
   height: 100%;
   width: calc(50% - 5px);
 }
@@ -204,6 +205,11 @@ ul#country-pick li i.flag-icon {
   color: white;
   font-size: 2.22vh;
   font-weight: 700;
+}
+
+#country-title-bar span.suggestion.inactive {
+  color: rgb(107,107,107);
+  cursor: not-allowed;
 }
 
 #country-title-bar > div span.close-country {
