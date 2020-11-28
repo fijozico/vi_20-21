@@ -39,7 +39,6 @@ $(window).on("load", function() {
     createStadium();
     resizeStadium();
     createPlayersBarChart();
-    createScatterPlot();
 
     bindCountryHover();
     bindCountryUnhover();
@@ -767,6 +766,7 @@ function formChange() {
         return obj;
     }, {});
     updatePlayersBarChart(form_values.order, form_values.ascdesc);
+}
 
 // change legend
 function changeLegend(mode, country = "") {
