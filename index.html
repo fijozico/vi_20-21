@@ -86,9 +86,42 @@
       </div>
     </div>
 
-    <!-- Middle Tall Container -->
+    <!-- Player ID -->
     <div class="primary-container" id="middle">
-      <div class="secondary-container top" id="pc-right-top"></div>
+      <div class="secondary-container top" id="pc-right-top">
+        <div id="player-id" style="display: none;">
+          <img class = "image" alt="Avatar"/>
+          <div id="player-info">
+            <div id="player-name"></div><br/>
+            <div id="player-birth"></div><br/>
+            <div id="player-years-active"></div>
+          </div>
+          <div id="player-bars" >
+            <div class="player-bar-title">
+              NT GPM
+              <svg class="player-bar" id="player-bar-nt-gpm">
+                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
+              </svg>
+            </div>
+            <div class="player-bar-title">
+              Club GPM
+              <svg class="player-bar" id="player-bar-club-gpm">
+                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
+              </svg>
+            </div>
+            <div class="player-bar-title">
+              Underscore
+              <svg class="player-bar" id="player-bar-underscore" >
+                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
+              </svg>
+            </div>
+          </div>
+        </div>        
+        <div id="player-gpm">
+          <svg id="player-line-gpm">
+          </svg>
+        </div>        
+      </div>
 
       <!-- Player Scatterplot -->
       <div class="secondary-container bottom" id="pc-right-bottom">
