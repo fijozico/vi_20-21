@@ -552,13 +552,60 @@ function createPlayerStats(){
                 }
                 players_data.push(item);
             });
-            console.log(players_data);
         }   
     });
+
+    //GPM LINE CHART
+    var margin = {top: 14, right: 14, bottom: 14, left: 14},
+    width = 475 - margin.left - margin.right,
+    height = 250 - margin.top - margin.bottom;
+
+    var svg = d3.select("#player-line-gpm")
+        .attr("viewbox", `0 0 ${width} ${height}`)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // add Club GPM label
+    svg.append("text")
+        .attr("id", "player_years_label")
+        .attr("x", width / 2 + 5 )
+        .attr("y", height )
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .text("Years");
+
+    // add NT GPM label
+    svg.append("text")
+        .attr("id", "player_nt_label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", - margin.left + 20)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .style("alignment-baseline", "baseline")
+        .text("GPM");
+
+    // add x axis
+    svg.insert("g", ":first-child")
+        .attr("transform", "translate(0," + (height - 40)  + ")")
+        .attr("id", "players_x")
+        .attr("color", "white")
+    
+    // add y axis
+    svg.insert("g", ":first-child")
+       .attr("transform", "translate(" + (2 * margin.left + 25) + ",0)")
+       .attr("id", "players_y")
+       .attr("color", "white")
 }
 function updatePlayerStats(playerID){
-    height = 150;
+    bar_height = 150;
     corner_round = 0;
+
+    var margin = {top: 14, right: 14, bottom: 14, left: 14},
+    width = 475 - margin.left - margin.right,
+    height = 250 - margin.top - margin.bottom;
 
     var player_club = players_data.filter(
         x => (x.id === playerID && x.type === "club")
@@ -567,11 +614,6 @@ function updatePlayerStats(playerID){
     var player_nt = players_data.filter(
         x => (x.id === playerID && x.type === "nt")
     )
-    var gpm_scale = d3.scaleLinear()
-                .domain([0, 1])
-                .range([0, height]);
-    
-
     underscore = 0;
 
     //IMAGE
@@ -585,12 +627,17 @@ function updatePlayerStats(playerID){
     $("#player-years-active").html("<b>Years Active: </b>"+ player_club[0].years_active);
 
     //GPM-NT
+    var gpm_scale = d3.scaleLinear()
+                .domain([0, 1])
+                .range([0, bar_height]);
+
+    console.log(player_club[0])
     var gpm_club = gpm_scale(player_club[0].type_avg);
     var gpm_nat = gpm_scale(player_nt[0].type_avg);
 
     d3.select("#player-value-nt-gpm")
         .attr("x", 1)
-        .attr("y", height + 1 - gpm_nat)
+        .attr("y", bar_height + 1 - gpm_nat)
         .attr("rx", corner_round)
         .attr("fill", "red") //change to color of country
         .attr("height", gpm_nat)
@@ -599,7 +646,7 @@ function updatePlayerStats(playerID){
     //GPM-CLUB
     d3.select("#player-value-club-gpm")
         .attr("x", 1)
-        .attr("y", height + 1 - gpm_club)
+        .attr("y", bar_height + 1 - gpm_club)
         .attr("rx", corner_round)
         .attr("fill", "red") //change to color of country
         .attr("height", gpm_club)
@@ -609,53 +656,53 @@ function updatePlayerStats(playerID){
     d3.select("#player-bar-underscore")
         .append("rect")
         .attr("x", 1)
-        .attr("y", height + 1 - underscore)
+        .attr("y", bar_height + 1 - underscore)
         .attr("rx", corner_round)
         .attr("fill", "red") //change to color of country
         .attr("height", underscore)
         .attr("width", 28);
-    
-    //GPM LINE CHART
-    var margin = {top: 14, right: 14, bottom: 14, left: 14},
-    width = 475 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
 
-    var svg = d3.select("#player-line-gpm")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    //Axis
+    var svg = d3.select("#player-line-gpm");
     
-    // Add X axis --> it is a date format
-    var x = d3.scaleBand()
-                .domain([2011,2012,2013,2014,2015,2016,2017,2018,2019,2020])
-                .range([margin.left, width - margin.right]);
+    var nt_years = Array.from(player_nt[0].years)
+    var nt_min_x = 1991 + nt_years.findIndex(x => x >= 0)
+    var nt_max_x =  2020 - nt_years.reverse().findIndex(x => x >= 0)
+    nt_years.slice(nt_min_x - 1991, 2020 - nt_max_x)
+    console.log()
 
-    svg.append("g")
-        .attr("transform", "translate(0," + (height - margin.top) + ")")        
-        .attr("color", "white")
-        .call(d3.axisBottom(x));
-  
-    // Add Y axis
+    var club_years = Array.from(player_club[0].years)
+    var club_min_x = 1991 + club_years.findIndex(x => x >= 0)
+    var club_max_x =  2020 - club_years.reverse().findIndex(x => x >= 0)
+    club_years.slice(club_min_x - 1991, club_max_x + 2020)
+
+    var min_x = Math.min(nt_min_x, club_min_x);
+    var max_x = Math.max(nt_max_x, club_max_x);
+
+    var x = d3.scaleLinear()
+        .domain([min_x, max_x])
+        .range([ 2 * margin.left + 25, width - 40 ]);
     var y = d3.scaleLinear()
-                .domain([0, 1])
-                .range([height - margin.top, margin.bottom]);
+        .domain([0, 1]) //mudar este axis
+        .range([ height - 40, margin.bottom + 25]);
 
-    console.log(player_nt)
+    svg.select("#players_x")
+        .transition().duration(500)
+        .call(d3.axisBottom(x).tickFormat(d3.format("d"))
+                                .tickSizeOuter(0).ticks(max_x - min_x > 10 ? Math.ceil((max_x - min_x) / 2) : max_x - min_x));
 
-    svg.append("g")
-        .attr("transform", "translate(" + margin.left + ",0)")
-        .attr("color", "white")
+    svg.select("#players_y")
         .call(d3.axisLeft(y));
 
     svg.append("path")
-        .datum(player_nt)
+        .datum(player_nt[0].years.slice(nt_min_x - 1991, 30 - (2020 - nt_max_x)))
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 1.5)
         .attr("d", d3.line()
-            .x(function(d) { return x() })
-            .y(function(d) { return y(2015) })
+            .defined(d => d >= 0)
+            .x(function(d,i) { return x(i + nt_min_x) })
+            .y(function(d) { return y(d) })
         )
     
 }
@@ -1067,7 +1114,8 @@ function bindPlayerUnhover() {
 
 // binds the clicking event to a circle or a bar
 function bindPlayerClick() {
-    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("click", function () {
+    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("click", function (evt) {
+        evt.stopImmediatePropagation();
         var circle = $(`.player-circle[data-playerid=${this.dataset.playerid}]`);
 
         // remove the styling from all elements except the one clicked
