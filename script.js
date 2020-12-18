@@ -38,7 +38,7 @@ $(window).on("load", function() {
     resizeStadium();
     createPlayersBarChart();
     //resizePlayersBarChart();
-    //createPlayerStats();
+    createPlayerStats();
     createScatterPlot();
     resizeScatterplot();
 
@@ -526,7 +526,7 @@ function createPlayerStats(){
         success: function (response) {
             $.csv.toObjects(response).forEach(function (item) {
                 item.years = [];
-                for (var y = 2011; y <= 2020; y++) {
+                for (var y = 1991; y <= 2020; y++) {
                     item.years.push(item[y]);
                     delete item[y];
                 }
@@ -547,14 +547,10 @@ function updatePlayerStats(playerID){
     var player_nt = players_data.filter(
         x => (x.id === playerID && x.type === "nt")
     )
-    console.log(player_club);
-    var gpm_nat = d3.scaleLinear()
+    var gpm_scale = d3.scaleLinear()
                 .domain([0, 1])
                 .range([0, height]);
-
-    var gpm_club = d3.scaleLinear()
-                .domain([0, 1])
-                .range([0, height]);
+    
 
     underscore = 0;
 
@@ -569,8 +565,10 @@ function updatePlayerStats(playerID){
     $("#player-years-active").html("<b>Years Active: </b>"+ player_club[0].years_active);
 
     //GPM-NT
-    d3.select("#player-bar-nt-gpm")
-        .append("rect")
+    var gpm_club = gpm_scale(player_club[0].type_avg);
+    var gpm_nat = gpm_scale(player_nt[0].type_avg);
+
+    d3.select("#player-value-nt-gpm")
         .attr("x", 1)
         .attr("y", height + 1 - gpm_nat)
         .attr("rx", corner_round)
@@ -579,8 +577,7 @@ function updatePlayerStats(playerID){
         .attr("width", 28);
 
     //GPM-CLUB
-    d3.select("#player-bar-club-gpm")
-        .append("rect")
+    d3.select("#player-value-club-gpm")
         .attr("x", 1)
         .attr("y", height + 1 - gpm_club)
         .attr("rx", corner_round)
@@ -621,13 +618,25 @@ function updatePlayerStats(playerID){
   
     // Add Y axis
     var y = d3.scaleLinear()
-                .domain([0, 1.5])
+                .domain([0, 1])
                 .range([height - margin.top, margin.bottom]);
+
+    console.log(player_nt)
 
     svg.append("g")
         .attr("transform", "translate(" + margin.left + ",0)")
         .attr("color", "white")
         .call(d3.axisLeft(y));
+
+    svg.append("path")
+        .datum(player_nt)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x(function(d) { return x() })
+            .y(function(d) { return y(2015) })
+        )
     
 }
 
@@ -1025,7 +1034,7 @@ function bindPlayerClick() {
         $("#scatter-help-line-active-x").show();
         $("#scatter-help-line-hover-x").hide();
 
-        //updatePlayerStats(this.dataset.playerid);
+        updatePlayerStats(this.dataset.playerid);
     });
 }
 
