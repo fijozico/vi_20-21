@@ -37,7 +37,6 @@ $(window).on("load", function() {
     createStadium();
     resizeStadium();
     createPlayersBarChart();
-    //resizePlayersBarChart();
     createPlayerStats();
     createScatterPlot();
     resizeScatterplot();
@@ -45,6 +44,9 @@ $(window).on("load", function() {
     bindCountryHover();
     bindCountryUnhover();
     bindCountryClick();
+
+    // to always have a country selcted
+    $("#map-svg path[data-country=Austria]").trigger("click");
 });
 
 // what to  do on window resize
@@ -52,7 +54,7 @@ $(window).on("resize", function() {
     resizeBody($(this));
     resizeMap();
     resizeStadium();
-    //resizePlayersBarChart();
+    resizePlayersBarChart();
     resizeScatterplot();
 });
 
@@ -102,23 +104,23 @@ function resizeScatterplot() {
 function resizePlayersBarChart() {
     var axis = $("#players-bar-chart-axis");
     var axis_dim = { "width": axis.width(), "height": axis.height() };
-    console.log(axis_dim);
+    var parent_axis = $("#gpm-bar-container");
+    var parent_axis_dim = { "width": parent_axis.width(), "height": parent_axis.height() };
+
     var chart = $("#players-bar-chart");
     var chart_dim = { "width": chart.width(), "height": chart.height() };
-    console.log(chart_dim);
-    var parent = $("#gpm-bar-container");
-    var parent_dim = { "width": parent.width(), "height": parent.height() };
-    console.log(parent_dim);
+    var parent_chart = $("#gpm-bar-container");
+    var parent_chart_dim = { "width": parent_chart.width(), "height": parent_chart.height() };
 
     // resize axis
     axis.attr({
-        "width": parent_dim.width,
-        "height": parent_dim.width * (axis_dim.height / axis_dim.width)
+        "width": parent_axis_dim.width,
+        "height": parent_axis_dim.width * (40 / 382)
     });
 
     chart.attr({
-        "width": parent_dim.width,
-        "height": parent_dim.width * (chart_dim.height / chart_dim.width)
+        "width": parent_chart_dim.width - 14,
+        "height": (parent_chart_dim.width - 14) * (chart_dim.height / chart_dim.width)
     });
 }
 
@@ -140,7 +142,7 @@ function createMap() {
                 // adds each country to the SVG; needs to be done in pure JS because jQuery doesn"t handle SVG
                 new_path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 new_path.setAttributeNS(null, "d", item.d);
-                new_path.setAttributeNS(null, "fill", item.country == "" ? "#666" : "#aaa");
+                new_path.setAttributeNS(null, "style", "fill: " + (item.country == "" ? "#666" : "#aaa"));
                 new_path.setAttributeNS(null, "stroke", "#404040");
                 new_path.setAttributeNS(null, "stroke-width", item.strokewidth == "" ? "7.6394" : item.strokewidth);
                 new_path.setAttributeNS(null, "transform", item.transform);
@@ -178,11 +180,12 @@ function bindCountryHover() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("mouseover", function () {
         // this way, it deals with all the country"s paths, along with the list item
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
-            // if it"s the path, just changes its color
-            if (this.localName == "path" && $(this).attr("fill") == country_colours.normal)
-                $(this).attr("fill", country_colours.hover[no_countries_mode]);
+            // if it's the path, just changes its color
+            if (this.localName == "path" && !["0","1"].includes($(this).attr("data-active"))) {
+                $(this).css("fill", country_colours.hover[no_countries_mode]);
+            }
 
-            // if it"s the list item, only "hovers" it if item not active
+            // if it's the list item, only "hovers" it if item not active
             // important because list item may be "hovered" (temporary highlight) or "active" (permanent highlight)
             else if (this.localName == "li" && (this.dataset.active === undefined || this.dataset.active === "-1"))
                 $(this).css({
@@ -199,8 +202,8 @@ function bindCountryUnhover() {
         if (this.dataset.active === no_countries_mode.toString());
 
         else $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
-            if (this.localName == "path" && (this.dataset.active === undefined || this.dataset.active === "-1"))
-                $(this).attr("fill", country_colours.normal);
+            if (this.localName == "path" && (this.dataset.active === undefined || this.dataset.active === "-1")) 
+                $(this).css("fill", country_colours.normal);
 
             else if (this.dataset.active === undefined || this.dataset.active === "-1")
                 $(this).attr("style", "")[0].dataset.hovered = -1;
@@ -214,7 +217,7 @@ function bindCountryClick() {
         if (this.dataset.active !== undefined && this.dataset.active !== "-1") return;
         // deselect active country
         $("svg#map-svg path:not(.greyed-out)[data-active=" + no_countries_mode + "]").each(function () {
-            $(this).attr("fill", country_colours.normal)[0].dataset.active = -1;
+            $(this).css("fill", country_colours.normal)[0].dataset.active = -1;
             $("li#li-" + this.dataset.country).attr("style", "")[0].dataset.active = -1;
         });
 
@@ -224,6 +227,16 @@ function bindCountryClick() {
             this.dataset.country.replaceAll("-"," "), // country name with spaces
             this.dataset.country // country name with dashes
         ));
+
+        if (this.localName == "path") {
+            // scroll country list if country not in sight
+            var top_el = $(`ul#country-pick li#li-${this.dataset.country}`).position().top;
+            var top_dad = $("ul#country-pick").position().top;
+            var height_dad = $("ul#country-pick").height();
+            
+            if (top_el < top_dad || top_el > top_dad + height_dad)
+                $("ul#country-pick").animate({ scrollTop: top_el - top_dad }, 0);
+        }
 
         // stores country name as first one selected
         active_countries[no_countries_mode] = this.dataset.country;
@@ -241,7 +254,7 @@ function bindCountryClick() {
 
         // permanently select clicked country
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
-            $(this).attr("fill", country_colours.active[no_countries_mode])[0].dataset.active = no_countries_mode;
+            $(this).css("fill", country_colours.active[no_countries_mode])[0].dataset.active = no_countries_mode;
             $("li#li-" + this.dataset.country)[0].dataset.active = no_countries_mode;
             $("li#li-" + this.dataset.country).css({
                 "background-color": country_colours.active[no_countries_mode],
@@ -267,7 +280,7 @@ function bindCountryClick() {
 function closeCountry(country) {
     // deselect country on map and list
     $("svg#map-svg path[data-country=" + country + "], ul#country-pick li#li-" + country).each(function () {
-        if (this.localName == "path") $(this).attr("fill", country_colours.normal)[0].dataset.active = -1;
+        if (this.localName == "path") $(this).css("fill", country_colours.normal)[0].dataset.active = -1;
         else $(this).attr("style", "")[0].dataset.active = -1;
     });
 
@@ -291,12 +304,13 @@ function closeCountry(country) {
 
     // if it's the first, and the second's defined, moves the second to its place
     else if (index === 0 && $("#country-title-2").children().length > 1) {
+        country_colours.hover.reverse();
+        country_colours.active.reverse();
+        colours.reverse();
+
         $("#pc-left-top [data-country=" + active_countries[1] + "]").each(function () {
             if (this.localName == "path")
-                $(this).attr({
-                    "fill": country_colours.active[0],
-                    "data-active": 0
-                });
+                $(this).attr("data-active", 0).css("fill", country_colours.active[0]);
 
             else
                 $(this).attr("data-active", 0).css({
@@ -324,7 +338,7 @@ function closeCountry(country) {
     else {
         active_countries[0] = "";
         $("#country-title-1").empty().append("<span class=\"suggestion\">Select a country above...</span>");
-        $("#country-title-2").empty();
+        $("#country-title-2").empty().append("<span class=\"suggestion inactive\">+ add country</span>");
 
         // remove from stadium chart
         current_attendance[0] = current_attendance[1] = empty_attendance;
@@ -336,6 +350,11 @@ function closeCountry(country) {
 
         // remove bar chart
         updatePlayersBarChart("total-gpm", "delete");
+
+        // to always have a country selcted
+        country_colours = {"hover": ["#72de78", "#a873de"], "active": ["#4bc551", "#874ac4"], "normal": "#aaa"}
+        colours = [d3.scaleLinear().domain([-1,0,0,1]).range(["#666", "#666", "white", "#00ff0e"]),d3.scaleLinear().domain([-1,0,0,1]).range(["#666", "#666", "white", "#7f00ff"])];
+        $("#map-svg path[data-country=Austria]").trigger("click");
     }
 
     udpateStadium();
@@ -487,6 +506,7 @@ function udpateStadium() {
         d3.selectAll($("g.slice[data-section=" + i + "]").toArray())
             .data(current_attendance[i])
             .join("g")
+            .transition().duration(500)
             .attr("fill", d => `${colours[parseInt(i/2)](d)}`);
 
         // update tooltip with the percentages
@@ -653,6 +673,39 @@ function createScatterPlot() {
         .attr("width", width)
         .attr("height", height)
         .attr("viewBox", `0 0 ${width} ${height}`);
+
+    // add Club GPM label
+    svg.append("text")
+        .attr("id", "club_label")
+        .attr("x", width / 2 + 5 )
+        .attr("y", height )
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .text("Club GPM");
+
+    // add NT GPM label
+    svg.append("text")
+        .attr("id", "nt_label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", - margin.left + 20)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .style("alignment-baseline", "baseline")
+        .text("NT GPM");
+
+    // add x axis
+    svg.insert("g", ":first-child")
+        .attr("transform", "translate(0," + (height - 40)  + ")")
+        .attr("id", "x_scale")
+        .attr("color", "white")
+    
+    // add y axis
+    svg.insert("g", ":first-child")
+       .attr("transform", "translate(" + (2 * margin.left + 25) + ",0)")
+       .attr("id", "y_scale")
+       .attr("color", "white")
 }
 
 function updateScatterplot() {
@@ -663,7 +716,22 @@ function updateScatterplot() {
 
     var players = players_compact_data.filter(
         x => (active_countries.includes(x.country))
-    );
+    ).sort(function(a, b) {
+        // order by id if same country
+        if (a.country === b.country) {
+            if (parseInt(a.id) < parseInt(b.id)) return -1;
+            if (parseInt(a.id) > parseInt(b.id)) return 1;
+            return 0;
+        }
+        // otherwise, order by the position of the country in the active_countries
+        else {
+            var a_i = active_countries.indexOf(a.country);
+            var b_i = active_countries.indexOf(b.country);
+            if (a_i < b_i) return -1;
+            if (a_i > b_i) return 1;
+            return 0;
+        }
+    });
 
     var svg = d3.select("#gpm_scatterplot");
 
@@ -680,60 +748,53 @@ function updateScatterplot() {
         .range([ height - 40, margin.bottom + 25]);
 
     svg.select("#x_scale")
-        .remove();          
-    svg.insert("g", ":first-child")
-        .attr("transform", "translate(0," + (height - 40)  + ")")
-        .attr("id", "x_scale")
-        .attr("color", "white")
-        .call(d3.axisBottom(x).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
+        .transition().duration(500)
+        .call(d3.axisBottom(x).tickSizeOuter(0).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
 
     svg.select("#y_scale")
-       .remove();
-    svg.insert("g", ":first-child")
-       .attr("transform", "translate(" + (2 * margin.left + 25) + ",0)")
-       .attr("id", "y_scale")
-       .attr("color", "white")
-       .call(d3.axisLeft(y).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
+        .transition().duration(500)
+       .call(d3.axisLeft(y).tickSizeOuter(0).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
 
-
-    svg.select("#club_label")
-        .remove();
-    svg.append("text")
-        .attr("id", "club_label")
-        .attr("x", width / 2 + 5 )
-        .attr("y", height )
-        .attr("fill", "white")
-        .style("text-anchor", "middle")
-        .text("Club GPM");
-
-
-    svg.select("#nt_label")
-        .remove();
-    svg.append("text")
-        .attr("id", "nt_label")
-        .attr("transform", "rotate(-90)")
-        .attr("y", - margin.left + 20)
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .attr("fill", "white")
-        .style("text-anchor", "middle")
-        .style("alignment-baseline", "baseline")
-        .text("NT GPM");
-
+    // circle creation
+    // needs to be a separate join to define different animations for each event
     svg.selectAll(".player-circle")
         .data(players)
-        .join("circle")
-        .attr("class", "player-circle")
-        .attr("data-playerid", function (d) { return d.id; })
-        .attr("cx", function (d) { return x(d.club_avg); } )
-        .attr("cy", function (d) { return y(d.nt_avg); } )
-        .attr("r", 8)
-        .attr("fill", function (d) { return country_colours.active[active_countries.indexOf(d.country)]; })
-        .attr("style", "opacity: 0.85")
-        /*.append("title")
-        .text(function (d) {
-            return (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}`;
-        })*/;
+        .join(
+            enter => enter.append("circle")
+                .attr("class", "player-circle")
+                .attr("data-playerid", function (d) { return d.id; })
+                .attr("cx", function (d) { return x(d.club_avg); } )
+                .attr("cy", function (d) { return y(d.nt_avg); } )
+                .attr("fill", function (d) { return country_colours.active[active_countries.indexOf(d.country)]; })
+                .attr("style", "opacity: 0.85")
+                .call(enter => enter
+                    .transition().duration(500)
+                    .attr("r", 8)
+                )
+                .append("title")
+                .attr("class", "title-player-circle")
+                .text(function (d) {
+                    return (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}`;
+                }),
+            update => update
+                .attr("class", "player-circle")
+                .attr("data-playerid", function (d) { return d.id; })
+                .call(update => update
+                    .transition().duration(500)
+                    .attr("cx", function (d) { return x(d.club_avg); } )
+                    .attr("cy", function (d) { return y(d.nt_avg); } )
+                )
+                .select("title")
+                .text(function (d) {
+                    return (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}`;
+                }),
+            exit => exit
+                .call(exit => exit
+                    .transition().duration(500)
+                    .attr("r", 0)
+                )
+                .remove()
+        );
 
     // creating and inserting before anything else makes it stay below all items
     svg.select("#scatterline")
@@ -823,6 +884,7 @@ function updatePlayersBarChart(mode, ascdesc) {
 
     var svg = d3.select("#players-bar-chart")
         .attr("height", players.length * 40 + 10)
+        .attr("width", 368)
         .attr("viewBox", "0 0 368 " + (players.length * 40 + 10));
     var axis = d3.select("#players-bar-chart-axis");
 
@@ -848,7 +910,7 @@ function updatePlayersBarChart(mode, ascdesc) {
         .attr("height", (y_scale.bandwidth() - 15) / 2)
         .attr("width", function (d) { return w_scale(d.nt_avg) - padding; })
         .append("title")
-        .text(function (d) { return d.nt_avg; });
+        .text(function (d) { return "NT GPM: " + d.nt_avg; });
 
     // adding the club gpm
     svg.selectAll(".player-bar-rect-club")
@@ -862,7 +924,7 @@ function updatePlayersBarChart(mode, ascdesc) {
         .attr("height", (y_scale.bandwidth() - 15) / 2)
         .attr("width", function (d) { return w_scale(d.club_avg) - padding; })
         .append("title")
-        .text(function (d) { return d.club_avg; });
+        .text(function (d) { return "Club GPM: " + d.club_avg; });
 
     // adding the red marker for total gpm
     svg.selectAll(".player-bar-rect-avg")
@@ -879,7 +941,7 @@ function updatePlayersBarChart(mode, ascdesc) {
         .attr("data-playerid", function (d) { return d.id; })
         .attr("fill", "red")
         .append("title")
-        .text(function (d) { return d.player_avg; });
+        .text(function (d) { return "Average GPM: " + d.player_avg; });
 
     // putting the players' name on the right
     svg.selectAll(".player-bar-text")
@@ -905,7 +967,7 @@ function updatePlayersBarChart(mode, ascdesc) {
     // remove previous width axis and add new one
     axis.select("#w_axis").remove();
     axis.append("g")
-        .attr("transform", "translate(0,40)")
+        .attr("transform", "translate(-10.5,39)")
         .attr("id", "w_axis")
         .attr("color", "white")
         .call(d3.axisTop()
@@ -945,6 +1007,7 @@ function updatePlayersBarChart(mode, ascdesc) {
     bindPlayerHover();
     bindPlayerUnhover();
     bindPlayerClick();
+    resizePlayersBarChart();
 }
 
 // binds hovering to a player's bars and dot
@@ -967,9 +1030,7 @@ function bindPlayerHover() {
 
         if (this.localName === "circle")
             if (top_el < top_dad || top_el + 29 > top_dad + height_dad)
-                $("#bar-chart-div").animate({
-                    scrollTop: top_el - top_dad
-                }, 500);
+                $("#bar-chart-div").animate({ scrollTop: top_el - top_dad }, 0);
 
         // set up the hover guide lines
         d3.select("#scatter-help-line-hover-y")
