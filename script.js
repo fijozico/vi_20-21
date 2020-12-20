@@ -4,11 +4,13 @@
 var map;
 var no_countries_mode = 0;
 var normal_country_color = "#aaa"
+// DELETE
 // var country_colours = {"hover": ["#72e378", "#ab72e3"], "active": ["#40bf46", "#7f40bf"]};
 var country_colours;
 
 // holds the current active countries
 var active_countries = ["",""];
+var active_countries_colours = [];
 var attendance_data = [];
 var empty_attendance = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
 var current_attendance = [empty_attendance,empty_attendance,empty_attendance,empty_attendance]
@@ -18,6 +20,7 @@ var players_data = [];
 /* ================================================================ */
 /*                              SCALES                              */
 /* ================================================================ */
+// DELETE
 // colour scale; to be changed when country gets selected
 var colours = [
     d3.scaleLinear()
@@ -72,7 +75,7 @@ $(window).on("load", function() {
     // $("#map-svg path[data-country=Austria]").trigger("click");
 });
 
-// what to  do on window resize
+// what to do on window resize
 $(window).on("resize", function() {
     resizeBody($(this));
     resizeMap();
@@ -157,6 +160,7 @@ function createMap() {
     var country_list = [];
     var new_path, title;
 
+    // load countries' SVG info and generate map
     $.ajax({
         async: false,
         url: "data/countries_svg.json",
@@ -202,6 +206,7 @@ function createMap() {
 function bindCountryHover() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("mouseover", function () {
         // this way, it deals with all the country"s paths, along with the list item
+        var color = 
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
             // if it's the path, just changes its color
             if (this.localName == "path" && !["0","1"].includes($(this).attr("data-active"))) {
@@ -238,6 +243,7 @@ function bindCountryUnhover() {
 function bindCountryClick() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("click", function () {
         if (this.dataset.active !== undefined && this.dataset.active !== "-1") return;
+        
         // deselect active country
         $("svg#map-svg path:not(.greyed-out)[data-active=" + no_countries_mode + "]").each(function () {
             $(this).css("fill", normal_country_color)[0].dataset.active = -1;
@@ -265,11 +271,11 @@ function bindCountryClick() {
         active_countries[no_countries_mode] = this.dataset.country;
 
         // adds country to stadium chart
-        current_attendance[2*no_countries_mode+1] = attendance_data.find(
+        current_attendance[2 * no_countries_mode + 1] = attendance_data.find(
             x => (x.country === this.dataset.country && x.occ_type === "national")
         ).years;
 
-        current_attendance[2*no_countries_mode] = attendance_data.find(
+        current_attendance[2 * no_countries_mode] = attendance_data.find(
             x => (x.country === this.dataset.country && x.occ_type === "league")
         ).years;
 
@@ -296,6 +302,12 @@ function bindCountryClick() {
 
         // updates the player scatter plot
         updateScatterplot();
+
+        // select first player from the selected country
+        setTimeout(function(){
+            $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
+            $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
+        }, 0);
     });
 }
 
@@ -333,12 +345,12 @@ function closeCountry(country) {
 
         $("#pc-left-top [data-country=" + active_countries[1] + "]").each(function () {
             if (this.localName == "path")
-                $(this).attr("data-active", 0).css("fill", country_colours[active_countries[no_countries_mode]].hover[0]);
+                $(this).attr("data-active", 0).css("fill", country_colours[active_countries[no_countries_mode]].active[0]);
 
             else
                 $(this).attr("data-active", 0).css({
-                    "background-color": country_colours[active_countries[no_countries_mode]].hover[0],
-                    "color": textColour(country_colours[active_countries[no_countries_mode]].hover[0])
+                    "background-color": country_colours[active_countries[no_countries_mode]].active[0],
+                    "color": textColour(country_colours[active_countries[no_countries_mode]].active[0])
                 });
         });
         active_countries = active_countries.slice(1,2).concat([""]);
@@ -1284,4 +1296,9 @@ function HSLtoRGB(colour) {
     value = [f(0) * 255, f(8) * 255, f(4) * 255];
 
     return `rgb(${Math.ceil(value[0])},${Math.ceil(value[1])},${Math.ceil(value[2])})`;
+}
+
+// see if it's possible to use the main color, or if the secondary it's needed
+function getCountryColor(country) {
+    country_colors[country].active[0] === country_colours[active_countries[0]]
 }
