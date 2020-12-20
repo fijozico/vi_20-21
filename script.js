@@ -69,7 +69,7 @@ $(window).on("load", function() {
     bindCountryClick();
 
     // to always have a country selcted
-    // $("#map-svg path[data-country=Austria]").trigger("click");
+    $("#map-svg path[data-country=Austria]").trigger("click");
 });
 
 // what to  do on window resize
@@ -296,6 +296,10 @@ function bindCountryClick() {
 
         // updates the player scatter plot
         updateScatterplot();
+        setTimeout(function(){
+            $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
+            $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
+        }, 0);
     });
 }
 
@@ -587,8 +591,8 @@ function createPlayerStats(){
 
     //GPM LINE CHART
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
-    width = 475 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+    width = 520 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
 
     var svg = d3.select("#player-line-gpm")
         .attr("viewbox", `0 0 ${width} ${height}`)
@@ -634,8 +638,8 @@ function updatePlayerStats(playerID){
     corner_round = 0;
 
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
-    width = 475 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+    width = 560 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
 
     var player_club = players_data.filter(
         x => (x.id === playerID && x.type === "club")
@@ -652,6 +656,9 @@ function updatePlayerStats(playerID){
 
     //INFO
     var age = new Date(Date.now() - Date.parse(player_club[0].dob)).getFullYear() - 1970
+    $("#nat").html(player_club[0].country.replaceAll("-", " "))
+    $("#player-flag").attr("src", "images/flags/flag-" + player_club[0].country + ".png")
+    $("#player-underscore").html("<b>Underscorability:</b> Underscorer");
     $("#player-name").html("<b>Name: </b>"+ player_club[0].full_name);
     $("#player-birth").html("<b>Date of Birth: </b>"+ player_club[0].dob + " (" + age + " years)");
     $("#player-years-active").html("<b>Years Active: </b>"+ player_club[0].years_active);
@@ -661,7 +668,7 @@ function updatePlayerStats(playerID){
                 .domain([0, 1])
                 .range([0, bar_height]);
 
-    console.log(player_club[0])
+    console.log(country_colours[player_club[0].country].active[0])
     var gpm_club = gpm_scale(player_club[0].type_avg);
     var gpm_nat = gpm_scale(player_nt[0].type_avg);
 
@@ -669,7 +676,7 @@ function updatePlayerStats(playerID){
         .attr("x", 1)
         .attr("y", bar_height + 1 - gpm_nat)
         .attr("rx", corner_round)
-        .attr("fill", "red") //change to color of country
+        .attr("fill", country_colours[player_club[0].country].active[0]) //change to color of country
         .attr("height", gpm_nat)
         .attr("width", 28);
 
@@ -678,7 +685,7 @@ function updatePlayerStats(playerID){
         .attr("x", 1)
         .attr("y", bar_height + 1 - gpm_club)
         .attr("rx", corner_round)
-        .attr("fill", "red") //change to color of country
+        .attr("fill", country_colours[player_club[0].country].hover[0]) //change to color of country
         .attr("height", gpm_club)
         .attr("width", 28);
 
@@ -695,11 +702,11 @@ function updatePlayerStats(playerID){
     //Axis
     var svg = d3.select("#player-line-gpm");
     
+    //X (years) axis
     var nt_years = Array.from(player_nt[0].years)
     var nt_min_x = 1991 + nt_years.findIndex(x => x >= 0)
     var nt_max_x =  2020 - nt_years.reverse().findIndex(x => x >= 0)
     nt_years.slice(nt_min_x - 1991, 2020 - nt_max_x)
-    console.log()
 
     var club_years = Array.from(player_club[0].years)
     var club_min_x = 1991 + club_years.findIndex(x => x >= 0)
@@ -707,31 +714,79 @@ function updatePlayerStats(playerID){
     club_years.slice(club_min_x - 1991, club_max_x + 2020)
 
     var min_x = Math.min(nt_min_x, club_min_x);
-    var max_x = Math.max(nt_max_x, club_max_x);
+    var max_x = Math.max(nt_max_x, club_max_x);   
 
     var x = d3.scaleLinear()
         .domain([min_x, max_x])
         .range([ 2 * margin.left + 25, width - 40 ]);
-    var y = d3.scaleLinear()
-        .domain([0, 1]) //mudar este axis
-        .range([ height - 40, margin.bottom + 25]);
 
     svg.select("#players_x")
         .transition().duration(500)
         .call(d3.axisBottom(x).tickFormat(d3.format("d"))
-                                .tickSizeOuter(0).ticks(max_x - min_x > 10 ? Math.ceil((max_x - min_x) / 2) : max_x - min_x));
+                                .tickSizeOuter(0).ticks(max_x - min_x > 16 ? Math.ceil((max_x - min_x) / 2) : max_x - min_x));
+
+    //Y (gpm) axis    
+    var nt_max_y = Math.max.apply(Math, nt_years)
+    var club_max_y = Math.max.apply(Math, club_years)
+    var max_y = Math.ceil(Math.max(1, Math.max(nt_max_y, club_max_y)) * 10) /10
+     
+    var y = d3.scaleLinear()
+    .domain([0, max_y])
+    .range([ height - 40, margin.bottom + 25]);
 
     svg.select("#players_y")
+        .transition().duration(500)
         .call(d3.axisLeft(y));
 
-    svg.append("path")
-        .datum(player_nt[0].years.slice(nt_min_x - 1991, 30 - (2020 - nt_max_x)))
+    
+    // var nt_line = d3.line()
+    //             .defined(d => d >= 0)
+    //             .x(function(d,i) { return x(i + nt_min_x) })
+    //             .y(function(d) { return y(d) })
+
+    var nt_line = d3.line()
+            .defined(function (d) { return d[1] !== -1; })
+            .x(function(d) { return x(d[0] + nt_min_x)})
+            .y(function(d) { return y(d[1])});
+
+    var nt_data = player_nt[0].years.slice(nt_min_x - 1991, 30 - (2020 - nt_max_x))
+    nt_data.forEach(function(data, index){
+        nt_data[index] = [index, parseFloat(data)]
+    });
+    var filtered_nt_data = nt_data.filter(nt_line.defined())
+    console.log(nt_data)
+    console.log(filtered_nt_data)   
+    
+    //Line-chart NT-GPM
+    svg.select("#player-nt-gpm-path")
+        .attr("d", "")
+        .datum(nt_data)
         .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
+        .attr("stroke", country_colours[player_club[0].country].active[0])
+        .attr("stroke-width", 2.5)
+        .attr("stroke-linecap","round")
+        .attr("d", nt_line(nt_data))
+
+    svg.select("#player-nt-gpm-path-filter")
+        .attr("d", "")
+        .datum(filtered_nt_data)
+        .attr("fill", "none")
+        .attr("stroke", country_colours[player_club[0].country].active[0])
+        .attr("stroke-width", 2.5)
+        .attr("stroke-dasharray", "4")
+        .attr("stroke-linecap","round")
+        .attr("d", nt_line(filtered_nt_data))
+    
+    //Line-chart CLUB-GPM
+    svg.select("#player-club-gpm-path")
+        .attr("d", "")
+        .datum(player_club[0].years.slice(club_min_x - 1991, 30 - (2020 - club_max_x)))
+        .attr("fill", "none")
+        .attr("stroke", country_colours[player_club[0].country].hover[0])
+        .attr("stroke-width", 2.5)
         .attr("d", d3.line()
             .defined(d => d >= 0)
-            .x(function(d,i) { return x(i + nt_min_x) })
+            .x(function(d,i) { return x(i + club_min_x) })
             .y(function(d) { return y(d) })
         )
     

@@ -408,15 +408,26 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 }
 
 .image{
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 5px solid #555;
+}
+#nat{
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;  
+}
+#image-nat{
+  max-width: 130px;
 }
 
 #player-gpm{
   width:100%;
   height: fit-content;
+  flex-grow : 1;
 }
 
 #player-id{
@@ -432,7 +443,7 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
   color: white;
   overflow:hidden;
   word-wrap: break-word;
-  justify-content: center;
+  justify-content: space-around;
   height: 100%;
   font-size: 16px;
   
@@ -457,4 +468,15 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
   height: 152px;
   width: 30px;
   margin-top: 0.67em;
+}
+
+#player-flag{
+  border: 1px solid black;
+  height: 1.7vh;
+  margin-right: 5px;
+}
+
+#pc-right-top > .idiom-title, #pc-right-top > .info-button{
+  margin: 0px;
+  margin-bottom: 1.3vh;
 }

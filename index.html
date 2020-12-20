@@ -44,9 +44,15 @@
 
         <!-- Country Line Chart -->
         <div class="terciary-container" id="line-chart-container">
-          <i class="info-button" title="some line chart info...">i</i>
+          <i class="info-button" title="some line chart info...">i</i>  
           <h1 class="idiom-title">Happiness vs <abbr title="National Team">NT</abbr> Performance</h1>
-          <img src="images/line.png" style="height: 17.33vh; margin: 1.5vh;">
+          <div id="country-line-chart">
+            <svg id="country-line-chart-svg">
+              <path id="path-happiness"/>
+              <path id="path-nt-gpm"/>
+              <path id="path-nt-points"/>
+            </svg>
+          </div>
         </div>
 
         <!-- Stadium Idiom -->
@@ -101,12 +107,21 @@
     <!-- Player ID -->
     <div class="primary-container" id="middle">
       <div class="secondary-container top" id="pc-right-top">
+        <i class="info-button" title="some player info...">i</i>
+        <h1 class="idiom-title"><span class="fill-in-country-name">Player's Stats</span></h1>
         <div id="player-id" style="display: none;">
-          <img class = "image" alt="Avatar"/>
+          <div id="image-nat">
+            <img class = "image" alt="Avatar"/>
+            <div style="justify-content:center; display:flex; align-items: center; height: 38px;">
+              <img id="player-flag">
+              <div id="nat" style="float:left;"></div>
+            </div>
+          </div>          
           <div id="player-info">
-            <div id="player-name"></div><br/>
-            <div id="player-birth"></div><br/>
+            <div id="player-name"></div>
+            <div id="player-birth"></div>
             <div id="player-years-active"></div>
+            <div id="player-underscore"></div>
           </div>
           <div id="player-bars" >
             <div class="player-bar-title">
@@ -123,16 +138,14 @@
                 <rect id="player-value-club-gpm"/>
               </svg>
             </div>
-            <div class="player-bar-title">
-              Underscore
-              <svg class="player-bar" id="player-bar-underscore" >
-                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
-              </svg>
-            </div>
           </div>
         </div>        
         <div id="player-gpm">
-          <svg id="player-line-gpm"></svg>
+          <svg id="player-line-gpm">
+            <path id="player-nt-gpm-path"/>
+            <path id="player-nt-gpm-path-filter"/>
+            <path id="player-club-gpm-path"/>
+          </svg>
         </div>        
       </div>
 
