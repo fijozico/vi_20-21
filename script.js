@@ -600,7 +600,7 @@ function createPlayerStats(){
 
     //GPM LINE CHART
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
-    width = 520 - margin.left - margin.right,
+    width = 525 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
     var svg = d3.select("#player-line-gpm")
@@ -678,24 +678,27 @@ function updatePlayerStats(playerID){
                 .range([0, bar_height]);
 
     console.log(country_colours[player_club[0].country].active[0])
-    var gpm_club = gpm_scale(player_club[0].type_avg);
     var gpm_nat = gpm_scale(player_nt[0].type_avg);
 
     d3.select("#player-value-nt-gpm")
         .attr("x", 1)
-        .attr("y", bar_height + 1 - gpm_nat)
         .attr("rx", corner_round)
+        .transition().duration(500)
         .attr("fill", country_colours[player_club[0].country].active[0]) //change to color of country
         .attr("height", gpm_nat)
+        .attr("y", bar_height + 1 - gpm_nat)
         .attr("width", 28);
 
     //GPM-CLUB
+    var gpm_club = gpm_scale(player_club[0].type_avg);
+
     d3.select("#player-value-club-gpm")
         .attr("x", 1)
-        .attr("y", bar_height + 1 - gpm_club)
         .attr("rx", corner_round)
+        .transition().duration(500)
         .attr("fill", country_colours[player_club[0].country].hover[0]) //change to color of country
         .attr("height", gpm_club)
+        .attr("y", bar_height + 1 - gpm_club)
         .attr("width", 28);
 
     //Underscoreability
@@ -747,58 +750,208 @@ function updatePlayerStats(playerID){
         .transition().duration(500)
         .call(d3.axisLeft(y));
 
-    
-    // var nt_line = d3.line()
-    //             .defined(d => d >= 0)
-    //             .x(function(d,i) { return x(i + nt_min_x) })
-    //             .y(function(d) { return y(d) })
-
     var nt_line = d3.line()
             .defined(function (d) { return d[1] !== -1; })
             .x(function(d) { return x(d[0] + nt_min_x)})
             .y(function(d) { return y(d[1])});
 
+    var club_line = d3.line()
+            .defined(function (d) { return d[1] !== -1; })
+            .x(function(d) { return x(d[0] + club_min_x)})
+            .y(function(d) { return y(d[1])});
+
+    //Filtering data for dashed lines
     var nt_data = player_nt[0].years.slice(nt_min_x - 1991, 30 - (2020 - nt_max_x))
     nt_data.forEach(function(data, index){
         nt_data[index] = [index, parseFloat(data)]
     });
     var filtered_nt_data = nt_data.filter(nt_line.defined())
-    console.log(nt_data)
-    console.log(filtered_nt_data)   
-    
+
+    var club_data = player_club[0].years.slice(club_min_x - 1991, 30 - (2020 - club_max_x))
+    club_data.forEach(function(data, index){
+        club_data[index] = [index, parseFloat(data)]
+    });
+    var filtered_club_data = club_data.filter(club_line.defined())
+
+    //Markers
+    svg.selectAll(".player-nt-line-marker")
+        .data(filtered_nt_data)
+        .join(
+            enter => enter.append("circle")
+                .attr("class", "player-nt-line-marker")
+                .attr("cx", d => x(d[0] + nt_min_x))
+                .attr("cy", d => y(d[1]))
+                .attr("fill", country_colours[player_club[0].country].active[0])
+                .attr("stroke", "white")
+                .attr("stroke-width", "0")
+                .call(enter => enter
+                    .transition().duration(500)
+                    .attr("r", 4)
+                )                
+                .append("title")
+                .text(d => d[1]),
+            
+            update => update
+                .attr("class", "player-nt-line-marker")
+                .call(update => update
+                    .transition().duration(500)
+                    .attr("fill", country_colours[player_club[0].country].active[0])
+                    .attr("stroke", "white")
+                    .attr("stroke-width", "0")
+                    .attr("cx", d => x(d[0] + nt_min_x))
+                    .attr("cy", d => y(d[1]))
+                )                
+                .select("title")
+                .text(d => d[1]),
+            
+            exit => exit
+                .transition().duration(500)
+                .attr("r", 0)
+                .remove()
+        );
+        svg.selectAll(".player-club-line-marker")
+        .data(filtered_club_data)
+        .join(
+            enter => enter.append("circle")
+                .attr("class", "player-club-line-marker")
+                .attr("cx", d => x(d[0] + club_min_x))
+                .attr("cy", d => y(d[1]))
+                .attr("fill", country_colours[player_club[0].country].hover[0])
+                .attr("stroke", "white")
+                .attr("stroke-width", "0")
+                .call(enter => enter
+                    .transition().duration(500)
+                    .attr("r", 4)
+                )                
+                .append("title")
+                .text(d => d[1]),
+            
+            update => update
+                .attr("class", "player-club-line-marker")
+                .call(update => update
+                    .transition().duration(500)
+                    .attr("fill", country_colours[player_club[0].country].hover[0])                    
+                    .attr("stroke", "white")
+                    .attr("stroke-width", "0")
+                    .attr("cx", d => x(d[0] + club_min_x))
+                    .attr("cy", d => y(d[1]))
+                )                
+                .select("title")
+                .text(d => d[1]),
+            
+            exit => exit
+                .transition().duration(500)
+                .attr("r", 0)
+                .remove()
+        );
+
     //Line-chart NT-GPM
     svg.select("#player-nt-gpm-path")
-        .attr("d", "")
         .datum(nt_data)
         .attr("fill", "none")
-        .attr("stroke", country_colours[player_club[0].country].active[0])
         .attr("stroke-width", 2.5)
-        .attr("stroke-linecap","round")
+        .transition().duration(500)
+        .attr("stroke", country_colours[player_club[0].country].active[0])
         .attr("d", nt_line(nt_data))
 
-    svg.select("#player-nt-gpm-path-filter")
-        .attr("d", "")
+    svg.select("#player-nt-gpm-path-dashed")
         .datum(filtered_nt_data)
         .attr("fill", "none")
-        .attr("stroke", country_colours[player_club[0].country].active[0])
         .attr("stroke-width", 2.5)
         .attr("stroke-dasharray", "4")
-        .attr("stroke-linecap","round")
+        .transition().duration(500)
+        .attr("stroke", country_colours[player_club[0].country].active[0])
         .attr("d", nt_line(filtered_nt_data))
     
     //Line-chart CLUB-GPM
     svg.select("#player-club-gpm-path")
-        .attr("d", "")
-        .datum(player_club[0].years.slice(club_min_x - 1991, 30 - (2020 - club_max_x)))
+        .datum(club_data)
         .attr("fill", "none")
-        .attr("stroke", country_colours[player_club[0].country].hover[0])
         .attr("stroke-width", 2.5)
-        .attr("d", d3.line()
-            .defined(d => d >= 0)
-            .x(function(d,i) { return x(i + club_min_x) })
-            .y(function(d) { return y(d) })
-        )
+        .transition().duration(500)
+        .attr("stroke", country_colours[player_club[0].country].hover[0])
+        .attr("d", club_line(club_data))
+
+    svg.select("#player-club-gpm-path-dashed")
+        .datum(filtered_club_data)
+        .attr("fill", "none")
+        .attr("stroke-width", 2.5)
+        .attr("stroke-dasharray", "4")
+        .transition().duration(500)
+        .attr("stroke", country_colours[player_club[0].country].hover[0])
+        .attr("d", club_line(filtered_club_data))
     
+    // guide lines for hover / click
+    d3.selectAll(".phl").remove();
+    d3.select("#player-line-gpm").insert("line", ":first-child").attr("id", "player-help-line-hover-x").attr("class", "phl").attr("stroke", "grey");
+    d3.select("#player-line-gpm").insert("line", ":first-child").attr("id", "player-help-line-hover-y").attr("class", "phl").attr("stroke", "grey");
+    d3.select("#player-line-gpm").insert("line", ":first-child").attr("id", "player-help-line-active-x").attr("class", "phl").attr("stroke", "grey");
+    d3.select("#player-line-gpm").insert("line", ":first-child").attr("id", "player-help-line-active-y").attr("class", "phl").attr("stroke", "grey");
+
+    //Hover on circles
+    $(".player-club-line-marker, .player-nt-line-marker").on("mouseover", function () {
+        // if the hovered item is active, ignore all this
+        if (this.dataset.yearActive === "true") return;
+        d3.select(this)
+            .attr("r", "6")
+            .attr("stroke-width", "2")
+
+        // set up the hover guide lines
+        d3.select("#player-help-line-hover-y")
+            .attr("x1", 53)
+            .attr("x2", d3.select(this).attr("cx"))
+            .attr("y1", d3.select(this).attr("cy"))
+            .attr("y2", d3.select(this).attr("cy"));
+        $("#player-help-line-hover-y").show();
+
+        d3.select("#player-help-line-hover-x")
+            .attr("y1", d3.select(this).attr("cy"))
+            .attr("y2", 232)
+            .attr("x1", d3.select(this).attr("cx"))
+            .attr("x2", d3.select(this).attr("cx"));
+        $("#player-help-line-hover-x").show();
+    });
+
+    //Unhover on circles
+    $(".player-club-line-marker, .player-nt-line-marker").on("mouseout", function () {
+        // if the hovered item is active, ignore all this
+        if (this.dataset.yearActive === "true") return;
+        d3.select(this)
+            .attr("r", "4")
+            .attr("stroke-width", "0")
+        
+        $("#player-help-line-hover-x").hide();
+        $("#player-help-line-hover-y").hide();
+    });
+
+    //Click on circles
+    $(".player-club-line-marker, .player-nt-line-marker").on("click", function () {
+        // if the hovered item is active, ignore all this
+        if (this.dataset.yearActive === "true") return;
+        $(".player-club-line-marker, .player-nt-line-marker")
+            .attr("data-year-active", "false")
+            .attr("r", "4")
+            .attr("stroke-width", "0")
+        d3.select(this)
+            .attr("r", "6")
+            .attr("data-year-active", "true")
+            .attr("stroke-width", "2")
+
+        // set up the active guide lines
+        d3.select("#player-help-line-active-y")
+            .attr("x1", 53)
+            .attr("x2", d3.select(this).attr("cx"))
+            .attr("y1", d3.select(this).attr("cy"))
+            .attr("y2", d3.select(this).attr("cy"));
+        $("#player-help-line-active-y").show();
+
+        d3.select("#player-help-line-active-x")
+            .attr("y1", d3.select(this).attr("cy"))
+            .attr("y2", 232)
+            .attr("x1", d3.select(this).attr("cx"))
+            .attr("x2", d3.select(this).attr("cx"));
+        $("#player-help-line-active-y").show();
+    });
 }
 
 /* ================================================================ */
@@ -1355,6 +1508,10 @@ function bindPlayerClick() {
         $("#scatter-help-line-hover-x").hide();
 
         updatePlayerStats(this.dataset.playerid);
+        $(".player-club-line-marker, .player-nt-line-marker")
+            .attr("data-year-active", "false")
+            .attr("r", "4")
+            .attr("stroke-width", "0")
     });
 }
 
