@@ -16,8 +16,8 @@ var empty_attendance = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
 var current_attendance = [empty_attendance,empty_attendance,empty_attendance,empty_attendance]
 var players_compact_data = [];
 var players_data = [];
-var country_rank = [];
-var country_happiness = [];
+var country_rank = {};
+var country_happiness = {};
 
 /* ================================================================ */
 /*                              SCALES                              */
@@ -326,6 +326,8 @@ function bindCountryClick() {
             $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
             $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
         }, 500);
+        
+        updateHappinessChart();
     });
 }
 
@@ -444,7 +446,7 @@ function createHappinessChart(){
                 for(var i = 0; i < 11; i++){
                     values.push([x+i,item["Dec-" + (x+i).toString().slice(2,4)]])
                 }
-                country_rank.push([item.country, values])
+                country_rank[item.country] = values
             });
         }   
     });
@@ -456,18 +458,102 @@ function createHappinessChart(){
         dataType: "text",       
         success: function (response) {
             $.csv.toObjects(response).forEach(function (item) {
-                country_happiness.push([item.country, item[2008], item[2018]])
+                country_happiness[item.country] = [["2008",item[2008]],["2018",item[2018]]]
             });
         }   
     });
 
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
-    width = 560 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = 413 - margin.left - margin.right,
+    height = 223 - margin.top - margin.bottom;
 
+    var svg = d3.select("#country-line-chart-svg")
+        .attr("viewbox", `0 0 ${width} ${height}`)
 
+    // add Years label
+    svg.append("text")
+        .attr("id", "player_years_label")
+        .attr("x", width / 2 + 5 )
+        .attr("y", height - 10)
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .text("Years");
+
+    // add Curve Variation label
+    svg.append("text")
+        .attr("id", "player_nt_label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", - margin.left + 20)
+        .attr("x", - (height / 2) + 10)
+        .attr("dy", "1em")
+        .attr("fill", "white")
+        .style("text-anchor", "middle")
+        .style("alignment-baseline", "baseline")
+        .text("Curve Variation");
+    
+    var x = d3.scaleLinear()
+        .domain([2007, 2019])
+        .range([ 2 * margin.left + 25, width]);
+
+    var y = d3.scaleLinear()
+        .domain([0, 100])
+        .range([ height - 50, margin.bottom]);
+    // add x axis
+    svg.insert("g", ":first-child")
+        .attr("transform", "translate(0," + (height - 50)  + ")")
+        .attr("id", "happiness_x")
+        .attr("color", "white")
+        .call(d3.axisBottom(x)
+                .tickFormat(d3.format("d"))
+                .tickSizeOuter(0).ticks(6))
+    
+    // add y axis
+    svg.insert("g", ":first-child")
+       .attr("transform", "translate(" + (2 * margin.left + 25) + ",0)")
+       .attr("id", "happiness_y")
+       .attr("color", "white")
+       .call(d3.axisLeft(y))
 }
 
+function updateHappinessChart(){
+    var margin = {top: 14, right: 14, bottom: 14, left: 14},
+    width = 413 - margin.left - margin.right,
+    height = 223 - margin.top - margin.bottom;
+
+    var svg = d3.select("#country-line-chart-svg")
+
+    var x = d3.scaleLinear()
+        .domain([2007, 2019])
+        .range([ 2 * margin.left + 25, width]);
+
+    var y = d3.scaleLinear()
+        .domain([0, 100])
+        .range([ height - 50, margin.bottom]);
+
+    var happiness_line = d3.line()
+        .x(function(d) { return x(d[0])})
+        .y(function(d) { return y(d[1]/10)});
+
+    var ranking_line = d3.line()
+        .x(function(d) { return x(d[0])})
+        .y(function(d) { return y(d[1] * 100 / 1980)});
+
+    var color_no = active_countries_colours[no_countries_mode];
+
+    svg.select("#path-happiness" + no_countries_mode)
+        .attr("fill", "none")
+        .attr("stroke-width", 2.5)
+        .transition().duration(500)
+        .attr("stroke", country_colours[active_countries[no_countries_mode]].active[color_no])
+        .attr("d", happiness_line(country_happiness[active_countries[no_countries_mode]]))
+
+    svg.select("#path-ranking" + no_countries_mode)
+        .attr("fill", "none")
+        .attr("stroke-width", 2.5)
+        .transition().duration(500)
+        .attr("stroke", country_colours[active_countries[no_countries_mode]].hover[color_no])
+        .attr("d", ranking_line(country_rank[active_countries[no_countries_mode]]))
+}
 /* ================================================================ */
 /*                     (4) STADIUM VISUALIZATION                    */
 /* ================================================================ */
@@ -728,7 +814,6 @@ function updatePlayerStats(playerID){
     var player_nt = players_data.filter(
         x => (x.id === playerID && x.type === "nt")
     )
-    underscore = 0;
 
     //IMAGE
     $("#player-id").show();
@@ -758,7 +843,6 @@ function updatePlayerStats(playerID){
                 .domain([0, 1])
                 .range([0, bar_height]);
 
-    // console.log(country_colours[player_club[0].country].active[0])
     var gpm_club = gpm_scale(player_club[0].type_avg);
     var gpm_nat = gpm_scale(player_nt[0].type_avg);
 
@@ -783,29 +867,18 @@ function updatePlayerStats(playerID){
         .attr("y", bar_height + 1 - gpm_club)
         .attr("width", 28);
 
-    //Underscoreability
-    d3.select("#player-bar-underscore")
-        .append("rect")
-        .attr("x", 1)
-        .attr("y", bar_height + 1 - underscore)
-        .attr("rx", corner_round)
-        .attr("fill", "red") //change to color of country
-        .attr("height", underscore)
-        .attr("width", 28);
-
     //Axis
     var svg = d3.select("#player-line-gpm");
     
     //X (years) axis
     var nt_years = Array.from(player_nt[0].years)
-    console.log(nt_years.findIndex(x => x >= 0))
-    var nt_min_x = 1991 + nt_years.findIndex(x => x >= 0)
-    var nt_max_x =  2020 - nt_years.reverse().findIndex(x => x >= 0)
+    var nt_min_x = 1991 + nt_years.findIndex(x => x >= 0) -1
+    var nt_max_x =  2020 - nt_years.reverse().findIndex(x => x >= 0) +1
     nt_years.slice(nt_min_x - 1991, 2020 - nt_max_x)
 
     var club_years = Array.from(player_club[0].years)
-    var club_min_x = 1991 + club_years.findIndex(x => x >= 0)
-    var club_max_x =  2020 - club_years.reverse().findIndex(x => x >= 0)
+    var club_min_x = 1991 + club_years.findIndex(x => x >= 0) -1
+    var club_max_x =  2020 - club_years.reverse().findIndex(x => x >= 0) +1
     club_years.slice(club_min_x - 1991, club_max_x + 2020)
 
     var min_x = Math.min(nt_min_x, club_min_x);
@@ -1035,9 +1108,6 @@ function updatePlayerStats(playerID){
             .attr("x2", d3.select(this).attr("cx"));
         $("#player-help-line-active-y").show();
     });
-
-    console.log(filtered_club_data)
-    console.log(filtered_nt_data)
 }
 
 /* ================================================================ */
