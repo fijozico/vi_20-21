@@ -10,7 +10,7 @@ var country_colours;
 
 // holds the current active countries
 var active_countries = ["",""];
-var active_countries_colours = [];
+var active_countries_colours = [null,null];
 var attendance_data = [];
 var empty_attendance = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
 var current_attendance = [empty_attendance,empty_attendance,empty_attendance,empty_attendance]
@@ -49,11 +49,15 @@ $(window).on("load", function() {
 
                 // for each country, add the two colour scales
                 for (var i = 0; i < 2; i++) {
-                    var hue = country_colours[country].active[0].replace(/[^\d,]/g, "").split(",")[0];
+                    var hue = country_colours[country].active[i].replace(/[^\d,]/g, "").split(",")[0];
+                    country_colours[country].active[i] = HSLtoRGB(country_colours[country].active[i]);
+                    country_colours[country].hover[i] = HSLtoRGB(country_colours[country].hover[i]);
                     country_colours[country].scale[i] = d3
                         .scaleLinear()
                         .domain([-1, 0, 0, 1])
-                        .range(["rgb(102,102,102)", "rgb(102,102,102)", "white", HSLtoRGB(`hsl(${hue},100%,50%)`)])
+                        .range(["rgb(102,102,102)", "rgb(102,102,102)", "white",
+                            hue !== "69" ? HSLtoRGB(`hsl(${hue},100%,50%)`) : HSLtoRGB(`hsl(${hue},0%,0%)`)
+                        ]);
                 }
             });
         }
@@ -64,12 +68,13 @@ $(window).on("load", function() {
     resizeMap();
     createStadium();
     resizeStadium();
-    createPlayersBarChart();
-    resizePlayersBarChart();
     createPlayerStats();
     createHappinessChart();
+    resizePlayerStats();
     createScatterPlot();
     resizeScatterplot();
+    createPlayersBarChart();
+    resizePlayersBarChart();
 
     bindCountryHover();
     bindCountryUnhover();
@@ -123,6 +128,11 @@ function resizeStadium() {
     else $("svg#stadium").attr({"width": new_width, "height": c_height});
 }
 
+// resizes the player stats' linechart
+function resizePlayerStats() {
+
+}
+
 // make the player scatterplot fit the container
 function resizeScatterplot() {
     var scatter = $("#gpm_scatterplot");
@@ -130,7 +140,7 @@ function resizeScatterplot() {
     scatter.attr({"height": dim, "width": dim});
 }
 
-// 
+// resizes the players' barchart
 function resizePlayersBarChart() {
     var axis = $("#players-bar-chart-axis");
     var axis_dim = { "width": axis.width(), "height": axis.height() };
@@ -209,20 +219,21 @@ function createMap() {
 // what happens when we hover a country
 function bindCountryHover() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("mouseover", function () {
+        var color_no = getCountryColor(this.dataset.country);
+
         // this way, it deals with all the country"s paths, along with the list item
-        var color = 
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
             // if it's the path, just changes its color
             if (this.localName == "path" && !["0","1"].includes($(this).attr("data-active"))) {
-                $(this).css("fill", country_colours[this.dataset.country].hover[0]);
+                $(this).css("fill", country_colours[this.dataset.country].hover[color_no]);
             }
 
             // if it's the list item, only "hovers" it if item not active
             // important because list item may be "hovered" (temporary highlight) or "active" (permanent highlight)
             else if (this.localName == "li" && (this.dataset.active === undefined || this.dataset.active === "-1"))
                 $(this).css({
-                    "background-color": country_colours[this.dataset.country].hover[0],
-                    "color": textColour(country_colours[this.dataset.country].hover[0])
+                    "background-color": country_colours[this.dataset.country].hover[color_no],
+                    "color": textColour(country_colours[this.dataset.country].hover[color_no])
                 })[0].dataset.hovered = no_countries_mode;
         });
     });
@@ -246,6 +257,8 @@ function bindCountryUnhover() {
 // clicking on the country (map or list)
 function bindCountryClick() {
     $("svg#map-svg path:not(.greyed-out), ul#country-pick li").on("click", function () {
+        var color_no = getCountryColor(this.dataset.country);
+
         if (this.dataset.active !== undefined && this.dataset.active !== "-1") return;
         
         // deselect active country
@@ -273,6 +286,7 @@ function bindCountryClick() {
 
         // stores country name as first one selected
         active_countries[no_countries_mode] = this.dataset.country;
+        active_countries_colours[no_countries_mode] = color_no;
 
         // adds country to stadium chart
         current_attendance[2 * no_countries_mode + 1] = attendance_data.find(
@@ -287,11 +301,11 @@ function bindCountryClick() {
 
         // permanently select clicked country
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
-            $(this).css("fill", country_colours[this.dataset.country].active[0])[0].dataset.active = no_countries_mode;
+            $(this).css("fill", country_colours[this.dataset.country].active[color_no])[0].dataset.active = no_countries_mode;
             $("li#li-" + this.dataset.country)[0].dataset.active = no_countries_mode;
             $("li#li-" + this.dataset.country).css({
-                "background-color": country_colours[this.dataset.country].active[0],
-                "color": textColour(country_colours[this.dataset.country].active[0])
+                "background-color": country_colours[this.dataset.country].active[color_no],
+                "color": textColour(country_colours[this.dataset.country].active[color_no])
             })[0].dataset.hovered = -1;
         });
 
@@ -304,14 +318,14 @@ function bindCountryClick() {
         // puts the players on the bar chart
         formChange();
 
-        // updates the player scatter plot
+        // updates the player scatterplot
         updateScatterplot();
 
         // select first player from the selected country
-        setTimeout(function(){
+        setTimeout(function () {
             $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
             $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
-        }, 0);
+        }, 500);
     });
 }
 
@@ -328,6 +342,8 @@ function closeCountry(country) {
     // if it was the second, simply removes it
     if (index === 1) {
         active_countries[1] = "";
+        active_countries_colours[1] = null;
+
         $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
 
         // remove from stadium chart
@@ -349,15 +365,17 @@ function closeCountry(country) {
 
         $("#pc-left-top [data-country=" + active_countries[1] + "]").each(function () {
             if (this.localName == "path")
-                $(this).attr("data-active", 0).css("fill", country_colours[active_countries[no_countries_mode]].active[0]);
+                $(this).attr("data-active", 0).css("fill", country_colours[active_countries[no_countries_mode]].active[active_countries_colours[1]]);
 
             else
                 $(this).attr("data-active", 0).css({
-                    "background-color": country_colours[active_countries[no_countries_mode]].active[0],
-                    "color": textColour(country_colours[active_countries[no_countries_mode]].active[0])
+                    "background-color": country_colours[active_countries[no_countries_mode]].active[active_countries_colours[1]],
+                    "color": textColour(country_colours[active_countries[no_countries_mode]].active[active_countries_colours[1]])
                 });
         });
         active_countries = active_countries.slice(1,2).concat([""]);
+        active_countries_colours = active_countries_colours.slice(1,2).concat([null]);
+
         $("#country-title-1").empty().append($("#country-title-2").children());
         $("#country-title-2").empty().append("<span class=\"add-country\" onclick=\"switchCountryState(2)\">+ add country</span>");
 
@@ -376,6 +394,8 @@ function closeCountry(country) {
     // if it's the first and only, removes it
     else {
         active_countries[0] = "";
+        active_countries_colours[0] = null;
+
         $("#country-title-1").empty().append("<span class=\"suggestion\">Select a country above...</span>");
         $("#country-title-2").empty().append("<span class=\"suggestion inactive\">+ add country</span>");
 
@@ -393,6 +413,11 @@ function closeCountry(country) {
 
     udpateStadium();
     updateScatterplot();
+
+    setTimeout(function () {
+        $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
+        $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
+    }, 500);
 }
 
 // generates the element for inside the country bar
@@ -579,10 +604,10 @@ function udpateStadium() {
         d3.selectAll($("g.slice[data-section=" + i + "]").toArray())
             .data(current_attendance[i])
             .join("g")
-            .transition().duration(500)
+            .transition().duration(5000)
             .attr("fill", function (d) {
                 if (active_countries[parseInt(i/2)] !== "")
-                    return country_colours[active_countries[parseInt(i/2)]].scale[0](d);
+                    return country_colours[active_countries[parseInt(i/2)]].scale[active_countries_colours[parseInt(i/2)]](d);
                 return "#666";
             });
 
@@ -615,7 +640,11 @@ function changeStadiumLegend(mode, country = "") {
         .children("circle").each(function (index) {
             d3.select(this)
                 .transition().duration(500)
-                .attr("fill", country_colours[active_countries[no_countries_mode]].scale[0]([0,0.5,1][index]));
+                .attr("fill",
+                    country_colours[active_countries[no_countries_mode]]
+                    .scale[active_countries_colours[no_countries_mode]]
+                    ([0,0.5,1][index])
+                );
         });
 }
 
@@ -655,7 +684,7 @@ function createPlayerStats(){
     svg.append("text")
         .attr("id", "player_years_label")
         .attr("x", width / 2 + 5 )
-        .attr("y", height )
+        .attr("y", height - 30 )
         .attr("fill", "white")
         .style("text-anchor", "middle")
         .text("Years");
@@ -665,7 +694,7 @@ function createPlayerStats(){
         .attr("id", "player_nt_label")
         .attr("transform", "rotate(-90)")
         .attr("y", - margin.left + 20)
-        .attr("x",0 - (height / 2))
+        .attr("x", - (height / 2) + 30)
         .attr("dy", "1em")
         .attr("fill", "white")
         .style("text-anchor", "middle")
@@ -674,7 +703,7 @@ function createPlayerStats(){
 
     // add x axis
     svg.insert("g", ":first-child")
-        .attr("transform", "translate(0," + (height - 40)  + ")")
+        .attr("transform", "translate(0," + (height - 70)  + ")")
         .attr("id", "players_x")
         .attr("color", "white")
     
@@ -714,19 +743,30 @@ function updatePlayerStats(playerID){
     $("#player-birth").html("<b>Date of Birth: </b>"+ player_club[0].dob + " (" + age + " years)");
     $("#player-years-active").html("<b>Years Active: </b>"+ player_club[0].years_active);
 
+    var color_no = active_countries_colours[active_countries.indexOf(player_club[0].country)];
+
+    // update legend colors
+    d3.select($("#player-line-legend circle")[0])
+        .transition().duration(500)
+        .attr("fill", country_colours[player_club[0].country].active[color_no]);
+    d3.select($("#player-line-legend circle")[1])
+        .transition().duration(500)
+        .attr("fill", country_colours[player_club[0].country].hover[color_no]);
+
     //GPM-NT
     var gpm_scale = d3.scaleLinear()
                 .domain([0, 1])
                 .range([0, bar_height]);
 
-    console.log(country_colours[player_club[0].country].active[0])
+    // console.log(country_colours[player_club[0].country].active[0])
+    var gpm_club = gpm_scale(player_club[0].type_avg);
     var gpm_nat = gpm_scale(player_nt[0].type_avg);
 
     d3.select("#player-value-nt-gpm")
         .attr("x", 1)
         .attr("rx", corner_round)
         .transition().duration(500)
-        .attr("fill", country_colours[player_club[0].country].active[0]) //change to color of country
+        .attr("fill", country_colours[player_club[0].country].active[color_no])
         .attr("height", gpm_nat)
         .attr("y", bar_height + 1 - gpm_nat)
         .attr("width", 28);
@@ -738,7 +778,7 @@ function updatePlayerStats(playerID){
         .attr("x", 1)
         .attr("rx", corner_round)
         .transition().duration(500)
-        .attr("fill", country_colours[player_club[0].country].hover[0]) //change to color of country
+        .attr("fill", country_colours[player_club[0].country].hover[color_no])
         .attr("height", gpm_club)
         .attr("y", bar_height + 1 - gpm_club)
         .attr("width", 28);
@@ -787,7 +827,7 @@ function updatePlayerStats(playerID){
      
     var y = d3.scaleLinear()
     .domain([0, max_y])
-    .range([ height - 40, margin.bottom + 25]);
+    .range([ height - 70, margin.bottom]);
 
     svg.select("#players_y")
         .transition().duration(500)
@@ -824,7 +864,7 @@ function updatePlayerStats(playerID){
                 .attr("class", "player-nt-line-marker")
                 .attr("cx", d => x(d[0] + nt_min_x))
                 .attr("cy", d => y(d[1]))
-                .attr("fill", country_colours[player_club[0].country].active[0])
+                .attr("fill", country_colours[player_club[0].country].active[color_no])
                 .attr("stroke", "white")
                 .attr("stroke-width", "0")
                 .call(enter => enter
@@ -838,7 +878,7 @@ function updatePlayerStats(playerID){
                 .attr("class", "player-nt-line-marker")
                 .call(update => update
                     .transition().duration(500)
-                    .attr("fill", country_colours[player_club[0].country].active[0])
+                    .attr("fill", country_colours[player_club[0].country].active[color_no])
                     .attr("stroke", "white")
                     .attr("stroke-width", "0")
                     .attr("cx", d => x(d[0] + nt_min_x))
@@ -859,7 +899,7 @@ function updatePlayerStats(playerID){
                 .attr("class", "player-club-line-marker")
                 .attr("cx", d => x(d[0] + club_min_x))
                 .attr("cy", d => y(d[1]))
-                .attr("fill", country_colours[player_club[0].country].hover[0])
+                .attr("fill", country_colours[player_club[0].country].hover[color_no])
                 .attr("stroke", "white")
                 .attr("stroke-width", "0")
                 .call(enter => enter
@@ -873,7 +913,7 @@ function updatePlayerStats(playerID){
                 .attr("class", "player-club-line-marker")
                 .call(update => update
                     .transition().duration(500)
-                    .attr("fill", country_colours[player_club[0].country].hover[0])                    
+                    .attr("fill", country_colours[player_club[0].country].hover[color_no])                    
                     .attr("stroke", "white")
                     .attr("stroke-width", "0")
                     .attr("cx", d => x(d[0] + club_min_x))
@@ -894,7 +934,7 @@ function updatePlayerStats(playerID){
         .attr("fill", "none")
         .attr("stroke-width", 2.5)
         .transition().duration(500)
-        .attr("stroke", country_colours[player_club[0].country].active[0])
+        .attr("stroke", country_colours[player_club[0].country].active[color_no])
         .attr("d", nt_line(nt_data))
 
     svg.select("#player-nt-gpm-path-dashed")
@@ -903,7 +943,7 @@ function updatePlayerStats(playerID){
         .attr("stroke-width", 2.5)
         .attr("stroke-dasharray", "4")
         .transition().duration(500)
-        .attr("stroke", country_colours[player_club[0].country].active[0])
+        .attr("stroke", country_colours[player_club[0].country].active[color_no])
         .attr("d", nt_line(filtered_nt_data))
     
     //Line-chart CLUB-GPM
@@ -912,7 +952,7 @@ function updatePlayerStats(playerID){
         .attr("fill", "none")
         .attr("stroke-width", 2.5)
         .transition().duration(500)
-        .attr("stroke", country_colours[player_club[0].country].hover[0])
+        .attr("stroke", country_colours[player_club[0].country].hover[color_no])
         .attr("d", club_line(club_data))
 
     svg.select("#player-club-gpm-path-dashed")
@@ -921,7 +961,7 @@ function updatePlayerStats(playerID){
         .attr("stroke-width", 2.5)
         .attr("stroke-dasharray", "4")
         .transition().duration(500)
-        .attr("stroke", country_colours[player_club[0].country].hover[0])
+        .attr("stroke", country_colours[player_club[0].country].hover[color_no])
         .attr("d", club_line(filtered_club_data))
     
     // guide lines for hover / click
@@ -949,7 +989,7 @@ function updatePlayerStats(playerID){
 
         d3.select("#player-help-line-hover-x")
             .attr("y1", d3.select(this).attr("cy"))
-            .attr("y2", 232)
+            .attr("y2", 202)
             .attr("x1", d3.select(this).attr("cx"))
             .attr("x2", d3.select(this).attr("cx"));
         $("#player-help-line-hover-x").show();
@@ -990,7 +1030,7 @@ function updatePlayerStats(playerID){
 
         d3.select("#player-help-line-active-x")
             .attr("y1", d3.select(this).attr("cy"))
-            .attr("y2", 232)
+            .attr("y2", 202)
             .attr("x1", d3.select(this).attr("cx"))
             .attr("x2", d3.select(this).attr("cx"));
         $("#player-help-line-active-y").show();
@@ -1001,7 +1041,7 @@ function updatePlayerStats(playerID){
 }
 
 /* ================================================================ */
-/*                      (6) PLAYER SCATTER PLOT                     */
+/*                      (6) PLAYER SCATTERPLOT                      */
 /* ================================================================ */
 // create scatterplot SVG
 function createScatterPlot() {
@@ -1095,6 +1135,8 @@ function updateScatterplot() {
         .transition().duration(500)
         .call(d3.axisLeft(y).tickSizeOuter(0).ticks(max_x_scale > 1 ? max_x_scale / 2 : max_x_scale * 10));
 
+    var colorNo = country => active_countries_colours[active_countries.indexOf(country)];
+
     // circle creation
     // needs to be a separate join to define different animations for each event
     svg.selectAll(".player-circle")
@@ -1103,9 +1145,10 @@ function updateScatterplot() {
             enter => enter.append("circle")
                 .attr("class", "player-circle")
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .attr("cx", d => x(d.club_avg))
                 .attr("cy", d => y(d.nt_avg))
-                .attr("fill", d => country_colours[d.country].active[0])
+                .attr("fill", d => country_colours[d.country].active[colorNo(d.country)])
                 .attr("style", "opacity: 0.85")
                 .call(enter => enter
                     .transition().duration(500)
@@ -1118,9 +1161,11 @@ function updateScatterplot() {
             update => update
                 .attr("class", "player-circle")
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .call(update => update
                     .transition().duration(500)
-                    .attr("fill", d => country_colours[d.country].active[0])
+                    .attr("fill", d => country_colours[d.country].active[colorNo(d.country)])
+                    .attr("stroke-width", 0)
                     .attr("cx", d => x(d.club_avg))
                     .attr("cy", d => y(d.nt_avg))
                 )
@@ -1168,10 +1213,10 @@ function updateScatterplot() {
 
     // guide lines for hover / click
     d3.selectAll(".shl").remove();
-    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-hover-x").attr("class", "shl").attr("stroke", "grey");
-    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-hover-y").attr("class", "shl").attr("stroke", "grey");
-    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-active-x").attr("class", "shl").attr("stroke", "grey");
-    d3.select("#gpm_scatterplot").insert("line", ":first-child").attr("id", "scatter-help-line-active-y").attr("class", "shl").attr("stroke", "grey");
+    d3.select("#gpm_scatterplot").insert("line",":first-child").attr("id","scatter-help-line-hover-x").attr("class","shl").attr("stroke","grey");
+    d3.select("#gpm_scatterplot").insert("line",":first-child").attr("id","scatter-help-line-hover-y").attr("class","shl").attr("stroke","grey");
+    d3.select("#gpm_scatterplot").insert("line",":first-child").attr("id","scatter-help-line-active-x").attr("class","shl").attr("stroke","grey");
+    d3.select("#gpm_scatterplot").insert("line",":first-child").attr("id","scatter-help-line-active-y").attr("class","shl").attr("stroke","grey");
 
     bindPlayerHover();
     bindPlayerUnhover();
@@ -1220,6 +1265,8 @@ function createPlayersBarChart() {
 // actual work when we click a country
 // if ascdesc == undefined, ascending; if ascdesc != undefined, descending
 function updatePlayersBarChart(mode, ascdesc) {
+    var selected_id = $(".player-bar-text[data-playeractive=true]").attr("data-playerid");
+
     var decode = {
         "total-gpm": "player_avg",
         "nt-gpm": "nt_avg",
@@ -1273,14 +1320,17 @@ function updatePlayersBarChart(mode, ascdesc) {
         .domain([0, max_w_scale])
         .range([padding, 215]);
 
+    var colorNo = country => active_countries_colours[active_countries.indexOf(country)];
+
     // adding the nt gpm
     svg.selectAll(".player-bar-rect-nt")
-        .data(players)
+        .data(players, (d,i) => i)
         .join(
             enter => enter.append("rect")
                 .attr("class", "player-bar-rect-nt")
                 .attr("data-playerid", d => d.id)
-                .attr("fill", d => country_colours[d.country].active[0])
+                .attr("data-playeractive", "false")
+                .attr("fill", d => country_colours[d.country].active[colorNo(d.country)])
                 .attr("x", padding)
                 .attr("y", (d,i) => Math.floor(y_scale(i)))
                 .attr("height", Math.floor((y_scale.bandwidth() - 14) / 2))
@@ -1294,9 +1344,10 @@ function updatePlayersBarChart(mode, ascdesc) {
             update => update
                 .attr("class", "player-bar-rect-nt")
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .call(update => update
                     .transition().duration(500)
-                    .attr("fill", d => country_colours[d.country].active[0])
+                    .attr("fill", d => country_colours[d.country].active[colorNo(d.country)])
                     .attr("y", (d,i) => Math.floor(y_scale(i)))
                     .attr("width", d => w_scale(d.nt_avg) - padding)
                 )
@@ -1311,12 +1362,13 @@ function updatePlayersBarChart(mode, ascdesc) {
 
     // adding the club gpm
     svg.selectAll(".player-bar-rect-club")
-        .data(players)
+        .data(players, (d,i) => i)
         .join(
             enter => enter.append("rect")
                 .attr("class", "player-bar-rect-club")
                 .attr("data-playerid", d => d.id)
-                .attr("fill", d => country_colours[d.country].hover[0])
+                .attr("data-playeractive", "false")
+                .attr("fill", d => country_colours[d.country].hover[colorNo(d.country)])
                 .attr("x", padding)
                 .attr("y", (d,i) => Math.floor(y_scale(i) + (y_scale.bandwidth() - 14) / 2))
                 .attr("height", Math.floor((y_scale.bandwidth() - 14) / 2))
@@ -1330,10 +1382,11 @@ function updatePlayersBarChart(mode, ascdesc) {
             update => update
                 .attr("class", "player-bar-rect-club")
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .call(update => update
                     .transition().duration(500)
                     .attr("y", (d,i) => Math.floor(y_scale(i)) + Math.floor((y_scale.bandwidth() - 14) / 2))
-                    .attr("fill", d => country_colours[d.country].hover[0])
+                    .attr("fill", d => country_colours[d.country].hover[colorNo(d.country)])
                     .attr("width", d => w_scale(d.club_avg) - padding)
                 )
                 .select("title")
@@ -1347,11 +1400,12 @@ function updatePlayersBarChart(mode, ascdesc) {
 
     // adding the red marker for total gpm
     svg.selectAll(".player-bar-rect-avg")
-        .data(players)
+        .data(players, (d,i) => i)
         .join(
             enter => enter.append("path")
                 .attr("class", "player-bar-rect-avg")
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .attr("d", ["M", 5, 5, "L", 0, 0, "L", 10, 0].join(" "))
                 .attr("fill", "transparent")
                 .attr("transform", (d,i) => `translate(${padding - 5},${Math.floor(y_scale(i)) - 5})`)
@@ -1366,6 +1420,7 @@ function updatePlayersBarChart(mode, ascdesc) {
             update => update
                 .attr("class", "player-bar-rect-avg")
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .call(update => update
                     .transition().duration(500)
                     .attr("transform", (d,i) => `translate(${w_scale(d.player_avg) - 5},${Math.floor(y_scale(i)) - 5})`)
@@ -1382,11 +1437,12 @@ function updatePlayersBarChart(mode, ascdesc) {
 
     // putting the players' name on the right
     svg.selectAll(".player-bar-text")
-        .data(players)
+        .data(players, (d,i) => i)
         .join(
             enter => enter.append("text")
                 .attr("class", "player-bar-text")
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .attr("style", "text-anchor: start; alignment-baseline: middle")
                 .attr("fill", "transparent")
                 .attr("y", (d,i) => Math.floor(y_scale(i)) + (Math.floor(y_scale.bandwidth()) - 12) / 2)
@@ -1408,6 +1464,7 @@ function updatePlayersBarChart(mode, ascdesc) {
             
             update => update
                 .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
                 .text(function (d) {
                     return (d.first_name !== "" ? `${d.first_name[0]}. ` : "") +
                         `${d.last_name} - ${d[decode[mode]]}`;
@@ -1465,6 +1522,9 @@ function updatePlayersBarChart(mode, ascdesc) {
     bindPlayerUnhover();
     bindPlayerClick();
     resizePlayersBarChart();
+
+    $(`text[data-playerid=${selected_id}]`).trigger("mouseover");
+    $(`text[data-playerid=${selected_id}]`).trigger("click");
 }
 
 // binds hovering to a player's bars and dot
@@ -1478,7 +1538,9 @@ function bindPlayerHover() {
 
         // style the hovered player
         text.css("font-weight", 900);
-        circle.css({"stroke": "white", "stroke-width": 3});
+        d3.select(circle[0])
+            .attr("stroke-width", 3)
+            .attr("stroke", "white");
 
         // scroll bar chart if player not in sight
         var top_el = $(`.player-bar-rect-avg[data-playerid=${this.dataset.playerid}]`).position().top;
@@ -1514,7 +1576,7 @@ function bindPlayerUnhover() {
 
         // remove the styling from the unhovered player
         $(`.player-bar-text[data-playerid=${this.dataset.playerid}]`).css("font-weight", "normal");
-        $(`.player-circle[data-playerid=${this.dataset.playerid}]`).css({"stroke": "none"});
+        d3.select($(`.player-circle[data-playerid=${this.dataset.playerid}]`)[0]).attr("stroke", "none");
 
         // hide the hover lines
         $("#scatter-help-line-hover-y").hide();
@@ -1530,7 +1592,7 @@ function bindPlayerClick() {
 
         // remove the styling from all elements except the one clicked
         $(`.player-bar-text:not([data-playerid=${this.dataset.playerid}])`).css("font-weight", "normal");
-        $(`.player-circle:not([data-playerid=${this.dataset.playerid}])`).css({"stroke": "none"});
+        d3.selectAll($(`.player-circle:not([data-playerid=${this.dataset.playerid}])`)).attr("stroke", "none");
 
         // remove the "active" tag from all elements and add it to the one clicked
         $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").attr("data-playeractive", "false");
@@ -1596,6 +1658,11 @@ function formChange() {
     }, {});
 
     updatePlayersBarChart(form_values.order, form_values.ascdesc);
+
+/*    setTimeout(function () {
+        $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
+        $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
+    }, 500);*/
 }
 
 // convert from HSL to RGB
@@ -1611,5 +1678,10 @@ function HSLtoRGB(colour) {
 
 // see if it's possible to use the main color, or if the secondary it's needed
 function getCountryColor(country) {
-    country_colors[country].active[0] === country_colours[active_countries[0]]
+    // if there's no selected country, use the main color
+    if (no_countries_mode === 0 || active_countries[0] === "") return 0;
+    // otherwise, checks if the colors are the same
+    if (country_colours[country].active[0] === country_colours[active_countries[0]].active[active_countries_colours[0]]) return 1;
+    // otherwise, return the main color
+    return 0;
 }
