@@ -480,3 +480,14 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
   margin: 0px;
   margin-bottom: 1.3vh;
 }
+
+/* ================================================================ */
+/*             HAPPINESS VS NT PERFORMANCE VISUALIZATION            */
+/* ================================================================ */
+
+#country-line-chart, #country-line-chart > #country-line-chart-svg{
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
