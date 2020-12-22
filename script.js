@@ -83,6 +83,7 @@ $(window).on("load", function () {
     createPlayersBarChart();
     resizePlayersBarChart();
     createGauge();
+    createSpiderChart();
 
     bindCountryHover();
     bindCountryUnhover();
@@ -343,6 +344,7 @@ function bindCountryClick() {
         updateScatterplot();
         
         updateHappinessChart();
+        updateSpiderChart();
     });
 }
 
@@ -426,6 +428,12 @@ function closeCountry(country) {
 
     udpateStadium();
     updateScatterplot();
+    updateSpiderChart();
+
+    setTimeout(function () {
+        $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
+        $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
+    }, 500);
 }
 
 // generates the element for inside the country bar
@@ -436,6 +444,145 @@ function insertCountryBar(src, name_s, name_d) {
         <span class=\"close-country\" onclick=\"closeCountry('${name_d}')\" title=\"Remove ${name_s} from selected countries\">❌</span>`
     );
 }
+/* ================================================================ */
+/*                      (2) COUNTRIES' SPIDER CHART                 */
+/* ================================================================ */
+
+function createSpiderChart(){
+
+    
+    var width = 466;
+    var height = 258;
+    var centerX = width / 2;
+    var centerY = (height / 2) - 10;
+    var numPoints = 5;
+
+    var pentagon = 
+    d3.line()
+        .x(function(d) { return d.x; })
+        .y(function(d) { return d.y; })
+        .curve(d3.curveLinearClosed);
+
+    var svg = 
+    d3.select('#spider_chart')
+        .attr('width', width)
+        .attr('height', height);
+
+    for(index = 0; index < 5; index++){
+
+        var radius = (height / 3) - 17*index;
+    
+        var points = d3.range(numPoints)
+            .map(i => {
+             var angle = i / numPoints * Math.PI * 2 + Math.PI;
+             return {
+                x: Math.sin(angle) * radius + centerX,
+                y: Math.cos(angle) * radius + centerY
+             };
+            });
+
+       
+    
+        var spokes = points.map(point => ({
+         x1: centerX,
+         y1: centerY,
+         x2: point.x,
+         y2: point.y
+         }));
+    
+        var wheelLines = d3.range(numPoints).map(i => ({
+            x1: points[i].x,
+            y1: points[i].y,
+            x2: points[(i + 1) % numPoints].x,
+            y2: points[(i + 1) % numPoints].y
+        }));
+    
+        var lines = spokes.concat(wheelLines);
+        
+
+        var path = 
+        svg.insert('path', ":first-child")
+        .attr('d', pentagon(points))
+        .attr('stroke', 'white')
+        .attr('stroke-width', 1)
+        .attr('fill', 'transparent');
+    }
+}
+
+function updateSpiderChart(){
+
+    var width = 466;
+    var height = 258;
+    var centerX = width / 2;
+    var centerY = (height / 2) - 10;
+
+    var pentagon = 
+    d3.line()
+        .x(function(d) { return d[0]; })
+        .y(function(d) { return d[1]; })
+        .curve(d3.curveLinearClosed);
+
+
+    
+    
+    var happiness1 = country_happiness[active_countries[no_countries_mode]][1][1];
+    happinessScale = d3.scaleLinear()
+    .domain([0, 1000])
+    .range([[centerX,centerY],[314.7908604013832,92.42453848375455]])
+    var happinessPoint1 = happinessScale(happiness1);
+
+
+    var attendanceNational1 = attendance_data.find(
+    x => (x.country === active_countries[no_countries_mode] && x.occ_type === "national")).occ_avg;
+    nationalScale = d3.scaleLinear()
+    .domain([0, 1])
+    .range([[centerX,centerY],[283.5495316971527,188.5754615162455]])
+    var nationalPoint1 = nationalScale(attendanceNational1);
+
+
+    var attendanceLeague1 = attendance_data.find(
+    x => (x.country === active_countries[no_countries_mode] && x.occ_type === "league")).occ_avg;
+    leagueScale = d3.scaleLinear()
+    .domain([0, 1])
+    .range([[centerX,centerY],[182.4504683028473,188.57546151624547]])
+    var leaguePoint1 = leagueScale(attendanceLeague1);
+
+
+    var rank1 = country_rank[active_countries[no_countries_mode]][10][1];
+    rankScale = d3.scaleLinear()
+    .domain([0, 2200])
+    .range([[centerX,centerY],[233,33]])
+    var rankPoint1 = rankScale(rank1);
+
+
+    /*var totalGPM1 =
+    gpmScale = d3.scaleLinear()
+    .domain([0, 1])
+    .range([[centerX,centerY],[151.2091395986168,92.4245384837545]])
+    var gpmPoint1 = gpmScale(totalGPM1);*/
+
+    var colorNo = function (country) {
+    if (active_countries[0] === "") return 0;
+    return active_countries_colours[active_countries.indexOf(country)];
+    };
+
+    var points = [happinessPoint1, nationalPoint1, leaguePoint1, rankPoint1];
+    
+    var svg = 
+    d3.select('#spider_chart')
+        .attr('width', width)
+        .attr('height', height);
+
+    var path = 
+        svg.select('#spider-path-' + no_countries_mode)
+        .attr('d', pentagon(points))
+        .attr('stroke', country_colours[active_countries[no_countries_mode]].active[colorNo(active_countries[no_countries_mode])])
+        .attr('stroke-width', 3)
+        .attr('fill', country_colours[active_countries[no_countries_mode]].hover[colorNo(active_countries[no_countries_mode])])
+        .attr('fill-opacity', '0.5');
+
+}
+
 /* ================================================================ */
 /*           (3) HAPPINESS VS NT PERFORMANCE VISUALIZATION          */
 /* ================================================================ */
@@ -2015,6 +2162,7 @@ function createGauge() {
 		updateReadings();
 	}, 5 * 1000);
 }*/
+
 /* ================================================================ */
 /*                         GENERAL FUNCTIONS                        */
 /* ================================================================ */
