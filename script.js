@@ -17,6 +17,7 @@ var players_data = [];
 var country_rank = {};
 var country_happiness = {};
 var country_gpm = {};
+var players;
 
 // text to display when hovering for help
 var help = {
@@ -35,6 +36,39 @@ var help = {
 /* ================================================================ */
 // what to do when the page loads
 $(window).on("load", function () {
+    loadDB();    
+
+    resizeBody($(this));
+    createMap();
+    resizeMap();
+    createStadium();
+    resizeStadium();
+    createPlayersBarChart();
+    resizePlayersBarChart();
+    createPlayerStats();
+    createHappinessChart();
+    resizePlayerStats();
+    createScatterPlot();
+    resizeScatterplot();
+    createGauge();
+    createSpiderChart();
+
+    bindCountryHover();
+    bindCountryUnhover();
+    bindCountryClick();
+    bindHelpHover();
+});
+
+// what to do on window resize
+$(window).on("resize", function () {
+    resizeBody($(this));
+    resizeMap();
+    resizeStadium();
+    resizePlayersBarChart();
+    resizeScatterplot();
+});
+
+function loadDB(){
     // load country colors
     $.ajax({
         async: false,
@@ -71,35 +105,74 @@ $(window).on("load", function () {
         }   
     });
 
-    resizeBody($(this));
-    createMap();
-    resizeMap();
-    createStadium();
-    resizeStadium();
-    createPlayerStats();
-    createHappinessChart();
-    resizePlayerStats();
-    createScatterPlot();
-    resizeScatterplot();
-    createPlayersBarChart();
-    resizePlayersBarChart();
-    createGauge();
-    createSpiderChart();
+    // get compact ranking CSV
+    $.ajax({
+        async: false,
+        type: "GET",  
+        url: "data/fifa_national_team_rankings_2008_2018.csv",
+        dataType: "text",       
+        success: function (response) {
+            var x = 2008;
+            $.csv.toObjects(response).forEach(function (item) {
+                var values = [];
+                for (var i = 0; i < 11; i++) {
+                    values.push([x + i, item["Dec-" + (x + i).toString().slice(2,4)]]);
+                }
+                country_rank[item.country] = values;
+            });
+        }   
+    });
 
-    bindCountryHover();
-    bindCountryUnhover();
-    bindCountryClick();
-    bindHelpHover();
-});
+    // get compact happiness CSV
+    $.ajax({
+        async: false,
+        type: "GET",  
+        url: "data/happiness_index_compact.csv",
+        dataType: "text",       
+        success: function (response) {
+            $.csv.toObjects(response).forEach(function (item) {
+                country_happiness[item.country] = [["2008", item[2008]], ["2018", item[2018]]];
+                country_gpm[item.country] = item.nt_gpm;
+            });
+        }   
+    });
 
-// what to do on window resize
-$(window).on("resize", function () {
-    resizeBody($(this));
-    resizeMap();
-    resizeStadium();
-    resizePlayersBarChart();
-    resizeScatterplot();
-});
+    // load attendances data
+    $.ajax({
+        async: false,
+        type: "GET",  
+        url: "data/attendances.csv",
+        dataType: "text",       
+        success: function (response) {
+            $.csv.toObjects(response).forEach(function (item) {
+                item.years = [];
+                for (var y = 2011; y <= 2020; y++) {
+                    item.years.push(item[y]);
+                    delete item[y];
+                }
+                attendance_data.push(item);
+            });
+        }   
+    });
+    
+    // load full players dataset
+    $.ajax({
+        async: false,
+        type: "GET",  
+        url: "data/players_gpm.csv",
+        dataType: "text",       
+        success: function (response) {
+            $.csv.toObjects(response).forEach(function (item) {
+                item.years = [];
+                for (var y = 1991; y <= 2020; y++) {
+                    item.years.push(item[y]);
+                    delete item[y];
+                }
+                players_data.push(item);
+            });
+        }   
+    });
+}
 
 /* ================================================================ */
 /*                      RESIZING AND HELP BOXES                     */
@@ -451,9 +524,7 @@ function insertCountryBar(src, name_s, name_d) {
 /*                      (2) COUNTRIES' SPIDER CHART                 */
 /* ================================================================ */
 
-function createSpiderChart(){
-
-    
+function createSpiderChart(){    
     var width = 466;
     var height = 258;
     var centerX = width / 2;
@@ -525,9 +596,6 @@ function updateSpiderChart(){
         .y(function(d) { return d[1]; })
         .curve(d3.curveLinearClosed);
 
-
-    
-    
     var happiness1 = country_happiness[active_countries[no_countries_mode]][1][1];
     happinessScale = d3.scaleLinear()
     .domain([0, 1000])
@@ -590,38 +658,6 @@ function updateSpiderChart(){
 /*           (3) HAPPINESS VS NT PERFORMANCE VISUALIZATION          */
 /* ================================================================ */
 function createHappinessChart() {
-    // get compact ranking CSV
-    $.ajax({
-        async: false,
-        type: "GET",  
-        url: "data/fifa_national_team_rankings_2008_2018.csv",
-        dataType: "text",       
-        success: function (response) {
-            var x = 2008;
-            $.csv.toObjects(response).forEach(function (item) {
-                var values = [];
-                for (var i = 0; i < 11; i++) {
-                    values.push([x + i, item["Dec-" + (x + i).toString().slice(2,4)]]);
-                }
-                country_rank[item.country] = values;
-            });
-        }   
-    });
-
-    // get compact happiness CSV
-    $.ajax({
-        async: false,
-        type: "GET",  
-        url: "data/happiness_index_compact.csv",
-        dataType: "text",       
-        success: function (response) {
-            $.csv.toObjects(response).forEach(function (item) {
-                country_happiness[item.country] = [["2008", item[2008]], ["2018", item[2018]]];
-                country_gpm[item.country] = item.nt_gpm;
-            });
-        }   
-    });
-
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
     width = 413 - margin.left - margin.right,
     height = 223 - margin.top - margin.bottom;
@@ -739,25 +775,7 @@ function createStadium() {
         {"x": 210, "y": 280},
         {"x": 190, "y": 260},
         {"x": 115, "y": 160}
-    ];
-
-    // load attendances data
-    $.ajax({
-        async: false,
-        type: "GET",  
-        url: "data/attendances.csv",
-        dataType: "text",       
-        success: function (response) {
-            $.csv.toObjects(response).forEach(function (item) {
-                item.years = [];
-                for (var y = 2011; y <= 2020; y++) {
-                    item.years.push(item[y]);
-                    delete item[y];
-                }
-                attendance_data.push(item);
-            });
-        }   
-    });
+    ];    
 
     // actually creating the stadium
     for (i = 0; i < 7; i++) {
@@ -944,24 +962,6 @@ function changeLegend(mode, country = "") {
 /*                           (5) PLAYER ID                          */
 /* ================================================================ */
 function createPlayerStats() {
-    // load full players dataset
-    $.ajax({
-        async: false,
-        type: "GET",  
-        url: "data/players_gpm.csv",
-        dataType: "text",       
-        success: function (response) {
-            $.csv.toObjects(response).forEach(function (item) {
-                item.years = [];
-                for (var y = 1991; y <= 2020; y++) {
-                    item.years.push(item[y]);
-                    delete item[y];
-                }
-                players_data.push(item);
-            });
-        }   
-    });
-
     // adding gpm line chart
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
     width = 525 - margin.left - margin.right,
@@ -1028,10 +1028,11 @@ function updatePlayerStats(playerID) {
     $("#player-id .image").attr("src", "images/players/" + playerID + ".png")
 
     // INFO
+    console.log(player_club)
     var age = new Date(Date.now() - Date.parse(player_club[0].dob)).getFullYear() - 1970;
     $("#nat").html(player_club[0].country.replaceAll("-", " "));
     $("#player-flag").attr("src", "images/flags/flag-" + player_club[0].country + ".png");
-    $("#player-underscore").html("<b>Underscorability:</b> Underscorer");
+    $("#player-underscore").html("<b>NT Proficiency: </b>" + player_club[0].category);
     $("#player-name").html("<b>Name: </b>"+ player_club[0].full_name);
     $("#player-birth").html("<b>Date of Birth: </b>"+ player_club[0].dob + " (" + age + " y.o.)");
     $("#player-years-active").html("<b>Years Active: </b>"+ player_club[0].years_active);
@@ -1571,7 +1572,7 @@ function updatePlayersBarChart(mode, ascdesc) {
 
     // if there are no countries selected, select the best 25 of all countries
     if (active_countries[0] === "")
-        var players = players_compact_data
+        players = players_compact_data
             .sort(function (a, b) {
                 var keyA = parseFloat(a.player_avg);
                 var keyB = parseFloat(b.player_avg);
