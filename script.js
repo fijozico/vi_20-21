@@ -1028,10 +1028,11 @@ function updatePlayerStats(playerID) {
     $("#player-id .image").attr("src", "images/players/" + playerID + ".png")
 
     // INFO
+    console.log(player_club)
     var age = new Date(Date.now() - Date.parse(player_club[0].dob)).getFullYear() - 1970;
     $("#nat").html(player_club[0].country.replaceAll("-", " "));
     $("#player-flag").attr("src", "images/flags/flag-" + player_club[0].country + ".png");
-    $("#player-underscore").html("<b>Underscorability:</b> Underscorer");
+    $("#player-underscore").html("<b>NT Proficiency: </b>" + player_club[0].category);
     $("#player-name").html("<b>Name: </b>"+ player_club[0].full_name);
     $("#player-birth").html("<b>Date of Birth: </b>"+ player_club[0].dob + " (" + age + " y.o.)");
     $("#player-years-active").html("<b>Years Active: </b>"+ player_club[0].years_active);
