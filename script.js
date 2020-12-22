@@ -499,6 +499,7 @@ function createSpiderChart(){
         }));
     
         var lines = spokes.concat(wheelLines);
+        console.log(lines);
         
 
         var path = 
@@ -508,6 +509,51 @@ function createSpiderChart(){
         .attr('stroke-width', 1)
         .attr('fill', 'transparent');
     }
+
+    svg.append('line')
+    .style("stroke", "white")
+    .style("stroke-width", 1)
+    .attr('fill', 'transparent')
+    .attr("x1", centerX)
+    .attr("y1", centerY)
+    .attr("x2", 314.7908604013832)
+    .attr("y2", 92.42453848375455);
+
+    svg.append('line')
+    .style("stroke", "white")
+    .style("stroke-width", 1)
+    .attr('fill', 'transparent')
+    .attr("x1", centerX)
+    .attr("y1", centerY)
+    .attr("x2", 283.5495316971527)
+    .attr("y2", 188.5754615162455);
+
+    svg.append('line')
+    .style("stroke", "white")
+    .style("stroke-width", 1)
+    .attr('fill', 'transparent')
+    .attr("x1", centerX)
+    .attr("y1", centerY)
+    .attr("x2", 182.4504683028473)
+    .attr("y2", 188.57546151624547);
+
+    svg.append('line')
+    .style("stroke", "white")
+    .style("stroke-width", 1)
+    .attr('fill', 'transparent')
+    .attr("x1", centerX)
+    .attr("y1", centerY)
+    .attr("x2", 233)
+    .attr("y2", 33);
+
+    svg.append('line')
+    .style("stroke", "white")
+    .style("stroke-width", 1)
+    .attr('fill', 'transparent')
+    .attr("x1", centerX)
+    .attr("y1", centerY)
+    .attr("x2", 151.2091395986168)
+    .attr("y2", 92.4245384837545);
 }
 
 function updateSpiderChart(){
@@ -568,6 +614,7 @@ function updateSpiderChart(){
     };
 
     var points = [happinessPoint1, nationalPoint1, leaguePoint1, gpmPoint1, rankPoint1];
+
     
     var svg = 
     d3.select('#spider_chart')
