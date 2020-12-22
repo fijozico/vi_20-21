@@ -343,6 +343,7 @@ function bindCountryClick() {
 
         // updates the player scatterplot
         updateScatterplot();
+        updateGauge();
         
         updateHappinessChart();
         updateSpiderChart();
@@ -435,6 +436,7 @@ function closeCountry(country) {
         $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
         $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
     }, 500);
+    updateGauge();
 }
 
 // generates the element for inside the country bar
@@ -1960,210 +1962,278 @@ function bindPlayerClick() {
 /* ================================================================ */
 
 function createGauge() {
-    var container = "#power-gauge"
+    var container = "#power-gauge";
     var configuration = {
-		size: 380,
-		clipWidth: 380,
-		clipHeight: 380,
-		ringWidth: 80,
-		minValue: -0.2,
-		maxValue: 0.2,
-		transitionMs: 4000,
-	};
-	var that = {};
-	var config = {
-		size						: 200,
-		clipWidth					: 200,
-		clipHeight					: 110,
-		ringInset					: 20,
-		ringWidth					: 20,
-		
-		pointerWidth				: 10,
-		pointerTailLength			: 5,
-		pointerHeadLengthPercent	: 0.9,
-		
-		minValue					: -0.2,
-		maxValue					: 0.2,
-		
-		minAngle					: -135,
-		maxAngle					: 135,
-		
-		transitionMs				: 750,
-		
-		majorTicks					: 5,
-		labelFormat					: d3.format(',g'),
-		labelInset					: 10,
-		
-		arcColorFn					: d3.interpolateHsl(d3.rgb('#ff0000'), d3.rgb('#00ff00'))
-	};
-	var range = undefined;
-	var r = undefined;
-	var pointerHeadLength = undefined;
-	var value = 0;
-	
-	var svg = undefined;
-	var arc = undefined;
-	var scale = undefined;
-	var ticks = undefined;
-	var tickData = undefined;
-	var pointer = undefined;
+        size: 380,
+        clipWidth: 380,
+        clipHeight: 380,
+        ringWidth: 80,
+        minValue: -0.2,
+        maxValue: 0.2,
+        transitionMs: 4000,
+    };
+    var that = {};
+    var config = {
+        size: 200,
+        clipWidth: 200,
+        clipHeight: 110,
+        ringInset: 20,
+        ringWidth: 20,
+        
+        pointerWidth: 10,
+        pointerTailLength: 5,
+        pointerHeadLengthPercent: 0.9,
+        
+        minValue: -0.2,
+        maxValue: 0.2,
+        
+        minAngle: -135,
+        maxAngle: 135,
+        
+        transitionMs: 750,
+        
+        majorTicks: 5,
+        labelFormat: d3.format(',g'),
+        labelInset: 10,
+        
+        arcColorFn: d3.interpolateHsl(d3.rgb('#ff0000'), d3.rgb('#00ff00'))
+    };
+    var range = undefined;
+    var r = undefined;
+    var pointerHeadLength = undefined;
+    var value = 0;
+    
+    var svg = undefined;
+    var arc = undefined;
+    var scale = undefined;
+    var ticks = undefined;
+    var tickData = undefined;
+    var pointer = undefined;
 
-	//var donut = d3.layout.pie();
-	
-	function deg2rad(deg) {
-		return deg * Math.PI / 180;
-	}
-	
-	function newAngle(d) {
-		var ratio = scale(d);
-		var newAngle = config.minAngle + (ratio * range);
-		return newAngle;
-	}
-	
-	function configure(configuration) {
-		var prop = undefined;
-		for ( prop in configuration ) {
-			config[prop] = configuration[prop];
-		}
-		
-		range = config.maxAngle - config.minAngle;
-		r = config.size / 2;
-		pointerHeadLength = Math.round(r * config.pointerHeadLengthPercent);
+    //var donut = d3.layout.pie();
+    
+    function deg2rad(deg) {
+        return deg * Math.PI / 180;
+    }
+    
+    function newAngle(d) {
+        var ratio = scale(d);
+        var newAngle = config.minAngle + (ratio * range);
+        return newAngle;
+    }
+    
+    function configure(configuration) {
+        var prop = undefined;
+        for (prop in configuration) {
+            config[prop] = configuration[prop];
+        }
+        
+        range = config.maxAngle - config.minAngle;
+        r = config.size / 2;
+        pointerHeadLength = Math.round(r * config.pointerHeadLengthPercent);
 
-		// a linear scale that maps domain values to a percent from 0..1
-		scale = d3.scaleLinear()
-			.range([0,1])
-			.domain([config.minValue, config.maxValue]);
-			
-		ticks = [[-0.16,"Extreme Underscorer"], [-0.08,"Underscorer"], [0,"Neutral"], [0.08,"Top Scorer"], [0.16,"National Pride"]]
+        // a linear scale that maps domain values to a percent from 0..1
+        scale = d3.scaleLinear()
+            .range([0,1])
+            .domain([config.minValue, config.maxValue]);
+            
+        ticks = [[-0.16,"Extreme Underscorer"], [-0.08,"Underscorer"], [0,"Neutral"], [0.08,"Top Scorer"], [0.16,"National Pride"]]
         tickData = d3.range(config.majorTicks).map(function() {return 1/config.majorTicks;});
-		
-		arc = d3.arc()
-			.innerRadius(r - config.ringWidth - config.ringInset)
-			.outerRadius(r - config.ringInset)
-			.startAngle(function(d, i) {
-				var ratio = d * i;
-				return deg2rad(config.minAngle + (ratio * range));
-			})
-			.endAngle(function(d, i) {
-				var ratio = d * (i+1);
-				return deg2rad(config.minAngle + (ratio * range));
-			});
-	}
-	that.configure = configure;
-	
-	function centerTranslation() {
-		return 'translate('+r +','+ r +')';
-	}
-	
-	function isRendered() {
-		return (svg !== undefined);
-	}
-	that.isRendered = isRendered;
-	
-	function render(newValue) {
-		svg = d3.select(container)
-			.append('svg:svg')
-				.attr('class', 'gauge')
-				.attr('width', config.clipWidth)
-				.attr('height', config.clipHeight);
-		
-		var centerTx = centerTranslation();
-		
-		var arcs = svg.append('g')
-				.attr('class', 'arc')
-				.attr('transform', centerTx);
-		
-		arcs.selectAll('path')
-				.data(tickData)
-			.enter().append('path')
-				.attr('fill', function(d, i) {
-					return config.arcColorFn(d * i);
-				})
-                .attr('d', arc);
+        
+        arc = d3.arc()
+            .innerRadius(r - config.ringWidth - config.ringInset)
+            .outerRadius(r - config.ringInset)
+            .startAngle(function(d, i) {
+                var ratio = d * i;
+                return deg2rad(config.minAngle + (ratio * range));
+            })
+            .endAngle(function(d, i) {
+                var ratio = d * (i+1);
+                return deg2rad(config.minAngle + (ratio * range));
+            });
+    }
+    that.configure = configure;
+    
+    function centerTranslation() {
+        return 'translate('+r +','+ r +')';
+    }
+    
+    function isRendered() {
+        return (svg !== undefined);
+    }
+    that.isRendered = isRendered;
+    
+    function render(newValue) {
+        svg = d3.select(container)
+            .append('svg:svg')
+            .attr('class', 'gauge')
+            .attr('width', config.clipWidth)
+            .attr('height', config.clipHeight);
+        
+        var centerTx = centerTranslation();
+        
+        var arcs = svg.append('g')
+                .attr('class', 'arc')
+                .attr('transform', centerTx);
+        
+        arcs.selectAll('path')
+            .data(tickData)
+            .enter().append('path')
+            .attr('fill', function(d, i) {
+                return config.arcColorFn(d * i);
+            })
+            .attr('d', arc);
                 
-		var lg = svg.append('g')
-				.attr('class', 'label')
-				.attr('transform', centerTx);
-		lg.selectAll('text')
-				.data(ticks)
-			.enter().append('text')
-				.attr('transform', function(d) {
-					var ratio = scale(d[0]);
-					var newAngle = config.minAngle + (ratio * range);
-					return 'rotate(' +newAngle +') translate(0,' +(config.labelInset - r + 40) +')';
-                }).call(o => o.append("tspan")
-                    .attr("dy", "1em")
-                    .attr("x", "0")
-                    .text(d => d[1].split(" ")[0]))
-                    .call(o => o.append("tspan")
-                    .attr("dy", "1em")
-                    .attr("x", "0")
-                    .text(d => d[1].split(" ")[1]))
+        var lg = svg.append('g')
+            .attr('class', 'label')
+            .attr('transform', centerTx);
 
-		var lineData = [ [config.pointerWidth / 2, 0], 
-						[0, -pointerHeadLength],
-						[-(config.pointerWidth / 2), 0],
-						[0, config.pointerTailLength],
-                        [config.pointerWidth / 2, 0] ];
-
-        var scaleR = d3.scaleLinear()
-                        .domain([-0.2, 0.2])
-                        .range([deg2rad(-135) - Math.PI/2, deg2rad(135) - Math.PI/2]);
+        var lineData = [
+            [config.pointerWidth / 2, 0], 
+            [0, -pointerHeadLength],
+            [-(config.pointerWidth / 2), 0],
+            [0, config.pointerTailLength],
+            [config.pointerWidth / 2, 0]
+        ];
 
         var center = r - 55;
         
-        svg.append("circle")
-            .attr("cx", polarToCartesian(r,r,center,center,scaleR(0.2))["x"])
-            .attr("cy", polarToCartesian(r,r,center,center,scaleR(0.2))["y"])
-            .attr("r", 10)
-            .attr("fill", "white")
-            .attr("style", "opacity: 0.85")
+        
                         
-		/*  var pointerLine = d3.line().interpolate('monotone');
-		var pg = svg.append('g').data([lineData])
-				.attr('class', 'pointer')
-				.attr('transform', centerTx);
-				
-		pointer = pg.append('path')
-			.attr('d', pointerLine/*function(d) { return pointerLine(d) +'Z';}/ )
-			.attr('transform', 'rotate(' +config.minAngle +')');*/
-			
-		update(newValue === undefined ? 0 : newValue);
-	}
-	that.render = render;
-	
-	function update(newValue, newConfiguration) {
-		if ( newConfiguration  !== undefined) {
-			configure(newConfiguration);
-		}
-		var ratio = scale(newValue);
-		var newAngle = config.minAngle + (ratio * range);
-		/*pointer.transition()
-			.duration(config.transitionMs)
-			.ease('elastic')
-			.attr('transform', 'rotate(' +newAngle +')');*/
-	}
-	that.update = update;
+        /*  var pointerLine = d3.line().interpolate('monotone');
+        var pg = svg.append('g').data([lineData])
+                .attr('class', 'pointer')
+                .attr('transform', centerTx);
+                
+        pointer = pg.append('path')
+            .attr('d', pointerLine/*function(d) { return pointerLine(d) +'Z';}/ )
+            .attr('transform', 'rotate(' +config.minAngle +')');*/
+            
+        update(newValue === undefined ? 0 : newValue);
 
-	configure(configuration);
-	that.render();
-	return that;
+        updateGauge();
+    }
+    that.render = render;
+    
+    function update(newValue, newConfiguration) {
+        if ( newConfiguration  !== undefined) {
+            configure(newConfiguration);
+        }
+        var ratio = scale(newValue);
+        var newAngle = config.minAngle + (ratio * range);
+        /*pointer.transition()
+            .duration(config.transitionMs)
+            .ease('elastic')
+            .attr('transform', 'rotate(' +newAngle +')');*/
+    }
+    that.update = update;
+
+    configure(configuration);
+
+    that.render();
+    return that;
 };
-/*function onDocumentReady() {
-	powerGauge.render();
-	
-	function updateReadings() {
-		// just pump in random data here...
-		powerGauge.update(Math.random() * 10);
-	}
-	
-	// every few seconds update reading values
-	updateReadings();
-	setInterval(function() {
-		updateReadings();
-	}, 5 * 1000);
-}*/
+
+
+function updateGauge() {
+    var center = {"x": 190, "y": 190};
+    var svg = d3.select(".gauge");
+    var scores = ["Extreme Underscorer", "Underscorer", "Neutral", "Top Scorer", "National Pride"];
+
+    // if there are no countries selected, select the best 25 of all countries
+    if (active_countries[0] === "")
+        var players = players_compact_data.sort(function (a, b) {
+            var keyA = parseFloat(a.player_avg);
+            var keyB = parseFloat(b.player_avg);
+
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
+            return 0;
+        }).slice(0, 25);
+
+    // otherwise, business as usual
+    else
+        var players = players_compact_data.filter(
+            x => (active_countries.includes(x.country))
+        ).sort(function (a, b) {
+            // order by id if same country
+            if (a.country === b.country) {
+                if (parseInt(a.id) < parseInt(b.id)) return -1;
+                if (parseInt(a.id) > parseInt(b.id)) return 1;
+                return 0;
+            }
+            // otherwise, order by the position of the country in the active_countries
+            else {
+                var a_i = active_countries.indexOf(a.country);
+                var b_i = active_countries.indexOf(b.country);
+                if (a_i < b_i) return -1;
+                if (a_i > b_i) return 1;
+                return 0;
+            }
+        });
+
+    var colorNo = function (country) {
+        if (active_countries[0] === "") return 0;
+        return active_countries_colors[active_countries.indexOf(country)];
+    };
+
+    // divide players into their underscorer categories
+    var players_group = players.reduce((acc, item) => {
+        if (!acc[item.category]) acc[item.category] = [];
+        acc[item.category].push(item);
+        return acc;
+    }, {"Extreme Underscorer":[],"Underscorer":[],"Neutral":[],"Top Scorer":[],"National Pride":[]});
+
+    console.log(players_group);
+
+    var scale_center = d3.scaleLinear()
+        .domain([0, 4])
+        .range([-11*Math.PI/10, Math.PI/10]);
+
+    var scaleR = d3.scaleLinear()
+        .domain([-0.2, 0.2])
+        .range([-5*Math.PI/4, Math.PI/4])
+        .clamp(true);
+
+    svg.selectAll(".gauge-circle")
+        .data(players)
+        .join("circle")
+        .attr("class","gauge-circle")
+        .attr("cx", d => polarToCartesian(center.x, center.y, 150 - 25, 150 - 25, scaleR(d.score))["x"])
+        .attr("cy", d => polarToCartesian(center.x, center.y, 150 - 25, 150 - 25, scaleR(d.score))["y"])
+        .attr("r", 8)
+        .attr("fill", d => country_colors[d.country].active[colorNo(d.country)])
+        .attr("style", "opacity: 0.85")
+        .attr("stroke", "black")
+        .attr("stroke-width", "2")
+        .append("title")
+        .text(d => (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}: ${d.score} (${d.category})`);
+
+/*    for (score in players_group) {
+        var size = Math.min(5, players_group[score].length);
+
+        var scale_inside = d3.scaleLinear()
+            .domain([0, size - 1])
+            .range([
+                scale_center(scores.indexOf(score)) - (size - 1) * Math.PI / 40,
+                scale_center(scores.indexOf(score)) + (size - 1) * Math.PI / 40
+            ]);
+
+        svg.selectAll(`.gauge-circle-${score.replaceAll(" ", "-")}`)
+            .data(players_group[score])
+            .join("circle")
+            .attr("class",`gauge-circle-${score.replaceAll(" ", "-")}`)
+            .attr("cx", (d,i) => polarToCartesian(center.x, center.y,
+                150 - Math.floor(i / 5) * 25, 150 - Math.floor(i / 5) * 25,
+                scale_inside(i % 5))["x"])
+            .attr("cy", (d,i) => polarToCartesian(center.x, center.y,
+                150 - Math.floor(i / 5) * 25, 150 - Math.floor(i / 5) * 25,
+                scale_inside(i % 5))["y"])
+            .attr("r", 8)
+            .attr("fill", "white")
+            .attr("style", "opacity: 0.85");
+    }*/
+}
 
 /* ================================================================ */
 /*                         GENERAL FUNCTIONS                        */
