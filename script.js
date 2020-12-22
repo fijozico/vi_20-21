@@ -43,14 +43,16 @@ $(window).on("load", function () {
     resizeMap();
     createStadium();
     resizeStadium();
+    createGauge();
+    resizeGauge();
+    createScatterPlot();
+    resizeScatterplot();
     createPlayersBarChart();
     resizePlayersBarChart();
     createPlayerStats();
-    createHappinessChart();
     resizePlayerStats();
-    createScatterPlot();
-    resizeScatterplot();
-    createGauge();
+    createHappinessChart();
+    resizeHappinessChart();
     createSpiderChart();
 
     bindCountryHover();
@@ -65,9 +67,13 @@ $(window).on("resize", function () {
     resizeMap();
     resizeStadium();
     resizePlayersBarChart();
+    resizePlayerStats();
+    resizeHappinessChart();
+    resizeGauge();
     resizeScatterplot();
 });
 
+// loads all necessary files
 function loadDB(){
     // load country colors
     $.ajax({
@@ -214,6 +220,11 @@ function resizePlayerStats() {
 
 }
 
+// resizes happiness vs NT performance line chart
+function resizeHappinessChart() {
+
+}
+
 // make the player scatterplot fit the container
 function resizeScatterplot() {
     var scatter = $("#gpm_scatterplot");
@@ -243,6 +254,11 @@ function resizePlayersBarChart() {
         "width": parent_chart_dim.width - 14,
         "height": (parent_chart_dim.width - 14) * (chart_dim.height / chart_dim.width)
     });
+}
+
+// resizes the underscorability gauge
+function resizeGauge() {
+
 }
 
 // manipulate help box
@@ -520,10 +536,11 @@ function insertCountryBar(src, name_s, name_d) {
         <span class=\"close-country\" onclick=\"closeCountry('${name_d}')\" title=\"Remove ${name_s} from selected countries\">❌</span>`
     );
 }
+
 /* ================================================================ */
 /*                      (2) COUNTRIES' SPIDER CHART                 */
 /* ================================================================ */
-
+// creates the quick stats spider chart
 function createSpiderChart(){    
     var width = 466;
     var height = 258;
@@ -572,7 +589,6 @@ function createSpiderChart(){
         }));
     
         var lines = spokes.concat(wheelLines);
-        console.log(lines);
         
 
         var path = 
@@ -629,6 +645,7 @@ function createSpiderChart(){
     .attr("y2", 92.4245384837545);
 }
 
+
 function updateSpiderChart(){
 
     var width = 466;
@@ -641,6 +658,8 @@ function updateSpiderChart(){
         .x(function(d) { return d[0]; })
         .y(function(d) { return d[1]; })
         .curve(d3.curveLinearClosed);
+
+    if (active_countries[0] === "") return;
 
     var happiness1 = country_happiness[active_countries[no_countries_mode]][1][1];
     happinessScale = d3.scaleLinear()
@@ -704,6 +723,7 @@ function updateSpiderChart(){
 /* ================================================================ */
 /*           (3) HAPPINESS VS NT PERFORMANCE VISUALIZATION          */
 /* ================================================================ */
+// 
 function createHappinessChart() {
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
     width = 413 - margin.left - margin.right,
@@ -758,6 +778,7 @@ function createHappinessChart() {
        .call(d3.axisLeft(y))
 }
 
+// 
 function updateHappinessChart() {
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
     width = 413 - margin.left - margin.right,
@@ -1018,7 +1039,6 @@ function createPlayerStats() {
         .attr("viewbox", `0 0 ${width} ${height}`)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
-        // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // add "Club GPM" label
     svg.append("text")
@@ -1075,7 +1095,6 @@ function updatePlayerStats(playerID) {
     $("#player-id .image").attr("src", "images/players/" + playerID + ".png")
 
     // INFO
-    console.log(player_club)
     var age = new Date(Date.now() - Date.parse(player_club[0].dob)).getFullYear() - 1970;
     $("#nat").html(player_club[0].country.replaceAll("-", " "));
     $("#player-flag").attr("src", "images/flags/flag-" + player_club[0].country + ".png");
@@ -1901,26 +1920,33 @@ function updatePlayersBarChart(mode, ascdesc) {
 
     // always have best player active
     setTimeout(function () {
-        $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
-        $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
-
-    $(`text[data-playerid=${selected_id}]`).trigger("mouseover");
-    $(`text[data-playerid=${selected_id}]`).trigger("click");
+        if ($(`text[data-playerid=${selected_id}]`).length === 0) {
+            $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
+            $(".player-bar-rect-nt:nth-of-type(1)").trigger("click");
+        }
+        else {
+            $(`text[data-playerid=${selected_id}]`).trigger("mouseover");
+            $(`text[data-playerid=${selected_id}]`).trigger("click");
+        }
     }, 600);
 }
 
 // binds hovering to a player's bars and dot
 function bindPlayerHover() {
-    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("mouseover", function () {
+    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle, .gauge-circle").on("mouseover", function () {
         // if the hovered item is active, ignore all this
         if (this.dataset.playeractive === "true") return;
 
-        var circle = $(`.player-circle[data-playerid=${this.dataset.playerid}]`);
+        var sc_circle = $(`.player-circle[data-playerid=${this.dataset.playerid}]`);
+        var ga_circle = $(`.gauge-circle[data-playerid=${this.dataset.playerid}]`);
         var text = $(`.player-bar-text[data-playerid=${this.dataset.playerid}]`);
 
         // style the hovered player
         text.css("font-weight", 900);
-        d3.select(circle[0])
+        d3.select(sc_circle[0])
+            .attr("stroke-width", 3)
+            .attr("stroke", "white");
+        d3.select(ga_circle[0])
             .attr("stroke-width", 3)
             .attr("stroke", "white");
 
@@ -1929,36 +1955,37 @@ function bindPlayerHover() {
         var top_dad = $("#bar-chart-div").position().top;
         var height_dad = $("#bar-chart-div").height();
 
-        if (this.localName === "circle")
+        if (this.localName === "sc_circle")
             if (top_el < top_dad || top_el + 29 > top_dad + height_dad)
                 $("#bar-chart-div").animate({ scrollTop: top_el - top_dad }, 0);*/
 
         // set up the hover guide lines
         d3.select("#scatter-help-line-hover-y")
-            .attr("x1", circle.attr("cx"))
-            .attr("x2", circle.attr("cx"))
-            .attr("y1", parseInt(circle.attr("cy")) + parseInt(circle.attr("r")))
+            .attr("x1", sc_circle.attr("cx"))
+            .attr("x2", sc_circle.attr("cx"))
+            .attr("y1", parseInt(sc_circle.attr("cy")) + parseInt(sc_circle.attr("r")))
             .attr("y2", 427);
         $("#scatter-help-line-hover-y").show();
 
         d3.select("#scatter-help-line-hover-x")
-            .attr("x1", parseInt(circle.attr("cx")) - parseInt(circle.attr("r")))
+            .attr("x1", parseInt(sc_circle.attr("cx")) - parseInt(sc_circle.attr("r")))
             .attr("x2", 53)
-            .attr("y1", circle.attr("cy"))
-            .attr("y2", circle.attr("cy"));
+            .attr("y1", sc_circle.attr("cy"))
+            .attr("y2", sc_circle.attr("cy"));
         $("#scatter-help-line-hover-x").show();
     });
 }
 
 // binds unhovering to a player's bars and dot
 function bindPlayerUnhover() {
-    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("mouseout", function () {
+    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle, .gauge-circle").on("mouseout", function () {
         // if the unhovered item is active, ignore all this
         if (this.dataset.playeractive === "true") return;
 
         // remove the styling from the unhovered player
         $(`.player-bar-text[data-playerid=${this.dataset.playerid}]`).css("font-weight", "normal");
         d3.select($(`.player-circle[data-playerid=${this.dataset.playerid}]`)[0]).attr("stroke", "none");
+        d3.select($(`.gauge-circle[data-playerid=${this.dataset.playerid}]`)[0]).attr("stroke", "black").attr("stroke-width", 2);
 
         // hide the hover lines
         $("#scatter-help-line-hover-y").hide();
@@ -1968,32 +1995,34 @@ function bindPlayerUnhover() {
 
 // binds the clicking event to a circle or a bar
 function bindPlayerClick() {
-    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").on("click", function (evt) {
+    $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle, .gauge-circle").on("click", function (evt) {
         evt.stopImmediatePropagation();
-        var circle = $(`.player-circle[data-playerid=${this.dataset.playerid}]`);
+        var sc_circle = $(`.player-circle[data-playerid=${this.dataset.playerid}]`);
+        var ga_circle = $(`.gauge-circle[data-playerid=${this.dataset.playerid}]`);
 
         // remove the styling from all elements except the one clicked
         $(`.player-bar-text:not([data-playerid=${this.dataset.playerid}])`).css("font-weight", "normal");
         d3.selectAll($(`.player-circle:not([data-playerid=${this.dataset.playerid}])`)).attr("stroke", "none");
+        d3.selectAll($(`.gauge-circle:not([data-playerid=${this.dataset.playerid}])`)).attr("stroke", "black").attr("stroke-width", 2);
 
         // remove the "active" tag from all elements and add it to the one clicked
-        $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle").attr("data-playeractive", "false");
+        $(".player-bar-rect-nt, .player-bar-rect-club, .player-bar-rect-avg, .player-bar-text, .player-circle,.gauge-circle").attr("data-playeractive", "false");
         $(`[data-playerid=${this.dataset.playerid}]`).attr("data-playeractive", "true");
 
         // set up the active lines and remove the hover one
         d3.select("#scatter-help-line-active-y")
-            .attr("x1", circle.attr("cx"))
-            .attr("x2", circle.attr("cx"))
-            .attr("y1", parseInt(circle.attr("cy")) + parseInt(circle.attr("r")))
+            .attr("x1", sc_circle.attr("cx"))
+            .attr("x2", sc_circle.attr("cx"))
+            .attr("y1", parseInt(sc_circle.attr("cy")) + parseInt(sc_circle.attr("r")))
             .attr("y2", 427);
         $("#scatter-help-line-active-y").show();
         $("#scatter-help-line-hover-y").hide();
 
         d3.select("#scatter-help-line-active-x")
-            .attr("x1", parseInt(circle.attr("cx")) - parseInt(circle.attr("r")))
+            .attr("x1", parseInt(sc_circle.attr("cx")) - parseInt(sc_circle.attr("r")))
             .attr("x2", 53)
-            .attr("y1", circle.attr("cy"))
-            .attr("y2", circle.attr("cy"));
+            .attr("y1", sc_circle.attr("cy"))
+            .attr("y2", sc_circle.attr("cy"));
         $("#scatter-help-line-active-x").show();
         $("#scatter-help-line-hover-x").hide();
 
@@ -2012,39 +2041,31 @@ function bindPlayerClick() {
 function createGauge() {
     var container = "#power-gauge";
     var configuration = {
-        size: 380,
+        clipHeight: 470,
         clipWidth: 380,
-        clipHeight: 380,
-        ringWidth: 80,
-        minValue: -0.2,
         maxValue: 0.2,
-        transitionMs: 4000,
+        minValue: -0.2,
+        ringWidth: 80,
+        size: 380,
     };
     var that = {};
     var config = {
-        size: 200,
-        clipWidth: 200,
+        arcColorFn: d3.interpolateHsl(d3.rgb('#ff0000'), d3.rgb('#00ff00')),
         clipHeight: 110,
-        ringInset: 20,
-        ringWidth: 20,
-        
-        pointerWidth: 10,
-        pointerTailLength: 5,
-        pointerHeadLengthPercent: 0.9,
-        
-        minValue: -0.2,
-        maxValue: 0.2,
-        
-        minAngle: -135,
-        maxAngle: 135,
-        
-        transitionMs: 750,
-        
-        majorTicks: 5,
+        clipWidth: 200,
         labelFormat: d3.format(',g'),
         labelInset: 10,
-        
-        arcColorFn: d3.interpolateHsl(d3.rgb('#ff0000'), d3.rgb('#00ff00'))
+        majorTicks: 5,
+        maxAngle: 135,
+        maxValue: 0.2,
+        minAngle: -135,
+        minValue: -0.2,
+        pointerHeadLengthPercent: 0.9,
+        pointerTailLength: 5,
+        pointerWidth: 10,
+        ringInset: 20,
+        ringWidth: 20,
+        size: 200,
     };
     var range = undefined;
     var r = undefined;
@@ -2057,8 +2078,6 @@ function createGauge() {
     var ticks = undefined;
     var tickData = undefined;
     var pointer = undefined;
-
-    //var donut = d3.layout.pie();
     
     function deg2rad(deg) {
         return deg * Math.PI / 180;
@@ -2072,9 +2091,9 @@ function createGauge() {
     
     function configure(configuration) {
         var prop = undefined;
-        for (prop in configuration) {
+
+        for (prop in configuration)
             config[prop] = configuration[prop];
-        }
         
         range = config.maxAngle - config.minAngle;
         r = config.size / 2;
@@ -2101,85 +2120,114 @@ function createGauge() {
             });
     }
     that.configure = configure;
-    
-    function centerTranslation() {
-        return 'translate('+r +','+ r +')';
-    }
-    
-    function isRendered() {
-        return (svg !== undefined);
-    }
-    that.isRendered = isRendered;
-    
-    function render(newValue) {
-        svg = d3.select(container)
-            .append('svg:svg')
-            .attr('class', 'gauge')
-            .attr('width', config.clipWidth)
-            .attr('height', config.clipHeight);
-        
-        var centerTx = centerTranslation();
-        
-        var arcs = svg.append('g')
-                .attr('class', 'arc')
-                .attr('transform', centerTx);
-        
-        arcs.selectAll('path')
-            .data(tickData)
-            .enter().append('path')
-            .attr('fill', function(d, i) {
-                return config.arcColorFn(d * i);
-            })
-            .attr('d', arc);
-                
-        var lg = svg.append('g')
-            .attr('class', 'label')
-            .attr('transform', centerTx);
-
-        var lineData = [
-            [config.pointerWidth / 2, 0], 
-            [0, -pointerHeadLength],
-            [-(config.pointerWidth / 2), 0],
-            [0, config.pointerTailLength],
-            [config.pointerWidth / 2, 0]
-        ];
-
-        var center = r - 55;
-        
-        
-                        
-        /*  var pointerLine = d3.line().interpolate('monotone');
-        var pg = svg.append('g').data([lineData])
-                .attr('class', 'pointer')
-                .attr('transform', centerTx);
-                
-        pointer = pg.append('path')
-            .attr('d', pointerLine/*function(d) { return pointerLine(d) +'Z';}/ )
-            .attr('transform', 'rotate(' +config.minAngle +')');*/
-            
-        update(newValue === undefined ? 0 : newValue);
-
-        updateGauge();
-    }
-    that.render = render;
-    
-    function update(newValue, newConfiguration) {
-        if ( newConfiguration  !== undefined) {
-            configure(newConfiguration);
-        }
-        var ratio = scale(newValue);
-        var newAngle = config.minAngle + (ratio * range);
-        /*pointer.transition()
-            .duration(config.transitionMs)
-            .ease('elastic')
-            .attr('transform', 'rotate(' +newAngle +')');*/
-    }
-    that.update = update;
-
     configure(configuration);
 
-    that.render();
-    return that;
+    // generate svg and gauge sections
+    svg = d3.select(container)
+        .append('svg:svg')
+        .attr('class', 'gauge')
+        .attr('width', config.clipWidth)
+        .attr('height', config.clipHeight);
+    
+    var arcs = svg.append('g')
+        .attr('class', 'arc')
+        .attr('transform', `translate(${r},${r})`);
+    
+    arcs.selectAll('path')
+        .data(tickData)
+        .enter().append('path')
+        .attr('fill', (d,i) => config.arcColorFn(d * i))
+        .attr('d', arc);
+
+    // gauge pointers
+    svg.append("g")
+        .attr("transform", `translate(${r},${r})`)
+        .append("path")
+        .attr("class", "gauge-gauge")
+        .attr("id", "gauge-gauge-1")
+        .attr("fill", "#aaa")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .attr("transform","rotate(0)")
+        .attr("d", ["M", 0, 10, "L", 10, 0, "L", 0, -100, "L", -10, 0, "Z"].join(" "));
+
+    svg.append("g")
+        .attr("transform", `translate(${r},${r})`)
+        .append("path")
+        .attr("class", "gauge-gauge")
+        .attr("id", "gauge-gauge-0")
+        .attr("fill", "#aaa")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .attr("transform","rotate(0)")
+        .attr("d", ["M", 0, 10, "L", 10, 0, "L", 0, -100, "L", -10, 0, "Z"].join(" "));
+
+    // pointer legend
+    svg.append("g")
+        .attr("id", "avg-underscore")
+        .attr("transform", `translate(0,${r + 60})`)
+        .call(o => o.append("text")
+            .attr("x", r)
+            .attr("fill", "white")
+            .text("Average"))
+        .call(o => o.append("text")
+            .attr("id", "avg-underscore-0")
+            .attr("x", r)
+            .attr("y", 25)
+            .attr("fill", "white")
+            .attr("style", "display: none;"))
+        .call(o => o.append("text")
+            .attr("id", "avg-underscore-1")
+            .attr("x", r)
+            .attr("y", 50)
+            .attr("fill", "white")
+            .attr("style", "display: none;"));
+
+    // gauge legend
+    var gale = [
+        ["Extreme Underscorer", "-∞ ➤ -0.12"],
+        ["Underscorer", "-0.12 ➤ -0.04"],
+        ["Neutral", "-0.04 ➤ 0.04"],
+        ["Top Scorer", "0.04 ➤ 0.12"],
+        ["National Pride", "0.12 ➤ +∞"]
+    ];
+
+    // add legend titles
+    var g = svg.append("g")
+        .attr("id", "gauge-legend")
+        .attr("transform", `translate(45,${r + 160})`)
+        .call(o => o.append("text")
+            .text("Proficiency")
+            .attr("style", "font-weight: bold;")
+            .attr("x", 105)
+            .attr("y", -8)
+        ).call(o => o.append("text")
+            .text("Range")
+            .attr("style", "font-weight: bold;")
+            .attr("x", 240)
+            .attr("y", -8)
+        );
+
+    // create legend lines
+    for (var i = 0; i < gale.length; i++)
+        g.append("g")
+            .attr("transform", `translate(0,${22 * i})`)
+            .call(o => o.append("circle")
+                .attr("cx", 10)
+                .attr("cy", 10)
+                .attr("fill", config.arcColorFn(i * .2))
+                .attr("r", 8)
+            ).call(o => o.append("text")
+                .attr("x", 105)
+                .attr("y", 11)
+                .text(gale[i][0])
+            ).call(o => o.append("text")
+                .attr("x", 240)
+                .attr("y", 11)
+                .text(gale[i][1])
+            );
+
+    updateGauge();
 };
 
 
@@ -2187,9 +2235,11 @@ function updateGauge() {
     var center = {"x": 190, "y": 190};
     var svg = d3.select(".gauge");
     var scores = ["Extreme Underscorer", "Underscorer", "Neutral", "Top Scorer", "National Pride"];
+    var unders = [];
+    let avg;
 
     // if there are no countries selected, select the best 25 of all countries
-    if (active_countries[0] === "")
+    if (active_countries[0] === "") {
         var players = players_compact_data.sort(function (a, b) {
             var keyA = parseFloat(a.player_avg);
             var keyB = parseFloat(b.player_avg);
@@ -2199,8 +2249,13 @@ function updateGauge() {
             return 0;
         }).slice(0, 25);
 
+        // calculate underscorability average
+        for (var i = 0; i < players.length; i++) unders.push(parseFloat(players[i].score));
+        avg = unders.reduce((a,v,i)=>(a*i+v)/(i+1));
+    }
+
     // otherwise, business as usual
-    else
+    else {
         var players = players_compact_data.filter(
             x => (active_countries.includes(x.country))
         ).sort(function (a, b) {
@@ -2220,67 +2275,97 @@ function updateGauge() {
             }
         });
 
+        // calculate underscorability average
+        for (var i = 0; i < players.length; i++) {
+            if (players[i].country === active_countries[no_countries_mode])
+                unders.push(parseFloat(players[i].score));
+        }
+        avg = unders.reduce((a,v,i)=>(a*i+v)/(i+1));
+    }
+
     var colorNo = function (country) {
         if (active_countries[0] === "") return 0;
         return active_countries_colors[active_countries.indexOf(country)];
     };
 
-    // divide players into their underscorer categories
-    var players_group = players.reduce((acc, item) => {
-        if (!acc[item.category]) acc[item.category] = [];
-        acc[item.category].push(item);
-        return acc;
-    }, {"Extreme Underscorer":[],"Underscorer":[],"Neutral":[],"Top Scorer":[],"National Pride":[]});
-
-    console.log(players_group);
-
-    var scale_center = d3.scaleLinear()
-        .domain([0, 4])
-        .range([-11*Math.PI/10, Math.PI/10]);
-
-    var scaleR = d3.scaleLinear()
+    var scale_radius = d3.scaleLinear()
         .domain([-0.2, 0.2])
         .range([-5*Math.PI/4, Math.PI/4])
         .clamp(true);
 
+    var scale_gauge = d3.scaleLinear()
+        .domain([-0.2, 0.2])
+        .range([-135, 135])
+        .clamp(true);
+
+    // insert player circles
     svg.selectAll(".gauge-circle")
         .data(players)
-        .join("circle")
-        .attr("class","gauge-circle")
-        .attr("cx", d => polarToCartesian(center.x, center.y, 150 - 25, 150 - 25, scaleR(d.score))["x"])
-        .attr("cy", d => polarToCartesian(center.x, center.y, 150 - 25, 150 - 25, scaleR(d.score))["y"])
-        .attr("r", 8)
-        .attr("fill", d => country_colors[d.country].active[colorNo(d.country)])
-        .attr("style", "opacity: 0.85")
-        .attr("stroke", "black")
-        .attr("stroke-width", "2")
-        .append("title")
-        .text(d => (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}: ${d.score} (${d.category})`);
+        .join(
+            enter => enter.append("circle")
+                .attr("class", "gauge-circle")
+                .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
+                .attr("cx", d => polarToCartesian(center.x, center.y, d.id % 60 + 100, d.id % 60 + 100, scale_radius(d.score))["x"])
+                .attr("cy", d => polarToCartesian(center.x, center.y, d.id % 60 + 100, d.id % 60 + 100, scale_radius(d.score))["y"])
+                .attr("fill", d => country_colors[d.country].active[colorNo(d.country)])
+                .attr("style", "opacity: 0.85")
+                .attr("stroke", "black")
+                .attr("stroke-width", 0)
+                .call(enter => enter
+                    .transition().duration(500)
+                    .attr("stroke-width", 2)
+                    .attr("r", 8)
+                )
+                .append("title")
+                .attr("class", "title-gauge-circle")
+                .text(d => (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}: ${d.score} (${d.category})`),
+            
+            update => update
+                .attr("class", "gauge-circle")
+                .attr("data-playerid", d => d.id)
+                .attr("data-playeractive", "false")
+                .call(update => update
+                    .transition().duration(500)
+                    .attr("fill", d => country_colors[d.country].active[colorNo(d.country)])
+                    .attr("stroke-width", 2)
+                    .attr("stroke", "black")
+                    .attr("cx", d => polarToCartesian(center.x, center.y, d.id % 60 + 100, d.id % 60 + 100, scale_radius(d.score))["x"])
+                    .attr("cy", d => polarToCartesian(center.x, center.y, d.id % 60 + 100, d.id % 60 + 100, scale_radius(d.score))["y"])
+                )
+                .select("title")
+                .text(d => (d.first_name !== "" ? `${d.first_name[0]}. ` : "") + `${d.last_name}: ${d.score} (${d.category})`),
+            
+            exit => exit
+                .transition().duration(500)
+                .attr("r", 0)
+                .remove()
+        );
 
-/*    for (score in players_group) {
-        var size = Math.min(5, players_group[score].length);
+    // rotate gauge
+    if (no_countries_mode === 0)
+        d3.selectAll(".gauge-gauge")
+            .transition().duration(500)
+            .attr("fill", d => active_countries[0] === "" ? "#aaa" : country_colors[active_countries[0]].hover[colorNo(active_countries[0])])
+            .attr("transform", `rotate(${scale_gauge(avg)})`);
+    else
+        d3.selectAll("#gauge-gauge-1")
+            .transition().duration(500)
+            .attr("fill", d => active_countries[0] === "" ? "#aaa" : country_colors[active_countries[1]].hover[colorNo(active_countries[1])])
+            .attr("transform", `rotate(${scale_gauge(avg)})`);
 
-        var scale_inside = d3.scaleLinear()
-            .domain([0, size - 1])
-            .range([
-                scale_center(scores.indexOf(score)) - (size - 1) * Math.PI / 40,
-                scale_center(scores.indexOf(score)) + (size - 1) * Math.PI / 40
-            ]);
+    // edit gauge legend
+    d3.select($(`#avg-underscore-${no_countries_mode}`).fadeIn(500)[0])
+        .text(Math.round(avg * 100) / 100);
 
-        svg.selectAll(`.gauge-circle-${score.replaceAll(" ", "-")}`)
-            .data(players_group[score])
-            .join("circle")
-            .attr("class",`gauge-circle-${score.replaceAll(" ", "-")}`)
-            .attr("cx", (d,i) => polarToCartesian(center.x, center.y,
-                150 - Math.floor(i / 5) * 25, 150 - Math.floor(i / 5) * 25,
-                scale_inside(i % 5))["x"])
-            .attr("cy", (d,i) => polarToCartesian(center.x, center.y,
-                150 - Math.floor(i / 5) * 25, 150 - Math.floor(i / 5) * 25,
-                scale_inside(i % 5))["y"])
-            .attr("r", 8)
-            .attr("fill", "white")
-            .attr("style", "opacity: 0.85");
-    }*/
+    if (no_countries_mode == 0)
+        $(`#avg-underscore-1`).fadeOut(500, function () {
+            d3.select(this).text("");
+        });
+
+    bindPlayerHover();
+    bindPlayerUnhover();
+    bindPlayerClick();
 }
 
 /* ================================================================ */

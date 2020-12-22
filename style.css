@@ -72,6 +72,12 @@ h1.idiom-title {
   box-sizing: border-box;
 }
 
+#gauge-legend text {
+  alignment-baseline: middle;
+  text-anchor: middle;
+  fill: white;
+}
+
 .secondary-container.top,
 .secondary-container.bottom {
   display: flex;
@@ -415,7 +421,8 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 .player-bar-rect-club,
 .player-bar-rect-avg,
 .player-bar-text,
-.player-circle {
+.player-circle,
+.gauge-circle {
   cursor: pointer;
 }
 
@@ -423,7 +430,8 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 .player-bar-rect-club[data-playeractive=true],
 .player-bar-rect-avg[data-playeractive=true],
 .player-bar-text[data-playeractive=true],
-.player-circle[data-playeractive=true] {
+.player-circle[data-playeractive=true],
+.gauge-circle[data-playeractive=true] {
   cursor: default;
 }
 
@@ -567,4 +575,11 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 #power-gauge{
   margin-top: 8px;
   padding: 8px;
+}
+
+#avg-underscore text {
+  alignment-baseline: middle;
+  font-size: 20px;
+  font-weight: bold;
+  text-anchor: middle;
 }
