@@ -16,6 +16,7 @@ var players_compact_data = [];
 var players_data = [];
 var country_rank = {};
 var country_happiness = {};
+var country_gpm = {};
 
 // text to display when hovering for help
 var help = {
@@ -555,18 +556,18 @@ function updateSpiderChart(){
     var rankPoint1 = rankScale(rank1);
 
 
-    /*var totalGPM1 =
+    var totalGPM1 = country_gpm[active_countries[no_countries_mode]];
     gpmScale = d3.scaleLinear()
-    .domain([0, 1])
+    .domain([0, 0.5])
     .range([[centerX,centerY],[151.2091395986168,92.4245384837545]])
-    var gpmPoint1 = gpmScale(totalGPM1);*/
+    var gpmPoint1 = gpmScale(totalGPM1);
 
     var colorNo = function (country) {
     if (active_countries[0] === "") return 0;
-    return active_countries_colours[active_countries.indexOf(country)];
+    return active_countries_colors[active_countries.indexOf(country)];
     };
 
-    var points = [happinessPoint1, nationalPoint1, leaguePoint1, rankPoint1];
+    var points = [happinessPoint1, nationalPoint1, leaguePoint1, gpmPoint1, rankPoint1];
     
     var svg = 
     d3.select('#spider_chart')
@@ -576,10 +577,10 @@ function updateSpiderChart(){
     var path = 
         svg.select('#spider-path-' + no_countries_mode)
         .attr('d', pentagon(points))
-        .attr('stroke', country_colours[active_countries[no_countries_mode]].active[colorNo(active_countries[no_countries_mode])])
+        .attr('stroke', country_colors[active_countries[no_countries_mode]].active[colorNo(active_countries[no_countries_mode])])
         .attr('stroke-width', 3)
-        .attr('fill', country_colours[active_countries[no_countries_mode]].hover[colorNo(active_countries[no_countries_mode])])
-        .attr('fill-opacity', '0.5');
+        .attr('fill', country_colors[active_countries[no_countries_mode]].hover[colorNo(active_countries[no_countries_mode])])
+        .attr('fill-opacity', '0.3');
 
 }
 
@@ -614,6 +615,7 @@ function createHappinessChart() {
         success: function (response) {
             $.csv.toObjects(response).forEach(function (item) {
                 country_happiness[item.country] = [["2008", item[2008]], ["2018", item[2018]]];
+                country_gpm[item.country] = item.nt_gpm;
             });
         }   
     });
