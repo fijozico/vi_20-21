@@ -542,3 +542,29 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 #country-line-chart{
   padding: 8px;
 }
+
+/* ================================================================ */
+/*                      SCORABILITY VISUALIZATION                   */
+/* ================================================================ */
+
+#power-gauge g.arc {
+  fill: steelblue;
+}
+
+#power-gauge g.pointer {
+  fill: #e85116;
+  stroke: #b64011;
+}
+
+#power-gauge g.label text {
+  text-anchor: middle;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 5;
+  alignment-baseline: middle;
+}
+
+#power-gauge{
+  margin-top: 8px;
+  padding: 8px;
+}
