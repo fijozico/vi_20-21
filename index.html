@@ -16,7 +16,7 @@
     <div class="primary-container" id="left">
       <!-- Country Map and List -->
       <div class="secondary-container top" id="pc-left-top">
-        <i class="info-button" title="Click a country's position or name to select it. Add a second country to compare with by clicking '+ add country' below. Remove countries by closing them with the cross.">i</i>
+        <i class="info-button" data-info-name="map">i</i>
         <svg id="map-svg" viewBox="1180 161 8578.5 6968.8">
           <rect width="12386.153" height="7934.9712" x="-1722.1534" y="-782.5993" id="ocean" fill="#b6ddff"/>
         </svg>
@@ -37,14 +37,14 @@
       <div class="secondary-container bottom" id="pc-left-bottom">
         <!-- Spider Chart -->
         <div class="terciary-container" id="spider-chart-container">
-          <i class="info-button" title="some spider chart info...">i</i>
+          <i class="info-button" data-info-name="spider">i</i>
           <h1 class="idiom-title">Quick Stats on <span class="fill-in-country-name">the Country</span></h1>
           <img src="images/spider.png" style="height: 17.33vh; margin: 1.5vh;">
         </div>
 
         <!-- Country Line Chart -->
         <div class="terciary-container" id="line-chart-container">
-          <i class="info-button" title="some line chart info...">i</i>  
+          <i class="info-button" data-info-name="happiness">i</i>  
           <h1 class="idiom-title">Happiness vs <abbr title="National Team">NT</abbr> Performance</h1>
           <div id="country-line-chart">
             <svg id="country-line-chart-svg">
@@ -58,7 +58,7 @@
 
         <!-- Stadium Idiom -->
         <div class="terciary-container" id="stadium-container">
-          <i class="info-button" title="Hover on top of a section to see it's percentual value.">i</i>
+          <i class="info-button" data-info-name="stadium">i</i>
           <h1 class="idiom-title">League vs National Team<br/>Attendance Comparison</h1>
           <div class="before-svg">
             <svg viewBox="-54 50 1000 1050" xmlns="http://www.w3.org/2000/svg" id="stadium">
@@ -107,15 +107,16 @@
 
     <!-- Middle Tall Container -->
     <div class="primary-container" id="middle">
+      <!-- Player ID -->
       <div class="secondary-container top" id="pc-right-top">
-        <i class="info-button" title="some player info...">i</i>
+        <i class="info-button" data-info-name="player">i</i>
         <h1 class="idiom-title"><span class="fill-in-country-name">Player's Stats</span></h1>
         <div id="player-id" style="display: none;">
           <div id="image-nat">
             <img class = "image" alt="Avatar"/>
-            <div style="justify-content:center; display:flex; align-items: center; height: 38px;">
+            <div>
               <img id="player-flag">
-              <div id="nat" style="float:left;"></div>
+              <div id="nat"></div>
             </div>
           </div>          
           <div id="player-info">
@@ -126,16 +127,18 @@
           <div id="player-bars" >
             <div class="player-bar-title">
               NT GPM
-              <svg class="player-bar" id="player-bar-nt-gpm">
-                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
+              <svg class="player-bar" id="player-bar-nt-gpm" width="30" height="172">
+                <rect x="0" y="0" width="30" height="133" fill="gray" rx="0"/>
                 <rect id="player-value-nt-gpm"/>
+                <text id="player-bar-number-nt" x="15" y="136">0.5</text>
               </svg>
             </div>
             <div class="player-bar-title">
               Club GPM
-              <svg class="player-bar" id="player-bar-club-gpm">
-                <rect x="0" y="0" width="30" height="152" fill="gray" rx="0"/>
+              <svg class="player-bar" id="player-bar-club-gpm" width="30" height="172">
+                <rect x="0" y="0" width="30" height="133" fill="gray" rx="0"/>
                 <rect id="player-value-club-gpm"/>
+                <text id="player-bar-number-club" x="15" y="136">0.5</text>
               </svg>
             </div>
           </div>
@@ -147,10 +150,10 @@
             <path id="player-club-gpm-path"/>
             <path id="player-club-gpm-path-dashed"/>
             <g id="player-line-legend">
-              <circle cx="186" cy="266" r="8" fill="transparent" />
-              <text x="200" y="272" fill="white">NT GPM</text>
-              <circle cx="290" cy="266" r="8" fill="transparent" />
-              <text x="304" y="272" fill="white">Club GPM</text>
+              <circle cx="186" cy="281" r="8" fill="transparent" />
+              <text x="200" y="287" fill="white">NT GPM</text>
+              <circle cx="290" cy="281" r="8" fill="transparent" />
+              <text x="304" y="287" fill="white">Club GPM</text>
             </g>
           </svg>
         </div>        
@@ -158,10 +161,21 @@
 
       <!-- Player Scatterplot -->
       <div class="secondary-container bottom" id="pc-right-bottom">
-        <i class="info-button" title="some barchart info...">i</i>
+        <i class="info-button" data-info-name="scatterplot">i</i>
         <h1 class="idiom-title">Players' Scatterplot</h1>
         <div class="before-svg">
-          <svg id="gpm_scatterplot"></svg>
+          <svg id="gpm_scatterplot">
+            <g id="scatterplot-legend">
+              <g id="scatterplot-legend-1" style="display: none;">
+                <circle cx="156" cy="470" r="8" fill="transparent" />
+                <text x="156" y="495" fill="white"></text>
+              </g>
+              <g id="scatterplot-legend-2" style="display: none;">
+                <circle cx="356" cy="470" r="8" fill="transparent" />
+                <text x="356" y="495" fill="white"></text>
+              </g>
+            </g>
+          </svg>
         </div>
       </div>
     </div>
@@ -170,21 +184,35 @@
     <div class="primary-container" id="right">
       <!-- GPM Bar Charts -->
       <div class="secondary-container top" id="gpm-bar-container">
-        <i class="info-button" title="scome bar chart info...">i</i>
+        <i class="info-button" data-info-name="barchart">i</i>
         <h1 class="idiom-title">Players' Bar Chart</h1>
         <form id="player-barchart-form" onchange="formChange()">
           <p>ORDER BY:</p>
           <div>
             <input type="radio" id="nt-gpm" name="order" value="nt-gpm">
-            <label for="nt-gpm"><abbr title="National Team">NT</abbr> <abbr title="Goals Per Match">GPM</abbr></label>
+            <label for="nt-gpm"><abbr title="National Team">NT</abbr> <abbr title="Goals Per Match">GPM</abbr> (</label>
+            <svg viewBox="0 0 29 12" width="29" height="12" id="bar-chart-legend-nt">
+              <rect fill="transparent" width="12" height="12"></rect>
+              <rect fill="transparent" width="12" height="12" x="17"></rect>
+            </svg>
+            )
           </div>
           <div>
             <input type="radio" id="total-gpm" name="order" value="total-gpm" checked>
-            <label for="total-gpm">Average <abbr title="Goals Per Match">GPM</abbr></label>
+            <label for="total-gpm">Average <abbr title="Goals Per Match">GPM</abbr> (</label>
+            <svg viewBox="0 0 12 12" width="12" height="12" id="bar-chart-legend-avg">
+              <path d="M 6 9 L 1 4 L 11 4" fill="rgb(255, 0, 0)"></path>
+            </svg>
+            )
           </div>
           <div>
             <input type="radio" id="club-gpm" name="order" value="club-gpm">
-            <label for="club-gpm">Club <abbr title="Goals Per Match">GPM</abbr></label>
+            <label for="club-gpm">Club <abbr title="Goals Per Match">GPM</abbr> (</label>
+            <svg viewBox="0 0 29 12" width="29" height="12" id="bar-chart-legend-club">
+              <rect fill="transparent" width="12" height="12"></rect>
+              <rect fill="transparent" width="12" height="12" x="17"></rect>
+            </svg>
+            )
           </div>
           <div class="ascdesc">
             <label for="ascdesc">Ascending</label>
@@ -198,12 +226,13 @@
 
       <!-- Underscore -->
       <div class="secondary-container bottom" id="underscore-container">
-        <i class="info-button" title="scome underscorability info...">i</i>
+        <i class="info-button" data-info-name="underscore">i</i>
         <h1 class="idiom-title">Players' Underscore</h1>
         <img src="">
       </div>
-
     </div>
+
+    <div class="help-box" style="display: none;"><p></p></div>
 
     <script type="text/javascript" src="script.js"></script>
   </body>

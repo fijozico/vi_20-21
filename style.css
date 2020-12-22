@@ -31,7 +31,7 @@ h1.idiom-title {
   color: white;
   font-size: 2.04vh;
   line-height: 2.04vh;
-  margin: 0.75vh 0 0 0;
+  margin: .75vh 0 0 0;
   text-align: center;
   text-transform: uppercase;
   width: 100%;
@@ -45,13 +45,13 @@ h1.idiom-title {
   align-content: space-between;
   display: flex;
   flex-wrap: wrap;
-  height: calc(100% - 20px);
-  max-width: calc(50% - 20px);
+  height: calc(100% - 1.85vh);
+  max-width: calc(50% - 1.85vh);
   overflow: hidden;
 }
 
 .primary-container#middle {
-  width: calc(50% - 20% - 20px);
+  width: calc(50% - 20% - 1.85vh);
 }
 
 .primary-container#right {
@@ -67,7 +67,7 @@ h1.idiom-title {
 #underscore-container,
 .terciary-container {
   background-color: rgb(51,51,51);
-  border-radius: 4px;
+  border-radius: .37vh;
   border: 1px solid black;
   box-sizing: border-box;
 }
@@ -75,19 +75,19 @@ h1.idiom-title {
 .secondary-container.top,
 .secondary-container.bottom {
   display: flex;
-  height: calc(50% - 5px);
+  height: calc(50% - .46vh);
   min-width: 100%;
   overflow: hidden;
 }
 
 #pc-left-top {
-  height: calc(50% - 65px);
+  height: calc(50% - 6.02vh);
 }
 
 #pc-left-bottom {
   align-content: space-between;
   flex-wrap: wrap;
-  height: calc(50% - 5px);
+  height: calc(50% - .46vh);
   justify-content: space-between;
 }
 
@@ -105,21 +105,22 @@ h1.idiom-title {
 
 /* terciary containers */
 #spider-chart-container {
-  height: calc(50% - 5px);
-  width: calc(50% - 5px);
+  height: calc(50% - .46vh);
+  width: calc(50% - .46vh);
 }
 
 #line-chart-container {
-  height: calc(50% - 5px);
-  width: calc(50% - 5px);
+  height: calc(50% - .46vh);
+  width: calc(50% - .46vh);
 }
 
 #stadium-container {
   height: 100%;
-  width: calc(50% - 5px);
+  width: calc(50% - .46vh);
 }
 
 div.before-svg {
+  height: calc(100% - 2.79vh);
   flex-grow: 1;
   width: 100%;
   display: flex;
@@ -147,7 +148,7 @@ ul#country-pick li {
   font-size: 1.58vh;
   font-weight: 500;
   list-style: none;
-  padding: 2px 10px 2px 0;
+  padding: .19vh .93vh .19vh 0;
 }
 
 ul#country-pick li[data-active="0"], ul#country-pick li[data-active="1"] {
@@ -172,7 +173,7 @@ ul#country-pick li i.flag-icon {
   border: .19vh solid rgb(128,128,128);
   box-sizing: content-box;
   height: 1.11vh;
-  margin: 0 4px;
+  margin: 0 .37vh;
   min-width: 1.11vh;
 }
 
@@ -186,7 +187,7 @@ svg#map-svg path:not(.greyed-out)[data-active="0"], svg#map-svg path:not(.greyed
 
 #country-title-bar {
   display: inherit;
-  height: 50px;
+  height: 4.63vh;
   width: 100%;
 }
 
@@ -203,7 +204,7 @@ svg#map-svg path:not(.greyed-out)[data-active="0"], svg#map-svg path:not(.greyed
 #country-title-bar > div img {
   border: 1px solid black;
   height: 3.33vh;
-  margin: 0 10px;
+  margin: 0 .93vh;
 }
 
 #country-title-bar > div span.country-name,
@@ -221,8 +222,8 @@ svg#map-svg path:not(.greyed-out)[data-active="0"], svg#map-svg path:not(.greyed
 
 #country-title-bar > div span.close-country {
   cursor: pointer;
-  font-size: 12px;
-  margin: 0 10px;
+  font-size: 1.11vh;
+  margin: 0 .93vh;
 }
 
 #country-title-bar span.add-country {
@@ -243,7 +244,7 @@ svg#stadium text {
 text.cnt-label {
   paint-order: stroke;
   stroke: rgb(30,30,30);
-  stroke-width: 8px;
+  stroke-width: .74vh;
   stroke-linecap: butt;
   stroke-linejoin: miter;
 }
@@ -259,7 +260,7 @@ svg#stadium g#legend text {
 /* ================================================================ */
 
 i.info-button {
-  align-self: flex-end;
+  align-self: flex-start;
   background-color: #1b1bdc;
   border-radius: 50%;
   border: .19vh solid white;
@@ -281,6 +282,21 @@ i.info-button {
   align-self: flex-start;
 }
 
+.help-box {
+  background-color: rgb(74 74 74);
+  border: 2px solid rgb(27 27 27);
+  color: white;
+  width: 350px;
+  position: absolute;
+  z-index: 20;
+}
+
+.help-box p {
+  margin: 4px;
+  font-size: 16px;
+  text-align: center;
+}
+
 /* ================================================================ */
 /*                         PLAYER BAR CHART                         */
 /* ================================================================ */
@@ -298,12 +314,21 @@ form#player-barchart-form > *:not(.ascdesc) {
   align-items: center;
   display: flex;
   height: 2.5vh;
-  width: 50%;
+  width: 46%;
+}
+
+form#player-barchart-form > *:not(.ascdesc) svg {
+  margin: .37vh .19vh 0 .19vh;
 }
 
 form#player-barchart-form > p {
   font-weight: 500;
   margin: 0;
+}
+
+form#player-barchart-form > *:not(.ascdesc):nth-of-type(2),
+form#player-barchart-form > p {
+  width: 54% !important;
 }
 
 /* designing the radio buttons */
@@ -379,6 +404,10 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
   overflow-x: hidden;
 }
 
+#scatterplot-legend text {
+  text-anchor: middle;
+}
+
 /* ================================================================ */
 /*                         PLAYER BAR CHART                         */
 /* ================================================================ */
@@ -401,43 +430,54 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 /* ================================================================ */
 /*                             PLAYER ID                            */
 /* ================================================================ */
-#pc-right-top{
+#pc-right-top {
   flex-direction: column;
   justify-content: space-between;
-  padding: 8px;
+  padding: .55vh;
 }
 
-.image{
-  width: 120px;
-  height: 120px;
+.image {
+  width: 11.11vh;
+  height: 11.11vh;
   border-radius: 50%;
-  border: 5px solid #555;
+  border: .46vh solid #555;
 }
-#nat{
+
+#nat {
   color: white;
   text-align: center;
-  font-size: 14px;
+  font-size: 1.30vh;
   text-overflow: ellipsis;
-  overflow: hidden;  
-}
-#image-nat{
-  max-width: 130px;
+  overflow: hidden;
+  float: left;
 }
 
-#player-gpm{
-  width:100%;
+#image-nat {
+  max-width: 12.04vh;
+}
+
+#image-nat > div {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 3.52vh;
+}
+
+#player-gpm {
+  width: 100%;
   height: fit-content;
-  flex-grow : 1;
+  flex-grow: 1;
 }
 
-#player-id{
+#player-id {
   display: flex;
   height: fit-content;
   width: 100%;  
   justify-content: space-between;
 }
-#player-info{
-  margin-left: 8px;
+
+#player-info {
+  margin-left: .55vh;
   display: flex;
   flex-direction: column;
   color: white;
@@ -445,39 +485,45 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
   word-wrap: break-word;
   justify-content: space-around;
   height: 100%;
-  font-size: 16px;
-  
+  font-size: 1.48vh;
 }
 
-#player-bars{
+#player-bars {
   justify-content: space-between;
   display: flex;
   height: fit-content;
 }
 
-.player-bar-title{
+.player-bar-title {
   text-align: center;
-  -webkit-text-stroke: 0.1px black;
+  -webkit-text-stroke: .1px black;
   color: white;
-  margin-left: 8px;
-  width: 50px;  
-  font-size: 10px;
+  margin-left: .55vh;
+  width: 4.63vh;  
+  font-size: .93vh;
 }
 
-.player-bar{
-  height: 152px;
-  width: 30px;
-  margin-top: 8px;
+.player-bar {
+  height: 14.08vh;
+  width: 2.78vh;
+  margin-top: .55vh;
 }
 
-#player-flag{
+.player-bar text {
+  fill: white;
+  font-size: 14px;
+  text-anchor: middle;
+  alignment-baseline: hanging;
+}
+
+#player-flag {
   border: 1px solid black;
   height: 1.7vh;
-  margin-right: 5px;
+  margin-right: .46vh;
 }
 
-#pc-right-top > .idiom-title, #pc-right-top > .info-button{
-  margin: 0px;
+#pc-right-top > .idiom-title, #pc-right-top > .info-button {
+  margin: 0;
   margin-bottom: 1.3vh;
 }
 
