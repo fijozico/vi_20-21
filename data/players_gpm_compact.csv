@@ -1,369 +1,369 @@
 full_name,first_name,last_name,country,dob,id,club_avg,nt_avg,player_avg,years_active,score,category
-Alessandro Schopf,Alessandro,Schopf,Austria,07/02/1994,417,0.17,0.09,0.13,8,-0.08,Underscorer
-David Alaba,David,Alaba,Austria,24/06/1992,505,0.08,0.15,0.12,12,0.07,Top Scorer
-Zlatko Junuzovic,Zlatko,Junuzovic,Austria,26/09/1987,1091,0.13,0.06,0.1,12,-0.07,Underscorer
-Marcel Sabitzer,Marcel,Sabitzer,Austria,17/03/1994,1159,0.27,0.14,0.21,10,-0.13,Extreme Underscorer
-Marko Arnautovic,Marko,Arnautovic,Austria,19/04/1989,18830,0.22,0.25,0.24,14,0.03,Neutral
-Louis Schaub,Louis,Schaub,Austria,29/12/1994,24809,0.2,0.29,0.25,9,0.09,Top Scorer
-Martin Harnik,Martin,Harnik,Austria,10/06/1987,25327,0.29,0.18,0.24,15,-0.11,Underscorer
-Andreas Ivanschitz,Andreas,Ivanschitz,Austria,15/10/1983,105418,0.15,0.13,0.14,14,-0.02,Neutral
-Roland Linz,Roland,Linz,Austria,09/08/1981,116545,0.51,0.14,0.33,8,-0.37,Extreme Underscorer
-Roman Wallner,Roman,Wallner,Austria,04/02/1982,120656,0.28,0.13,0.21,11,-0.15,Extreme Underscorer
-Axel Witsel,Axel,Witsel,Belgium,12/01/1989,20,0.14,0.11,0.13,13,-0.03,Neutral
-Nacer Chadli,Nacer,Chadli,Belgium,02/08/1989,106,0.25,0.12,0.19,13,-0.13,Extreme Underscorer
-Jan Vertonghen,Jan,Vertonghen,Belgium,24/04/1987,170,0.08,0.09,0.09,14,0.01,Neutral
-Radja Nainggolan,Radja,Nainggolan,Belgium,04/05/1988,205,0.1,0.14,0.12,14,0.04,Neutral
-Thomas Meunier,Thomas,Meunier,Belgium,12/09/1991,264,0.19,0.07,0.13,10,-0.12,Underscorer
-Kevin De Bruyne,Kevin,De Bruyne,Belgium,28/06/1991,629,0.2,0.24,0.22,12,0.04,Neutral
-Romelu Lukaku,Romelu,Lukaku,Belgium,13/05/1993,907,0.42,0.62,0.52,12,0.2,National Pride
-Eden Hazard,Eden,Hazard,Belgium,07/01/1991,2296,0.25,0.3,0.28,13,0.05,Top Scorer
-Yannick Ferreira-Carrasco,Yannick,Ferreira-Carrasco,Belgium,04/09/1993,2923,0.24,0.07,0.16,8,-0.17,Extreme Underscorer
-Christian Benteke,Christian,Benteke,Belgium,03/12/1990,2928,0.3,0.48,0.39,12,0.18,National Pride
-Marouane Fellaini,Marouane,Fellaini,Belgium,22/11/1987,12753,0.18,0.35,0.27,14,0.17,National Pride
-Wesley Sonck,Wesley,Sonck,Belgium,09/08/1978,114217,0.22,0.43,0.33,8,0.21,National Pride
-Daniel Van Buyten,Daniel,Van Buyten,Belgium,07/02/1978,114958,0.09,0.12,0.11,13,0.03,Neutral
-Ermin Bicakcic,Ermin,Bicakcic,Bosnia-and-Herzegovina,24/01/1990,705,0.04,0.06,0.05,11,0.02,Neutral
-Edin Džeko,Edin,Džeko,Bosnia-and-Herzegovina,17/03/1986,790,0.45,0.52,0.49,15,0.07,Top Scorer
-Miralem Pjanic,Miralem,Pjanic,Bosnia-and-Herzegovina,02/04/1990,872,0.12,0.12,0.12,14,0,Neutral
-Amer Gojak,Amer,Gojak,Bosnia-and-Herzegovina,13/02/1997,1320,0.06,0.11,0.09,7,0.05,Top Scorer
-Izet Hajrovic,Izet,Hajrovic,Bosnia-and-Herzegovina,04/08/1991,1327,0.13,0.29,0.21,11,0.16,National Pride
-Senad Lulic,Senad,Lulic,Bosnia-and-Herzegovina,18/01/1986,1855,0.11,0.16,0.14,12,0.05,Top Scorer
-Armin Hodzic,Armin,Hodzic,Bosnia-and-Herzegovina,17/11/1994,2351,0.25,0.19,0.22,8,-0.06,Underscorer
-Vedad Ibisevic,Vedad,Ibisevic,Bosnia-and-Herzegovina,06/08/1984,25359,0.37,0.2,0.29,15,-0.17,Extreme Underscorer
-Edin Visca,Edin,Visca,Bosnia-and-Herzegovina,17/02/1990,49860,0.25,0.11,0.18,10,-0.14,Extreme Underscorer
-Haris Medunjanin,Haris,Medunjanin,Bosnia-and-Herzegovina,08/03/1985,50744,0.16,0.1,0.13,15,-0.06,Underscorer
-Sejad Salihovic,Sejad,Salihovic,Bosnia-and-Herzegovina,08/10/1984,90644,0.23,0.09,0.16,12,-0.14,Extreme Underscorer
-Senijad Ibricic,Senijad,Ibricic,Bosnia-and-Herzegovina,26/09/1985,105868,0.51,0.03,0.27,12,-0.48,Extreme Underscorer
-Zvjezdan Misimovic,Zvjezdan,Misimovic,Bosnia-and-Herzegovina,05/06/1982,115103,0.19,0.16,0.18,10,-0.03,Neutral
-Stanislav Manolev,Stanislav,Manolev,Bulgaria,16/12/1985,1060,0.03,0.08,0.06,11,0.05,Top Scorer
-Dimitar Rangelov,Dimitar,Rangelov,Bulgaria,09/02/1983,26230,0.26,0.22,0.24,14,-0.04,Neutral
-Ivelin Popov,Ivelin,Popov,Bulgaria,26/10/1987,53530,0.21,0.25,0.23,13,0.04,Neutral
-Dimitar Berbatov,Dimitar,Berbatov,Bulgaria,30/01/1981,113639,0.37,0.69,0.53,12,0.32,National Pride
-Martin Petrov,Martin,Petrov,Bulgaria,15/01/1979,114864,0.17,0.25,0.21,12,0.08,Top Scorer
-Chavdar Yankov,Chavdar,Yankov,Bulgaria,29/03/1984,242429,0.06,0.29,0.18,10,0.23,National Pride
-Nikola Kalinic,Nikola,Kalinic,Croatia,05/01/1988,57,0.33,0.34,0.34,15,0.01,Neutral
-Ivan Rakitic,Ivan,Rakitic,Croatia,10/03/1988,149,0.14,0.11,0.13,15,-0.03,Neutral
-Marcelo Brozovic,Marcelo,Brozovic,Croatia,16/11/1992,201,0.13,0.18,0.16,10,0.05,Top Scorer
-Ivan Perisic,Ivan,Perisic,Croatia,02/02/1989,207,0.26,0.17,0.22,12,-0.09,Underscorer
-Andrej Kramaric,Andrej,Kramaric,Croatia,19/06/1991,726,0.42,0.2,0.31,11,-0.22,Extreme Underscorer
-Luka Modric,Luka,Modric,Croatia,09/09/1985,754,0.12,0.12,0.12,15,0,Neutral
-Nikola Vlasic,Nikola,Vlasic,Croatia,04/10/1997,842,0.18,0.13,0.16,6,-0.05,Underscorer
-Mario Mandžukic,Mario,Mandžukic,Croatia,21/05/1986,878,0.36,0.3,0.33,15,-0.06,Underscorer
-Bruno Petkovic,Bruno,Petkovic,Croatia,16/09/1994,1331,0.14,0.75,0.45,8,0.61,National Pride
-Nikica Jelavic,Nikica,Jelavic,Croatia,27/08/1985,12464,0.38,0.21,0.3,12,-0.17,Extreme Underscorer
-Darijo Srna,Darijo,Srna,Croatia,01/05/1982,30557,0.07,0.17,0.12,15,0.1,Top Scorer
-Eduardo da Silva,Eduardo,da Silva,Croatia,25/02/1983,80360,0.36,0.41,0.39,14,0.05,Top Scorer
-Ivica Olic,Ivica,Olic,Croatia,14/09/1979,90712,0.3,0.19,0.25,15,-0.11,Underscorer
-Niko Kranjcar,Niko,Kranjcar,Croatia,13/08/1984,104745,0.14,0.16,0.15,13,0.02,Neutral
-Mladen Petric,Mladen,Petric,Croatia,01/01/1981,114793,0.33,0.24,0.29,15,-0.09,Underscorer
-Patrik Schick,Patrik,Schick,Czech-Republic,24/01/1996,794,0.22,0.43,0.33,7,0.21,National Pride
-Michal Krmencík,Michal,Krmencík,Czech-Republic,15/03/1993,820,0.38,0.23,0.31,10,-0.15,Extreme Underscorer
-Matej Vydra,Matej,Vydra,Czech-Republic,01/05/1992,18930,0.21,0.09,0.15,11,-0.12,Underscorer
-Vladimír Darida,Vladimír,Darida,Czech-Republic,08/08/1990,25348,0.1,0.13,0.12,11,0.03,Neutral
-Antonín Barák,Antonín,Barák,Czech-Republic,03/12/1994,30803,0.1,0.42,0.26,8,0.32,National Pride
-Borek Dockal,Borek,Dockal,Czech-Republic,30/09/1988,55875,0.18,0.16,0.17,12,-0.02,Neutral
-Milan Baros,Milan,Baros,Czech-Republic,28/10/1981,66078,0.33,0.39,0.36,18,0.06,Top Scorer
-Michal Kadlec,Michal,Kadlec,Czech-Republic,13/12/1984,66090,0.06,0.08,0.07,15,0.02,Neutral
-Václav Pilar,Václav,Pilar,Czech-Republic,13/10/1988,66281,0.09,0.12,0.11,10,0.03,Neutral
-Jan Polák,Jan,Polák,Czech-Republic,14/03/1981,66607,0.05,0.11,0.08,13,0.06,Top Scorer
-Tomás Sivok,Tomás,Sivok,Czech-Republic,15/09/1983,105277,0.1,0.12,0.11,14,0.02,Neutral
-David Lafata,David,Lafata,Czech-Republic,18/09/1981,105715,0.45,0.27,0.36,14,-0.18,Extreme Underscorer
-Tomás Rosicky,Tomás,Rosicky,Czech-Republic,04/10/1980,105800,0.1,0.19,0.15,14,0.09,Top Scorer
-Thomas Delaney,Thomas,Delaney,Denmark,03/09/1991,15,0.09,0.05,0.07,11,-0.04,Neutral
-Christian Eriksen,Christian,Eriksen,Denmark,14/02/1992,174,0.21,0.39,0.3,11,0.18,National Pride
-Kasper Dolberg,Kasper,Dolberg,Denmark,06/10/1997,550,0.29,0.21,0.25,5,-0.08,Underscorer
-Nicklas Bendtner,Nicklas,Bendtner,Denmark,16/01/1988,1187,0.21,0.36,0.29,15,0.15,National Pride
-Andreas Cornelius,Andreas,Cornelius,Denmark,16/03/1993,1274,0.25,0.38,0.32,9,0.13,National Pride
-Martin Braithwaite,Martin,Braithwaite,Denmark,05/06/1991,2737,0.19,0.16,0.18,11,-0.03,Neutral
-Daniel Agger,Daniel,Agger,Denmark,12/12/1984,114778,0.04,0.11,0.08,12,0.07,Top Scorer
-Jon Dahl Tomasson,Jon Dahl,Tomasson,Denmark,29/08/1976,117965,0.36,0.37,0.37,17,0.01,Neutral
-Dennis Rommedahl,Dennis,Rommedahl,Denmark,22/07/1978,117966,0.08,0.24,0.16,15,0.16,National Pride
-Harry Kane,Harry,Kane,England,28/07/1993,184,0.52,0.82,0.67,10,0.3,National Pride
-Alex Oxlade-Chamberlain,Alex,Oxlade-Chamberlain,England,15/08/1993,297,0.11,0.16,0.14,11,0.05,Top Scorer
-Daniel Sturridge,Daniel,Sturridge,England,01/09/1989,308,0.32,0.13,0.23,14,-0.19,Extreme Underscorer
-Raheem Sterling,Raheem,Sterling,England,08/12/1994,645,0.29,0.21,0.25,9,-0.08,Underscorer
-Marcus Rashford,Marcus,Rashford,England,31/10/1997,909,0.33,0.3,0.32,5,-0.03,Neutral
-Danny Welbeck,Danny,Welbeck,England,26/11/1990,1469,0.22,0.27,0.25,13,0.05,Top Scorer
-Jermain Defoe,Jermain,Defoe,England,07/10/1982,1758,0.36,0.3,0.33,18,-0.06,Underscorer
-Theo Walcott,Theo,Walcott,England,16/03/1989,18769,0.24,0.1,0.17,15,-0.14,Extreme Underscorer
-Jamie Vardy,Jamie,Vardy,England,11/01/1987,18788,0.38,0.16,0.27,10,-0.22,Extreme Underscorer
-Peter Crouch,Peter,Crouch,England,30/01/1981,18928,0.24,0.33,0.29,17,0.09,Top Scorer
-Wayne Rooney,Wayne,Rooney,England,24/10/1985,50773,0.4,0.38,0.39,18,-0.02,Neutral
-Joe Cole,Joe,Cole,England,08/11/1981,102748,0.11,0.15,0.13,15,0.04,Neutral
-Steven Gerrard,Steven,Gerrard,England,20/06/1978,105426,0.33,0.24,0.29,15,-0.09,Underscorer
-Frank Lampard,Frank,Lampard,England,20/06/1978,105426,0.33,0.24,0.29,15,-0.09,Underscorer
-Michael Owen,Michael,Owen,England,14/12/1979,114815,0.37,0.41,0.39,11,0.04,Neutral
-Antoine Griezmann,Antoine,Griezmann,France,21/03/1991,56,0.37,0.42,0.4,11,0.05,Top Scorer
-Kylian Mbappé,Kylian,Mbappé,France,20/12/1998,278,0.57,0.33,0.45,5,-0.24,Extreme Underscorer
-Franck Ribéry,Franck,Ribéry,France,07/04/1983,515,0.27,0.16,0.22,16,-0.11,Underscorer
-Karim Benzema,Karim,Benzema,France,19/12/1987,759,0.47,0.32,0.4,15,-0.15,Extreme Underscorer
-Blaise Matuidi,Blaise,Matuidi,France,09/04/1987,869,0.07,0.06,0.07,15,-0.01,Neutral
-Paul Pogba,Paul,Pogba,France,15/03/1993,904,0.15,0.07,0.11,10,-0.08,Underscorer
-Mathieu Valbuena,Mathieu,Valbuena,France,28/09/1984,1367,0.14,0.19,0.17,14,0.05,Top Scorer
-Dimitri Payet,Dimitri,Payet,France,29/03/1987,1912,0.22,0.09,0.16,15,-0.13,Extreme Underscorer
-Olivier Giroud,Olivier,Giroud,France,30/09/1986,2295,0.37,0.42,0.4,14,0.05,Top Scorer
-Sidney Govou,Sidney,Govou,France,27/07/1979,21881,0.09,0.18,0.14,10,0.09,Top Scorer
-Nicolas Anelka,Nicolas,Anelka,France,14/03/1979,114772,0.29,0.32,0.31,11,0.03,Neutral
-Thierry Henry,Thierry,Henry,France,17/08/1977,114876,0.46,0.41,0.44,12,-0.05,Underscorer
-David Trezeguet,David,Trezeguet,France,15/10/1977,117095,0.41,0.41,0.41,10,0,Neutral
-Mario Götze,Mario,Götze,Germany,03/06/1992,16,0.22,0.17,0.2,11,-0.05,Underscorer
-Marco Reus,Marco,Reus,Germany,31/05/1989,25,0.43,0.29,0.36,12,-0.14,Extreme Underscorer
-Julian Draxler,Julian,Draxler,Germany,20/09/1993,267,0.16,0.12,0.14,10,-0.04,Neutral
-Sèrge Gnabry,Sèrge,Gnabry,Germany,14/07/1995,510,0.28,0.69,0.49,8,0.41,National Pride
-Leon Goretzka,Leon,Goretzka,Germany,06/02/1995,511,0.14,0.29,0.22,8,0.15,National Pride
-Thomas Müller,Thomas,Müller,Germany,13/09/1989,522,0.37,0.31,0.34,13,-0.06,Underscorer
-Ilkay Gündogan,Ilkay,Gündogan,Germany,24/10/1990,633,0.14,0.2,0.17,12,0.06,Top Scorer
-Toni Kroos,Toni,Kroos,Germany,04/01/1990,752,0.11,0.16,0.14,13,0.05,Top Scorer
-Timo Werner,Timo,Werner,Germany,06/03/1996,1166,0.4,0.38,0.39,7,-0.02,Neutral
-Mesut Özil,Mesut,Özil,Germany,15/10/1988,1458,0.14,0.18,0.16,14,0.04,Neutral
-André Schürrle,André,Schürrle,Germany,06/11/1990,19031,0.23,0.41,0.32,11,0.18,National Pride
-Mario Gómez,Mario,Gómez,Germany,10/07/1985,26314,0.49,0.37,0.43,15,-0.12,Underscorer
-Bastian Schweinsteiger,Bastian,Schweinsteiger,Germany,01/08/1984,50914,0.13,0.14,0.14,14,0.01,Neutral
-Miroslav Klose,Miroslav,Klose,Germany,09/06/1978,115068,0.4,0.35,0.38,13,-0.05,Underscorer
-Kostas Mitroglou,Kostas,Mitroglou,Greece,12/03/1988,462,0.31,0.23,0.27,13,-0.08,Underscorer
-Vasilis Torosidis,Vasilis,Torosidis,Greece,10/06/1985,1599,0.09,0.06,0.08,13,-0.03,Neutral
-Kostas Fortounis,Kostas,Fortounis,Greece,16/10/1992,1609,0.12,0.16,0.14,10,0.04,Neutral
-Theofanis Gekas,Theofanis,Gekas,Greece,23/05/1980,105229,0.42,0.23,0.33,13,-0.19,Extreme Underscorer
-Angelos Basinas,Angelos,Basinas,Greece,01/03/1976,113866,0.01,0.08,0.05,12,0.07,Top Scorer
-Angelos Charisteas,Angelos,Charisteas,Greece,02/09/1980,113873,0.22,0.27,0.25,12,0.05,Top Scorer
-Georgios Karagounis,Georgios,Karagounis,Greece,06/03/1977,114780,0.07,0.05,0.06,16,-0.02,Neutral
-Dimitris Salpingidis,Dimitris,Salpingidis,Greece,18/08/1981,117939,0.32,0.06,0.19,11,-0.26,Extreme Underscorer
-Kostas Katsouranis,Kostas,Katsouranis,Greece,21/06/1979,117941,0.13,0.08,0.11,14,-0.05,Underscorer
-Ádám Szalai,Ádám,Szalai,Hungary,09/12/1987,729,0.2,0.24,0.22,11,0.04,Neutral
-Szabolcs Huszti,Szabolcs,Huszti,Hungary,18/04/1983,2343,0.19,0.05,0.12,15,-0.14,Extreme Underscorer
-Tamás Priskin,Tamás,Priskin,Hungary,06/06/1988,28482,0.03,0,0.02,12,-0.03,Neutral
-Sándor Torghelle,Sándor,Torghelle,Hungary,05/05/1982,28572,0.23,0.62,0.43,15,0.39,National Pride
-Vladimir Koman,Vladimir,Koman,Hungary,16/03/1989,29742,0.05,0.13,0.09,13,0.08,Top Scorer
-Balázs Dzsudzsák,Balázs,Dzsudzsák,Hungary,23/12/1986,50600,0.21,0.21,0.21,14,0,Neutral
-Nemanja Nikolic,Nemanja,Nikolic,Hungary,31/12/1987,50917,0.51,0.56,0.54,12,0.05,Top Scorer
-Imre Szabics,Imre,Szabics,Hungary,22/03/1981,210659,0.15,0.36,0.26,9,0.21,National Pride
-Krisztián Kenesei,Krisztián,Kenesei,Hungary,07/01/1977,227695,0.23,0.31,0.27,10,0.08,Top Scorer
-Arnor Traustason,Arnor,Traustason,Iceland,30/04/1993,1966,0.18,0.1,0.14,11,-0.08,Underscorer
-Ragnar Sigurdsson,Ragnar,Sigurdsson,Iceland,19/06/1986,2786,0.05,0.03,0.04,13,-0.02,Neutral
-Kári Árnason,Kári,Árnason,Iceland,13/10/1982,2789,0.05,0.04,0.05,16,-0.01,Neutral
-Birkir Bjarnason,Birkir,Bjarnason,Iceland,27/05/1988,2791,0.15,0.08,0.12,13,-0.07,Underscorer
-Gylfi Sigurdsson,Gylfi,Sigurdsson,Iceland,08/09/1989,2795,0.25,0.24,0.25,12,-0.01,Neutral
-Alfred Finnbogason,Alfred,Finnbogason,Iceland,01/02/1989,2797,0.44,0.28,0.36,13,-0.16,Extreme Underscorer
-Kjartan Finnbogason,Kjartan,Finnbogason,Iceland,09/07/1986,15678,0.35,0.17,0.26,13,-0.18,Extreme Underscorer
-Gunnar Thorvaldsson,Gunnar,Thorvaldsson,Iceland,01/04/1982,89711,0.27,0.06,0.17,13,-0.21,Extreme Underscorer
-Heidar Helguson,Heidar,Helguson,Iceland,22/08/1977,114869,0.29,0.12,0.21,10,-0.17,Extreme Underscorer
-Stephen Ward,Stephen,Ward,Ireland,20/08/1985,18919,0.04,0.02,0.03,14,-0.02,Neutral
-Robert Brady,Robert,Brady,Ireland,14/01/1992,18921,0.09,0.16,0.13,10,0.07,Top Scorer
-Jeff Hendrick,Jeff,Hendrick,Ireland,31/01/1992,18924,0.09,0.02,0.06,10,-0.07,Underscorer
-Shane Long,Shane,Long,Ireland,22/01/1987,18956,0.21,0.19,0.2,15,-0.02,Neutral
-Shane Duffy,Shane,Duffy,Ireland,01/01/1992,18962,0.05,0.04,0.05,11,-0.01,Neutral
-James McClean,James,McClean,Ireland,22/04/1989,19507,0.1,0.11,0.11,10,0.01,Neutral
-Aiden McGeady,Aiden,McGeady,Ireland,04/04/1986,19907,0.18,0.03,0.11,15,-0.15,Extreme Underscorer
-Stephen Ireland,Stephen,Ireland,Ireland,22/08/1986,90492,0.06,0.4,0.23,14,0.34,National Pride
-Robbie Keane,Robbie,Keane,Ireland,08/07/1980,105424,0.48,0.42,0.45,19,-0.06,Underscorer
-Antonio Candreva,Antonio,Candreva,Italy,28/02/1987,202,0.13,0.1,0.12,14,-0.03,Neutral
-Lorenzo Insigne,Lorenzo,Insigne,Italy,04/06/1991,331,0.25,0.29,0.27,10,0.04,Neutral
-Daniele De Rossi,Daniele,De Rossi,Italy,24/07/1983,779,0.09,0.17,0.13,15,0.08,Top Scorer
-Giorgio Chiellini,Giorgio,Chiellini,Italy,14/08/1984,856,0.07,0.05,0.06,17,-0.02,Neutral
-Ciro Immobile,Ciro,Immobile,Italy,20/02/1990,1863,0.42,0.19,0.31,12,-0.23,Extreme Underscorer
-Mario Balotelli,Mario,Balotelli,Italy,12/08/1990,1917,0.39,0.27,0.33,13,-0.12,Underscorer
-Graziano Pellè,Graziano,Pellè,Italy,15/07/1985,12765,0.39,0.43,0.41,15,0.04,Neutral
-Fabio Quagliarella,Fabio,Quagliarella,Italy,31/01/1983,30463,0.35,0.22,0.29,15,-0.13,Extreme Underscorer
-Andrea Belotti,Andrea,Belotti,Italy,20/12/1993,30509,0.35,0.19,0.27,9,-0.16,Extreme Underscorer
-Francesco Totti,Francesco,Totti,Italy,27/09/1976,91371,0.42,0.08,0.25,12,-0.34,Extreme Underscorer
-Alberto Gilardino,Alberto,Gilardino,Italy,05/07/1982,91419,0.33,0.36,0.35,13,0.03,Neutral
-Andrea Pirlo,Andrea,Pirlo,Italy,19/05/1979,105405,0.09,0.08,0.09,15,-0.01,Neutral
-Antonio Di Natale,Antonio,Di Natale,Italy,13/10/1977,115141,0.51,0.36,0.44,11,-0.15,Extreme Underscorer
-Luca Toni,Luca,Toni,Italy,26/05/1977,115142,0.47,0.16,0.32,11,-0.31,Extreme Underscorer
-Antonio Cassano,Antonio,Cassano,Italy,12/07/1982,115145,0.23,0.18,0.21,12,-0.05,Underscorer
-Vincent Janssen,Vincent,Janssen,Netherlands,15/06/1994,183,0.32,0.56,0.44,7,0.24,National Pride
-Luuk de Jong,Luuk,de Jong,Netherlands,27/08/1990,246,0.39,0.22,0.31,12,-0.17,Extreme Underscorer
-Georginio Wijnaldum,Georginio,Wijnaldum,Netherlands,11/11/1990,300,0.21,0.28,0.25,14,0.07,Top Scorer
-Arjen Robben,Arjen,Robben,Netherlands,23/01/1984,516,0.38,0.57,0.48,15,0.19,National Pride
-Klaas-Jan Huntelaar,Klaas-Jan,Huntelaar,Netherlands,12/08/1983,551,0.55,0.5,0.53,15,-0.05,Underscorer
-Memphis Depay,Memphis,Depay,Netherlands,13/02/1994,667,0.36,0.36,0.36,9,0,Neutral
-Quincy Promes,Quincy,Promes,Netherlands,04/01/1992,2062,0.38,0.12,0.25,9,-0.26,Extreme Underscorer
-Ryan Babel,Ryan,Babel,Netherlands,19/12/1986,19034,0.21,0.27,0.24,14,0.06,Top Scorer
-Luciano Narsingh,Luciano,Narsingh,Netherlands,13/09/1990,19339,0.14,0.13,0.14,12,-0.01,Neutral
-Davy Klaassen,Davy,Klaassen,Netherlands,21/02/1993,25321,0.2,0.37,0.29,9,0.17,National Pride
-Robin van Persie,Robin,van Persie,Netherlands,06/08/1983,37162,0.45,0.26,0.36,16,-0.19,Extreme Underscorer
-Ibrahim Afellay,Ibrahim,Afellay,Netherlands,02/04/1986,72157,0.11,0.09,0.1,15,-0.02,Neutral
-Dirk Kuyt,Dirk,Kuyt,Netherlands,22/07/1980,93990,0.35,0.16,0.26,20,-0.19,Extreme Underscorer
-Rafael van der Vaart,Rafael,van der Vaart,Netherlands,11/02/1983,114799,0.23,0.26,0.25,14,0.03,Neutral
-Gareth McAuley,Gareth,McAuley,Northern-Ireland,05/12/1979,1742,0.06,0.05,0.06,15,-0.01,Neutral
-Steven Davis,Steven,Davis,Northern-Ireland,01/01/1985,1749,0.07,0.11,0.09,16,0.04,Neutral
-Kyle Lafferty,Kyle,Lafferty,Northern-Ireland,16/09/1987,1759,0.22,0.16,0.19,15,-0.06,Underscorer
-Jonny Evans,Jonny,Evans,Northern-Ireland,03/01/1988,18772,0.04,0.04,0.04,15,0,Neutral
-Conor Washington,Conor,Washington,Northern-Ireland,18/05/1992,19110,0.18,0.12,0.15,8,-0.06,Underscorer
-Paddy McNair,Paddy,McNair,Northern-Ireland,27/04/1995,19242,0.1,0.1,0.1,6,0,Neutral
-Josh Magennis,Josh,Magennis,Northern-Ireland,15/08/1990,19715,0.16,0.07,0.12,11,-0.09,Underscorer
-Niall McGinn,Niall,McGinn,Northern-Ireland,20/07/1987,44817,0.23,0.06,0.15,11,-0.17,Extreme Underscorer
-David Healy,David,Healy,Northern-Ireland,08/05/1979,117487,0.17,0.33,0.25,10,0.16,National Pride
-Warren Feeney,Warren,Feeney,Northern-Ireland,17/01/1981,232231,0.07,0.15,0.11,7,0.08,Top Scorer
-Erling Haaland,Erling,Haaland,Norway,21/07/2000,1100,0.44,0,0.22,5,-0.44,Extreme Underscorer
-Alexander Sørloth,Alexander,Sørloth,Norway,07/02/1993,1851,0.12,0.11,0.12,11,-0.01,Neutral
-Ola Kamara,Ola,Kamara,Norway,15/10/1989,12888,0.36,0.42,0.39,12,0.06,Top Scorer
-Joshua King,Joshua,King,Norway,15/01/1992,18881,0.18,0.21,0.2,11,0.03,Neutral
-Mohamed Elyounoussi,Mohamed,Elyounoussi,Norway,04/08/1994,18946,0.28,0.13,0.21,10,-0.15,Extreme Underscorer
-Stefan Johansen,Stefan,Johansen,Norway,08/01/1991,19159,0.14,0.14,0.14,12,0,Neutral
-Tarik Elyounoussi,Tarik,Elyounoussi,Norway,23/02/1988,48152,0.23,0.09,0.16,16,-0.14,Extreme Underscorer
-Erik Huseklepp,Erik,Huseklepp,Norway,05/09/1984,94593,0.2,0.12,0.16,14,-0.08,Underscorer
-Mohammed Abdellaoue,Mohammed,Abdellaoue,Norway,23/10/1985,99991,0.25,0.19,0.22,11,-0.06,Underscorer
-John Arne Riise,John Arne,Riise,Norway,24/09/1980,114787,0.04,0.16,0.1,15,0.12,Top Scorer
-Lukasz Teodorczyk,Lukasz,Teodorczyk,Poland,03/06/1985,10,0.1,0.03,0.07,16,-0.07,Underscorer
-Kamil Glik,Kamil,Glik,Poland,03/02/1988,97,0.06,0.04,0.05,12,-0.02,Neutral
-Piotr Zielinski,Piotr,Zielinski,Poland,20/05/1994,329,0.07,0.15,0.11,8,0.08,Top Scorer
-Arkadiusz Milik,Arkadiusz,Milik,Poland,28/02/1994,333,0.39,0.26,0.33,10,-0.13,Extreme Underscorer
-Grzegorz Krychowiak,Grzegorz,Krychowiak,Poland,29/01/1990,481,0.07,0.02,0.05,11,-0.05,Underscorer
-Robert Lewandowski,Robert,Lewandowski,Poland,21/08/1988,521,0.69,0.52,0.61,13,-0.17,Extreme Underscorer
-Krzysztof Piatek,Krzysztof,Piatek,Poland,01/07/1995,1651,0.32,0.52,0.42,7,0.2,National Pride
-Jakub Blaszczykowski,Jakub,Blaszczykowski,Poland,14/12/1985,3006,0.14,0.2,0.17,16,0.06,Top Scorer
-Kamil Grosicki,Kamil,Grosicki,Poland,08/06/1988,3012,0.19,0.14,0.17,13,-0.05,Underscorer
-Waldemar Sobota,Waldemar,Sobota,Poland,19/05/1987,24943,0.12,0.39,0.26,11,0.27,National Pride
-Pepe,,Pepe,Portugal,26/02/1983,373,0.06,0.05,0.06,16,-0.01,Neutral
-Éder Lopes,Éder,Lopes,Portugal,22/12/1987,492,0.23,0.1,0.17,12,-0.13,Extreme Underscorer
-Bernardo Silva,Bernardo,Silva,Portugal,10/08/1994,636,0.16,0.15,0.16,7,-0.01,Neutral
-Cristiano Ronaldo,Cristiano,Ronaldo,Portugal,05/02/1985,874,0.73,0.57,0.65,18,-0.16,Extreme Underscorer
-Gonçalo Guedes,Gonçalo,Guedes,Portugal,29/11/1996,925,0.12,0.27,0.2,6,0.15,National Pride
-Ricardo Quaresma,Ricardo,Quaresma,Portugal,26/09/1983,1989,0.22,0.09,0.16,16,-0.13,Extreme Underscorer
-André Silva,André,Silva,Portugal,06/11/1995,2063,0.34,0.31,0.33,5,-0.03,Neutral
-João Moutinho,João,Moutinho,Portugal,08/09/1986,2677,0.08,0.04,0.06,16,-0.04,Neutral
-Bruno Alves,Bruno,Alves,Portugal,27/11/1981,31015,0.06,0.08,0.07,15,0.02,Neutral
-Hugo Almeida,Hugo,Almeida,Portugal,23/05/1984,41658,0.26,0.22,0.24,15,-0.04,Neutral
-Silvestre Varela,Silvestre,Varela,Portugal,02/02/1985,50123,0.15,0.12,0.14,15,-0.03,Neutral
-Luís Nani,Luís,Nani,Portugal,17/11/1986,50940,0.18,0.12,0.15,14,-0.06,Underscorer
-Raul Meireles,Raul,Meireles,Portugal,17/03/1983,114800,0.09,0.13,0.11,12,0.04,Neutral
-Hélder Postiga,Hélder,Postiga,Portugal,02/08/1982,115228,0.17,0.46,0.32,14,0.29,National Pride
-Simão Sabrosa,Simão,Sabrosa,Portugal,31/10/1979,116873,0.23,0.29,0.26,12,0.06,Top Scorer
-Claudiu Keserü,Claudiu,Keserü,Romania,02/12/1986,1074,0.36,0.39,0.38,13,0.03,Neutral
-Gheorghe-Teodor Grozav,Gheorghe-Teodor,Grozav,Romania,29/09/1990,28539,0.2,0.18,0.19,12,-0.02,Neutral
-George Puscas,George,Puscas,Romania,08/04/1996,31562,0.21,0.19,0.2,8,-0.02,Neutral
-Nicolae Stanciu,Nicolae,Stanciu,Romania,07/05/1993,44439,0.18,0.3,0.24,11,0.12,Top Scorer
-Gabriel Torje,Gabriel,Torje,Romania,22/11/1989,50095,0.12,0.15,0.14,11,0.03,Neutral
-Alexandru Chipciu,Alexandru,Chipciu,Romania,18/05/1989,55967,0.16,0.16,0.16,11,0,Neutral
-Bogdan Stancu,Bogdan,Stancu,Romania,28/06/1987,61828,0.35,0.4,0.38,12,0.05,Top Scorer
-Cristian Tanase,Cristian,Tanase,Romania,18/02/1987,62256,0.09,0.14,0.12,12,0.05,Top Scorer
-Adrian Mutu,Adrian,Mutu,Romania,08/01/1979,113670,0.17,0.25,0.21,2,0.08,Top Scorer
-Ciprian Marica,Ciprian,Marica,Romania,02/10/1985,114998,0.21,0.42,0.32,12,0.21,National Pride
-Aleksei Miranchuk,Aleksei,Miranchuk,Russia,17/10/1995,484,0.17,0.26,0.22,8,0.09,Top Scorer
-Fyodor Smolov,Fyodor,Smolov,Russia,09/02/1990,493,0.21,0.47,0.34,14,0.26,National Pride
-Alan Dzagoev,Alan,Dzagoev,Russia,17/06/1990,835,0.2,0.05,0.13,13,-0.15,Extreme Underscorer
-Denis Cheryshev,Denis,Cheryshev,Russia,26/12/1990,923,0.14,0.31,0.23,10,0.17,National Pride
-Artyom Dzyuba,Artyom,Dzyuba,Russia,22/08/1988,1223,0.32,0.26,0.29,15,-0.06,Underscorer
-Aleksander Kokorin,Aleksander,Kokorin,Russia,19/03/1991,1224,0.31,0.21,0.26,13,-0.1,Underscorer
-Pavel Pogrebnyak,Pavel,Pogrebnyak,Russia,08/11/1983,53645,0.3,0.29,0.3,16,-0.01,Neutral
-Aleksandr Samedov,Aleksandr,Samedov,Russia,19/07/1984,53687,0.16,0.15,0.16,14,-0.01,Neutral
-Sergei Ignashevich,Sergei,Ignashevich,Russia,14/07/1979,104575,0.09,0.04,0.07,15,-0.05,Underscorer
-Aleksandr Kerzhakov,Aleksandr,Kerzhakov,Russia,27/11/1982,104610,0.33,0.25,0.29,14,-0.08,Underscorer
-Roman Pavlyuchenko,Roman,Pavlyuchenko,Russia,15/12/1981,104620,0.33,0.42,0.38,14,0.09,Top Scorer
-Diniyar Bilyaletdinov,Diniyar,Bilyaletdinov,Russia,27/02/1985,104625,0.22,0.1,0.16,13,-0.12,Underscorer
-Roman Shirokov,Roman,Shirokov,Russia,06/07/1981,105797,0.19,0.26,0.23,11,0.07,Top Scorer
-Andrei Arshavin,Andrei,Arshavin,Russia,29/05/1981,105837,0.24,0.2,0.22,15,-0.04,Neutral
-Dmitri Sychev,Dmitri,Sychev,Russia,26/10/1983,118072,0.24,0.24,0.24,11,0,Neutral
-James Forrest,James,Forrest,Scotland,07/07/1991,1127,0.23,0.17,0.2,11,-0.06,Underscorer
-Robert Snodgrass,Robert,Snodgrass,Scotland,07/09/1987,18828,0.17,0.16,0.17,12,-0.01,Neutral
-John McGinn,John,McGinn,Scotland,18/10/1994,19191,0.1,0.16,0.13,8,0.06,Top Scorer
-Steven Fletcher,Steven,Fletcher,Scotland,26/03/1987,19398,0.27,0.14,0.21,15,-0.13,Extreme Underscorer
-Kris Boyd,Kris,Boyd,Scotland,18/08/1983,44792,0.46,0.1,0.28,15,-0.36,Extreme Underscorer
-Steven Naismith,Steven,Naismith,Scotland,14/09/1986,44881,0.27,0.22,0.25,15,-0.05,Underscorer
-Kenny Miller,Kenny,Miller,Scotland,23/12/1979,45047,0.31,0.22,0.27,14,-0.09,Underscorer
-Shaun Maloney,Shaun,Maloney,Scotland,24/01/1983,90510,0.12,0.06,0.09,12,-0.06,Underscorer
-James McFadden,James,McFadden,Scotland,14/04/1983,97943,0.12,0.21,0.17,13,0.09,Top Scorer
-Dusan Tadic,Dusan,Tadic,Serbia,20/11/1988,554,0.26,0.18,0.22,14,-0.08,Underscorer
-Aleksandar Kolarov,Aleksandar,Kolarov,Serbia,10/11/1985,771,0.1,0.06,0.08,16,-0.04,Neutral
-Branislav Ivanovic,Branislav,Ivanovic,Serbia,22/02/1984,1200,0.09,0.11,0.1,16,0.02,Neutral
-Sergej Milinkovic-Savic,Sergej,Milinkovic-Savic,Serbia,27/02/1995,1856,0.2,0.08,0.14,7,-0.12,Underscorer
-Adem Ljajic,Adem,Ljajic,Serbia,29/09/1991,2002,0.21,0.22,0.22,12,0.01,Neutral
-Aleksandar Mitrovic,Aleksandar,Mitrovic,Serbia,16/09/1994,2825,0.39,0.56,0.48,9,0.17,National Pride
-Lazar Markovic,Lazar,Markovic,Serbia,02/03/1994,19028,0.14,0.13,0.14,10,-0.01,Neutral
-Filip Djuricic,Filip,Djuricic,Serbia,30/01/1992,30536,0.1,0.09,0.1,11,-0.01,Neutral
-Filip Djordjevic,Filip,Djordjevic,Serbia,28/09/1987,30762,0.24,0.31,0.28,13,0.07,Top Scorer
-Zoran Tosic,Zoran,Tosic,Serbia,28/04/1987,45838,0.22,0.15,0.19,14,-0.07,Underscorer
-Danko Lazovic,Danko,Lazovic,Serbia,17/05/1983,89024,0.33,0.28,0.31,13,-0.05,Underscorer
-Nikola Žigic,Nikola,Žigic,Serbia,25/09/1980,115957,0.29,0.31,0.3,12,0.02,Neutral
-Róbert Mak,Róbert,Mak,Slovakia,08/03/1991,1213,0.23,0.25,0.24,10,0.02,Neutral
-Miroslav Stoch,Miroslav,Stoch,Slovakia,19/10/1989,1244,0.12,0.05,0.09,15,-0.07,Underscorer
-Martin Skrtel,Martin,Skrtel,Slovakia,15/12/1984,1350,0.05,0.07,0.06,17,0.02,Neutral
-Marek Hamsík,Marek,Hamsík,Slovakia,27/07/1987,12994,0.2,0.16,0.18,16,-0.04,Neutral
-Michal Duris,Michal,Duris,Slovakia,01/06/1988,15414,0.29,0.12,0.21,11,-0.17,Extreme Underscorer
-Adam Nemec,Adam,Nemec,Slovakia,02/09/1985,15447,0.23,0.15,0.19,16,-0.08,Underscorer
-Ondrej Duda,Ondrej,Duda,Slovakia,05/12/1994,25349,0.12,0.1,0.11,8,-0.02,Neutral
-Juraj Kucka,Juraj,Kucka,Slovakia,26/02/1987,31023,0.13,0.13,0.13,14,0,Neutral
-Vladimír Weiss,Vladimír,Weiss,Slovakia,30/11/1989,42316,0.28,0.06,0.17,12,-0.22,Extreme Underscorer
-Albert Rusnak,Albert,Rusnak,Slovakia,07/07/1994,51212,0.2,0.13,0.17,7,-0.07,Underscorer
-Filip Holosko,Filip,Holosko,Slovakia,17/01/1984,66106,0.25,0.12,0.19,15,-0.13,Extreme Underscorer
-Róbert Vittek,Róbert,Vittek,Slovakia,01/04/1982,72041,0.27,0.11,0.19,16,-0.16,Extreme Underscorer
-Marek Cech,Marek,Cech,Slovakia,26/01/1983,114887,0.02,0.06,0.04,11,0.04,Neutral
-Martin Jakubko,Martin,Jakubko,Slovakia,26/02/1980,117995,0.19,0.3,0.25,11,0.11,Top Scorer
-Filip Sebo,Filip,Sebo,Slovakia,25/02/1984,210711,0.34,0.33,0.34,9,-0.01,Neutral
-Miha Zajc,Miha,Zajc,Slovenia,01/07/1994,1369,0.14,0.22,0.18,9,0.08,Top Scorer
-Benjamin Verbic,Benjamin,Verbic,Slovenia,27/11/1993,2183,0.25,0.13,0.19,10,-0.12,Underscorer
-Zlatko Dedic,Zlatko,Dedic,Slovenia,05/10/1984,7740,0.23,0.11,0.17,15,-0.12,Underscorer
-Josip Ilicic,Josip,Ilicic,Slovenia,29/01/1988,30434,0.29,0.09,0.19,13,-0.2,Extreme Underscorer
-Valter Birsa,Valter,Birsa,Slovenia,07/08/1986,30559,0.15,0.08,0.12,16,-0.07,Underscorer
-Haris Vuckic,Haris,Vuckic,Slovenia,21/08/1992,36845,0.18,0.17,0.18,11,-0.01,Neutral
-Tim Matavž,Tim,Matavž,Slovenia,13/01/1989,37135,0.34,0.31,0.33,14,-0.03,Neutral
-Nejc Pecnik,Nejc,Pecnik,Slovenia,03/01/1986,91662,0.15,0.14,0.15,11,-0.01,Neutral
-Andraž Kirm,Andraž,Kirm,Slovenia,06/09/1984,105757,0.11,0.04,0.08,13,-0.07,Underscorer
-Milivoje Novakovic,Milivoje,Novakovic,Slovenia,18/05/1979,115030,0.38,0.41,0.4,12,0.03,Neutral
-Paco Alcácer,Paco,Alcácer,Spain,30/08/1993,21,0.33,0.79,0.56,10,0.46,National Pride
-Diego Costa,Diego,Costa,Spain,07/10/1988,54,0.35,0.18,0.27,14,-0.17,Extreme Underscorer
-Álvaro Morata,Álvaro,Morata,Spain,23/10/1992,59,0.37,0.36,0.37,10,-0.01,Neutral
-Cesc Fàbregas,Cesc,Fàbregas,Spain,04/05/1987,108,0.18,0.19,0.19,16,0.01,Neutral
-David Silva,David,Silva,Spain,08/01/1986,634,0.18,0.29,0.24,15,0.11,Top Scorer
-Sergio Ramos,Sergio,Ramos,Spain,30/03/1986,738,0.13,0.16,0.15,17,0.03,Neutral
-Isco Alarcón,Isco,Alarcón,Spain,21/04/1992,745,0.16,0.14,0.15,11,-0.02,Neutral
-Santi Cazorla,Santi,Cazorla,Spain,13/12/1984,1695,0.15,0.2,0.18,16,0.05,Top Scorer
-Pedro Rodríguez,Pedro,Rodríguez,Spain,28/07/1987,2299,0.23,0.21,0.22,13,-0.02,Neutral
-Andrés Iniesta,Andrés,Iniesta,Spain,11/05/1984,33243,0.11,0.1,0.11,17,-0.01,Neutral
-David Villa,David,Villa,Spain,03/12/1981,33257,0.46,0.44,0.45,14,-0.02,Neutral
-Fernando Torres,Fernando,Torres,Spain,20/03/1984,33413,0.35,0.33,0.34,16,-0.02,Neutral
-Xabi Alonso,Xabi,Alonso,Spain,25/11/1981,90657,0.06,0.11,0.09,14,0.05,Top Scorer
-Mikael Lustig,Mikael,Lustig,Sweden,13/12/1986,1113,0.1,0.04,0.07,16,-0.06,Underscorer
-Emil Forsberg,Emil,Forsberg,Sweden,23/10/1991,1152,0.24,0.07,0.16,12,-0.17,Extreme Underscorer
-Viktor Claesson,Viktor,Claesson,Sweden,02/01/1992,2080,0.24,0.31,0.28,11,0.07,Top Scorer
-Andreas Granqvist,Andreas,Granqvist,Sweden,16/04/1985,2853,0.07,0.05,0.06,16,-0.02,Neutral
-Marcus Berg,Marcus,Berg,Sweden,17/08/1986,2863,0.47,0.28,0.38,16,-0.19,Extreme Underscorer
-Alexander Isak,Alexander,Isak,Sweden,21/09/1999,2864,0.39,0.29,0.34,6,-0.1,Underscorer
-Robin Quaison,Robin,Quaison,Sweden,09/10/1993,2866,0.15,0.17,0.16,10,0.02,Neutral
-Ola Toivonen,Ola,Toivonen,Sweden,03/07/1986,6868,0.32,0.16,0.24,16,-0.16,Extreme Underscorer
-Zlatan Ibrahimovic,Zlatan,Ibrahimovic,Sweden,03/10/1981,51070,0.66,0.47,0.57,15,-0.19,Extreme Underscorer
-Kim Kallstrom,Kim,Kallstrom,Sweden,24/08/1982,105161,0.08,0.12,0.1,16,0.04,Neutral
-Xherdan Shaqiri,Xherdan,Shaqiri,Switzerland,10/10/1991,307,0.18,0.29,0.24,11,0.11,Top Scorer
-Eren Derdiyok,Eren,Derdiyok,Switzerland,12/06/1988,457,0.28,0.19,0.24,14,-0.09,Underscorer
-Haris Seferovic,Haris,Seferovic,Switzerland,22/02/1992,582,0.18,0.3,0.24,12,0.12,Top Scorer
-Mario Gavranovic,Mario,Gavranovic,Switzerland,24/11/1989,1326,0.31,0.39,0.35,12,0.08,Top Scorer
-Stephan Lichtsteiner,Stephan,Lichtsteiner,Switzerland,16/01/1984,1444,0.04,0.04,0.04,17,0,Neutral
-Granit Xhaka,Granit,Xhaka,Switzerland,27/09/1992,1464,0.06,0.13,0.1,10,0.07,Top Scorer
-Ricardo Rodríguez,Ricardo,Rodríguez,Switzerland,25/08/1992,1631,0.07,0.08,0.08,11,0.01,Neutral
-Fabian Schär,Fabian,Schär,Switzerland,20/12/1991,2806,0.1,0.11,0.11,11,0.01,Neutral
-Admir Mehmedi,Admir,Mehmedi,Switzerland,16/03/1991,2808,0.19,0.17,0.18,12,-0.02,Neutral
-Josip Drmic,Josip,Drmic,Switzerland,08/08/1992,25643,0.2,0.19,0.2,11,-0.01,Neutral
-Blerim Dzemaili,Blerim,Dzemaili,Switzerland,12/04/1986,30478,0.1,0.23,0.17,15,0.13,National Pride
-Tranquillo Barnetta,Tranquillo,Barnetta,Switzerland,22/05/1985,48486,0.11,0.11,0.11,16,0,Neutral
-Johan Vonlanthen,Johan,Vonlanthen,Switzerland,01/02/1986,100541,0.16,0.15,0.16,11,-0.01,Neutral
-Alexander Frei,Alexander,Frei,Switzerland,15/07/1979,117969,0.55,0.25,0.4,11,-0.3,Extreme Underscorer
-Marco Streller,Marco,Streller,Switzerland,18/06/1981,118101,0.3,0.14,0.22,11,-0.16,Extreme Underscorer
-Emre Akbaba,Emre,Akbaba,Turkey,04/10/1992,443,0.3,0.5,0.4,8,0.2,National Pride
-Cengiz Under,Cengiz,Under,Turkey,14/07/1997,785,0.2,0.25,0.23,6,0.05,Top Scorer
-Hakan Çalhanoglu,Hakan,Çalhanoglu,Turkey,08/02/1994,1640,0.23,0.22,0.23,9,-0.01,Neutral
-Mustafa Pektemek,Mustafa,Pektemek,Turkey,11/08/1988,2004,0.22,0.05,0.14,14,-0.17,Extreme Underscorer
-Cenk Tosun,Cenk,Tosun,Turkey,07/06/1991,18768,0.33,0.26,0.3,12,-0.07,Underscorer
-Gökhan Unal,Gökhan,Unal,Turkey,09/03/1994,47443,0.08,0.02,0.05,11,-0.06,Underscorer
-Arda Turan,Arda,Turan,Turkey,30/01/1987,49859,0.16,0.1,0.13,16,-0.06,Underscorer
-Ozan Tufan,Ozan,Tufan,Turkey,23/03/1995,49942,0.1,0.1,0.1,8,0,Neutral
-Gökdeniz Karadeniz,Gökdeniz,Karadeniz,Turkey,24/04/1991,62733,0.3,0,0.15,13,-0.3,Extreme Underscorer
-Yevhen Konoplyanka,Yevhen,Konoplyanka,Ukraine,29/09/1989,413,0.18,0.28,0.23,12,0.1,Top Scorer
-Oleksandr Zinchenko,Oleksandr,Zinchenko,Ukraine,15/12/1996,641,0.02,0.14,0.08,6,0.12,Top Scorer
-Yaroslav Rakitskiy,Yaroslav,Rakitskiy,Ukraine,03/08/1989,1204,0.05,0.07,0.06,11,0.02,Neutral
-Viktor Tsygankov,Viktor,Tsygankov,Ukraine,15/11/1997,2182,0.3,0.1,0.2,5,-0.2,Extreme Underscorer
-Roman Yaremchuk,Roman,Yaremchuk,Ukraine,27/11/1995,8493,0.24,0.25,0.25,7,0.01,Neutral
-Andriy Yarmolenko,Andriy,Yarmolenko,Ukraine,23/10/1989,18834,0.33,0.44,0.39,12,0.11,Top Scorer
-Roman Zozulya,Roman,Zozulya,Ukraine,17/11/1989,46726,0.19,0.18,0.19,12,-0.01,Neutral
-Artem Kravets,Artem,Kravets,Ukraine,03/06/1989,50131,0.36,0.18,0.27,13,-0.18,Extreme Underscorer
-Andriy Shevchenko,Andriy,Shevchenko,Ukraine,29/09/1976,118048,0.31,0.29,0.3,15,-0.02,Neutral
-Gareth Bale,Gareth,Bale,Wales,16/07/1989,758,0.29,0.34,0.32,15,0.05,Top Scorer
-Aaron Ramsey,Aaron,Ramsey,Wales,26/12/1990,1459,0.15,0.24,0.2,14,0.09,Top Scorer
-Hal Robson-Kanu,Hal,Robson-Kanu,Wales,21/05/1989,19168,0.15,0.05,0.1,13,-0.1,Underscorer
-Sam Vokes,Sam,Vokes,Wales,21/10/1989,19513,0.21,0.26,0.24,14,0.05,Top Scorer
-Kieffer Moore,Kieffer,Moore,Wales,08/08/1992,19804,0.22,0.2,0.21,7,-0.02,Neutral
-Joe Ledley,Joe,Ledley,Wales,23/01/1987,81774,0.11,0.11,0.11,15,0,Neutral
-Craig Bellamy,Craig,Bellamy,Wales,13/07/1979,114773,0.24,0.16,0.2,12,-0.08,Underscorer
-Ryan Giggs,Ryan,Giggs,Wales,29/11/1973,114774,0.16,0.2,0.18,14,0.04,Neutral
-Robert Earnshaw,Robert,Earnshaw,Wales,06/04/1981,163805,0.32,0.17,0.25,12,-0.15,Extreme Underscorer
-Freddy Eastwood,Freddy,Eastwood,Wales,29/10/1983,230998,0.19,0.17,0.18,10,-0.02,Neutral
+Alessandro Schopf,Alessandro,Schopf,Austria,1994/02/07,417,0.17,0.09,0.13,8,-0.08,Underscorer
+David Alaba,David,Alaba,Austria,1992/06/24,505,0.08,0.15,0.12,12,0.07,Top Scorer
+Zlatko Junuzovic,Zlatko,Junuzovic,Austria,1987/09/26,1091,0.13,0.06,0.1,12,-0.07,Underscorer
+Marcel Sabitzer,Marcel,Sabitzer,Austria,1994/03/17,1159,0.27,0.14,0.21,10,-0.13,Extreme Underscorer
+Marko Arnautovic,Marko,Arnautovic,Austria,1989/04/19,18830,0.22,0.25,0.24,14,0.03,Neutral
+Louis Schaub,Louis,Schaub,Austria,1994/12/29,24809,0.2,0.29,0.25,9,0.09,Top Scorer
+Martin Harnik,Martin,Harnik,Austria,1987/06/10,25327,0.29,0.18,0.24,15,-0.11,Underscorer
+Andreas Ivanschitz,Andreas,Ivanschitz,Austria,1983/10/15,105418,0.15,0.13,0.14,14,-0.02,Neutral
+Roland Linz,Roland,Linz,Austria,1981/08/09,116545,0.51,0.14,0.33,8,-0.37,Extreme Underscorer
+Roman Wallner,Roman,Wallner,Austria,1982/02/04,120656,0.28,0.13,0.21,11,-0.15,Extreme Underscorer
+Axel Witsel,Axel,Witsel,Belgium,1989/01/12,20,0.14,0.11,0.13,13,-0.03,Neutral
+Nacer Chadli,Nacer,Chadli,Belgium,1989/08/02,106,0.25,0.12,0.19,13,-0.13,Extreme Underscorer
+Jan Vertonghen,Jan,Vertonghen,Belgium,1987/04/24,170,0.08,0.09,0.09,14,0.01,Neutral
+Radja Nainggolan,Radja,Nainggolan,Belgium,1988/05/04,205,0.1,0.14,0.12,14,0.04,Neutral
+Thomas Meunier,Thomas,Meunier,Belgium,1991/09/12,264,0.19,0.07,0.13,10,-0.12,Underscorer
+Kevin De Bruyne,Kevin,De Bruyne,Belgium,1991/06/28,629,0.2,0.24,0.22,12,0.04,Neutral
+Romelu Lukaku,Romelu,Lukaku,Belgium,1993/05/13,907,0.42,0.62,0.52,12,0.2,National Pride
+Eden Hazard,Eden,Hazard,Belgium,1991/01/07,2296,0.25,0.3,0.28,13,0.05,Top Scorer
+Yannick Ferreira-Carrasco,Yannick,Ferreira-Carrasco,Belgium,1993/09/04,2923,0.24,0.07,0.16,8,-0.17,Extreme Underscorer
+Christian Benteke,Christian,Benteke,Belgium,1990/12/03,2928,0.3,0.48,0.39,12,0.18,National Pride
+Marouane Fellaini,Marouane,Fellaini,Belgium,1987/11/22,12753,0.18,0.35,0.27,14,0.17,National Pride
+Wesley Sonck,Wesley,Sonck,Belgium,1978/08/09,114217,0.22,0.43,0.33,8,0.21,National Pride
+Daniel Van Buyten,Daniel,Van Buyten,Belgium,1978/02/07,114958,0.09,0.12,0.11,13,0.03,Neutral
+Ermin Bicakcic,Ermin,Bicakcic,Bosnia-and-Herzegovina,1990/01/24,705,0.04,0.06,0.05,11,0.02,Neutral
+Edin Džeko,Edin,Džeko,Bosnia-and-Herzegovina,1986/03/17,790,0.45,0.52,0.49,15,0.07,Top Scorer
+Miralem Pjanic,Miralem,Pjanic,Bosnia-and-Herzegovina,1990/04/02,872,0.12,0.12,0.12,14,0,Neutral
+Amer Gojak,Amer,Gojak,Bosnia-and-Herzegovina,1997/02/13,1320,0.06,0.11,0.09,7,0.05,Top Scorer
+Izet Hajrovic,Izet,Hajrovic,Bosnia-and-Herzegovina,1991/08/04,1327,0.13,0.29,0.21,11,0.16,National Pride
+Senad Lulic,Senad,Lulic,Bosnia-and-Herzegovina,1986/01/18,1855,0.11,0.16,0.14,12,0.05,Top Scorer
+Armin Hodzic,Armin,Hodzic,Bosnia-and-Herzegovina,1994/11/17,2351,0.25,0.19,0.22,8,-0.06,Underscorer
+Vedad Ibisevic,Vedad,Ibisevic,Bosnia-and-Herzegovina,1984/08/06,25359,0.37,0.2,0.29,15,-0.17,Extreme Underscorer
+Edin Visca,Edin,Visca,Bosnia-and-Herzegovina,1990/02/17,49860,0.25,0.11,0.18,10,-0.14,Extreme Underscorer
+Haris Medunjanin,Haris,Medunjanin,Bosnia-and-Herzegovina,1985/03/08,50744,0.16,0.1,0.13,15,-0.06,Underscorer
+Sejad Salihovic,Sejad,Salihovic,Bosnia-and-Herzegovina,1984/10/08,90644,0.23,0.09,0.16,12,-0.14,Extreme Underscorer
+Senijad Ibricic,Senijad,Ibricic,Bosnia-and-Herzegovina,1985/09/26,105868,0.51,0.03,0.27,12,-0.48,Extreme Underscorer
+Zvjezdan Misimovic,Zvjezdan,Misimovic,Bosnia-and-Herzegovina,1982/06/05,115103,0.19,0.16,0.18,10,-0.03,Neutral
+Stanislav Manolev,Stanislav,Manolev,Bulgaria,1985/12/16,1060,0.03,0.08,0.06,11,0.05,Top Scorer
+Dimitar Rangelov,Dimitar,Rangelov,Bulgaria,1983/02/09,26230,0.26,0.22,0.24,14,-0.04,Neutral
+Ivelin Popov,Ivelin,Popov,Bulgaria,1987/10/26,53530,0.21,0.25,0.23,13,0.04,Neutral
+Dimitar Berbatov,Dimitar,Berbatov,Bulgaria,1981/01/30,113639,0.37,0.69,0.53,12,0.32,National Pride
+Martin Petrov,Martin,Petrov,Bulgaria,1979/01/15,114864,0.17,0.25,0.21,12,0.08,Top Scorer
+Chavdar Yankov,Chavdar,Yankov,Bulgaria,1984/03/29,242429,0.06,0.29,0.18,10,0.23,National Pride
+Nikola Kalinic,Nikola,Kalinic,Croatia,1988/01/05,57,0.33,0.34,0.34,15,0.01,Neutral
+Ivan Rakitic,Ivan,Rakitic,Croatia,1988/03/10,149,0.14,0.11,0.13,15,-0.03,Neutral
+Marcelo Brozovic,Marcelo,Brozovic,Croatia,1992/11/16,201,0.13,0.18,0.16,10,0.05,Top Scorer
+Ivan Perisic,Ivan,Perisic,Croatia,1989/02/02,207,0.26,0.17,0.22,12,-0.09,Underscorer
+Andrej Kramaric,Andrej,Kramaric,Croatia,1991/06/19,726,0.42,0.2,0.31,11,-0.22,Extreme Underscorer
+Luka Modric,Luka,Modric,Croatia,1985/09/09,754,0.12,0.12,0.12,15,0,Neutral
+Nikola Vlasic,Nikola,Vlasic,Croatia,1997/10/04,842,0.18,0.13,0.16,6,-0.05,Underscorer
+Mario Mandžukic,Mario,Mandžukic,Croatia,1986/05/21,878,0.36,0.3,0.33,15,-0.06,Underscorer
+Bruno Petkovic,Bruno,Petkovic,Croatia,1994/09/16,1331,0.14,0.75,0.45,8,0.61,National Pride
+Nikica Jelavic,Nikica,Jelavic,Croatia,1985/08/27,12464,0.38,0.21,0.3,12,-0.17,Extreme Underscorer
+Darijo Srna,Darijo,Srna,Croatia,1982/05/01,30557,0.07,0.17,0.12,15,0.1,Top Scorer
+Eduardo da Silva,Eduardo,da Silva,Croatia,1983/02/25,80360,0.36,0.41,0.39,14,0.05,Top Scorer
+Ivica Olic,Ivica,Olic,Croatia,1979/09/14,90712,0.3,0.19,0.25,15,-0.11,Underscorer
+Niko Kranjcar,Niko,Kranjcar,Croatia,1984/08/13,104745,0.14,0.16,0.15,13,0.02,Neutral
+Mladen Petric,Mladen,Petric,Croatia,1981/01/01,114793,0.33,0.24,0.29,15,-0.09,Underscorer
+Patrik Schick,Patrik,Schick,Czech-Republic,1996/01/24,794,0.22,0.43,0.33,7,0.21,National Pride
+Michal Krmencík,Michal,Krmencík,Czech-Republic,1993/03/15,820,0.38,0.23,0.31,10,-0.15,Extreme Underscorer
+Matej Vydra,Matej,Vydra,Czech-Republic,1992/05/01,18930,0.21,0.09,0.15,11,-0.12,Underscorer
+Vladimír Darida,Vladimír,Darida,Czech-Republic,1990/08/08,25348,0.1,0.13,0.12,11,0.03,Neutral
+Antonín Barák,Antonín,Barák,Czech-Republic,1994/12/03,30803,0.1,0.42,0.26,8,0.32,National Pride
+Borek Dockal,Borek,Dockal,Czech-Republic,1988/09/30,55875,0.18,0.16,0.17,12,-0.02,Neutral
+Milan Baros,Milan,Baros,Czech-Republic,1981/10/28,66078,0.33,0.39,0.36,18,0.06,Top Scorer
+Michal Kadlec,Michal,Kadlec,Czech-Republic,1984/12/13,66090,0.06,0.08,0.07,15,0.02,Neutral
+Václav Pilar,Václav,Pilar,Czech-Republic,1988/10/13,66281,0.09,0.12,0.11,10,0.03,Neutral
+Jan Polák,Jan,Polák,Czech-Republic,1981/03/14,66607,0.05,0.11,0.08,13,0.06,Top Scorer
+Tomás Sivok,Tomás,Sivok,Czech-Republic,1983/09/15,105277,0.1,0.12,0.11,14,0.02,Neutral
+David Lafata,David,Lafata,Czech-Republic,1981/09/18,105715,0.45,0.27,0.36,14,-0.18,Extreme Underscorer
+Tomás Rosicky,Tomás,Rosicky,Czech-Republic,1980/10/04,105800,0.1,0.19,0.15,14,0.09,Top Scorer
+Thomas Delaney,Thomas,Delaney,Denmark,1991/09/03,15,0.09,0.05,0.07,11,-0.04,Neutral
+Christian Eriksen,Christian,Eriksen,Denmark,1992/02/14,174,0.21,0.39,0.3,11,0.18,National Pride
+Kasper Dolberg,Kasper,Dolberg,Denmark,1997/10/06,550,0.29,0.21,0.25,5,-0.08,Underscorer
+Nicklas Bendtner,Nicklas,Bendtner,Denmark,1988/01/16,1187,0.21,0.36,0.29,15,0.15,National Pride
+Andreas Cornelius,Andreas,Cornelius,Denmark,1993/03/16,1274,0.25,0.38,0.32,9,0.13,National Pride
+Martin Braithwaite,Martin,Braithwaite,Denmark,1991/06/05,2737,0.19,0.16,0.18,11,-0.03,Neutral
+Daniel Agger,Daniel,Agger,Denmark,1984/12/12,114778,0.04,0.11,0.08,12,0.07,Top Scorer
+Jon Dahl Tomasson,Jon Dahl,Tomasson,Denmark,1976/08/29,117965,0.36,0.37,0.37,17,0.01,Neutral
+Dennis Rommedahl,Dennis,Rommedahl,Denmark,1978/07/22,117966,0.08,0.24,0.16,15,0.16,National Pride
+Harry Kane,Harry,Kane,England,1993/07/28,184,0.52,0.82,0.67,10,0.3,National Pride
+Alex Oxlade-Chamberlain,Alex,Oxlade-Chamberlain,England,1993/08/15,297,0.11,0.16,0.14,11,0.05,Top Scorer
+Daniel Sturridge,Daniel,Sturridge,England,1989/09/01,308,0.32,0.13,0.23,14,-0.19,Extreme Underscorer
+Raheem Sterling,Raheem,Sterling,England,1994/12/08,645,0.29,0.21,0.25,9,-0.08,Underscorer
+Marcus Rashford,Marcus,Rashford,England,1997/10/31,909,0.33,0.3,0.32,5,-0.03,Neutral
+Danny Welbeck,Danny,Welbeck,England,1990/11/26,1469,0.22,0.27,0.25,13,0.05,Top Scorer
+Jermain Defoe,Jermain,Defoe,England,1982/10/07,1758,0.36,0.3,0.33,18,-0.06,Underscorer
+Theo Walcott,Theo,Walcott,England,1989/03/16,18769,0.24,0.1,0.17,15,-0.14,Extreme Underscorer
+Jamie Vardy,Jamie,Vardy,England,1987/01/11,18788,0.38,0.16,0.27,10,-0.22,Extreme Underscorer
+Peter Crouch,Peter,Crouch,England,1981/01/30,18928,0.24,0.33,0.29,17,0.09,Top Scorer
+Wayne Rooney,Wayne,Rooney,England,1985/10/24,50773,0.4,0.38,0.39,18,-0.02,Neutral
+Joe Cole,Joe,Cole,England,1981/11/08,102748,0.11,0.15,0.13,15,0.04,Neutral
+Steven Gerrard,Steven,Gerrard,England,1978/06/20,105426,0.33,0.24,0.29,15,-0.09,Underscorer
+Frank Lampard,Frank,Lampard,England,1978/06/20,105426,0.33,0.24,0.29,15,-0.09,Underscorer
+Michael Owen,Michael,Owen,England,1979/12/14,114815,0.37,0.41,0.39,11,0.04,Neutral
+Antoine Griezmann,Antoine,Griezmann,France,1991/03/21,56,0.37,0.42,0.4,11,0.05,Top Scorer
+Kylian Mbappé,Kylian,Mbappé,France,1998/12/20,278,0.57,0.33,0.45,5,-0.24,Extreme Underscorer
+Franck Ribéry,Franck,Ribéry,France,1983/04/07,515,0.27,0.16,0.22,16,-0.11,Underscorer
+Karim Benzema,Karim,Benzema,France,1987/12/19,759,0.47,0.32,0.4,15,-0.15,Extreme Underscorer
+Blaise Matuidi,Blaise,Matuidi,France,1987/04/09,869,0.07,0.06,0.07,15,-0.01,Neutral
+Paul Pogba,Paul,Pogba,France,1993/03/15,904,0.15,0.07,0.11,10,-0.08,Underscorer
+Mathieu Valbuena,Mathieu,Valbuena,France,1984/09/28,1367,0.14,0.19,0.17,14,0.05,Top Scorer
+Dimitri Payet,Dimitri,Payet,France,1987/03/29,1912,0.22,0.09,0.16,15,-0.13,Extreme Underscorer
+Olivier Giroud,Olivier,Giroud,France,1986/09/30,2295,0.37,0.42,0.4,14,0.05,Top Scorer
+Sidney Govou,Sidney,Govou,France,1979/07/27,21881,0.09,0.18,0.14,10,0.09,Top Scorer
+Nicolas Anelka,Nicolas,Anelka,France,1979/03/14,114772,0.29,0.32,0.31,11,0.03,Neutral
+Thierry Henry,Thierry,Henry,France,1977/08/17,114876,0.46,0.41,0.44,12,-0.05,Underscorer
+David Trezeguet,David,Trezeguet,France,1977/10/15,117095,0.41,0.41,0.41,10,0,Neutral
+Mario Götze,Mario,Götze,Germany,1992/06/03,16,0.22,0.17,0.2,11,-0.05,Underscorer
+Marco Reus,Marco,Reus,Germany,1989/05/31,25,0.43,0.29,0.36,12,-0.14,Extreme Underscorer
+Julian Draxler,Julian,Draxler,Germany,1993/09/20,267,0.16,0.12,0.14,10,-0.04,Neutral
+Sèrge Gnabry,Sèrge,Gnabry,Germany,1995/07/14,510,0.28,0.69,0.49,8,0.41,National Pride
+Leon Goretzka,Leon,Goretzka,Germany,1995/02/06,511,0.14,0.29,0.22,8,0.15,National Pride
+Thomas Müller,Thomas,Müller,Germany,1989/09/13,522,0.37,0.31,0.34,13,-0.06,Underscorer
+Ilkay Gündogan,Ilkay,Gündogan,Germany,1990/10/24,633,0.14,0.2,0.17,12,0.06,Top Scorer
+Toni Kroos,Toni,Kroos,Germany,1990/01/04,752,0.11,0.16,0.14,13,0.05,Top Scorer
+Timo Werner,Timo,Werner,Germany,1996/03/06,1166,0.4,0.38,0.39,7,-0.02,Neutral
+Mesut Özil,Mesut,Özil,Germany,1988/10/15,1458,0.14,0.18,0.16,14,0.04,Neutral
+André Schürrle,André,Schürrle,Germany,1990/11/06,19031,0.23,0.41,0.32,11,0.18,National Pride
+Mario Gómez,Mario,Gómez,Germany,1985/07/10,26314,0.49,0.37,0.43,15,-0.12,Underscorer
+Bastian Schweinsteiger,Bastian,Schweinsteiger,Germany,1984/08/01,50914,0.13,0.14,0.14,14,0.01,Neutral
+Miroslav Klose,Miroslav,Klose,Germany,1978/06/09,115068,0.4,0.35,0.38,13,-0.05,Underscorer
+Kostas Mitroglou,Kostas,Mitroglou,Greece,1988/03/12,462,0.31,0.23,0.27,13,-0.08,Underscorer
+Vasilis Torosidis,Vasilis,Torosidis,Greece,1985/06/10,1599,0.09,0.06,0.08,13,-0.03,Neutral
+Kostas Fortounis,Kostas,Fortounis,Greece,1992/10/16,1609,0.12,0.16,0.14,10,0.04,Neutral
+Theofanis Gekas,Theofanis,Gekas,Greece,1980/05/23,105229,0.42,0.23,0.33,13,-0.19,Extreme Underscorer
+Angelos Basinas,Angelos,Basinas,Greece,1976/03/01,113866,0.01,0.08,0.05,12,0.07,Top Scorer
+Angelos Charisteas,Angelos,Charisteas,Greece,1980/09/02,113873,0.22,0.27,0.25,12,0.05,Top Scorer
+Georgios Karagounis,Georgios,Karagounis,Greece,1977/03/06,114780,0.07,0.05,0.06,16,-0.02,Neutral
+Dimitris Salpingidis,Dimitris,Salpingidis,Greece,1981/08/18,117939,0.32,0.06,0.19,11,-0.26,Extreme Underscorer
+Kostas Katsouranis,Kostas,Katsouranis,Greece,1979/06/21,117941,0.13,0.08,0.11,14,-0.05,Underscorer
+Ádám Szalai,Ádám,Szalai,Hungary,1987/12/09,729,0.2,0.24,0.22,11,0.04,Neutral
+Szabolcs Huszti,Szabolcs,Huszti,Hungary,1983/04/18,2343,0.19,0.05,0.12,15,-0.14,Extreme Underscorer
+Tamás Priskin,Tamás,Priskin,Hungary,1988/06/06,28482,0.03,0,0.02,12,-0.03,Neutral
+Sándor Torghelle,Sándor,Torghelle,Hungary,1982/05/05,28572,0.23,0.62,0.43,15,0.39,National Pride
+Vladimir Koman,Vladimir,Koman,Hungary,1989/03/16,29742,0.05,0.13,0.09,13,0.08,Top Scorer
+Balázs Dzsudzsák,Balázs,Dzsudzsák,Hungary,1986/12/23,50600,0.21,0.21,0.21,14,0,Neutral
+Nemanja Nikolic,Nemanja,Nikolic,Hungary,1987/12/31,50917,0.51,0.56,0.54,12,0.05,Top Scorer
+Imre Szabics,Imre,Szabics,Hungary,1981/03/22,210659,0.15,0.36,0.26,9,0.21,National Pride
+Krisztián Kenesei,Krisztián,Kenesei,Hungary,1977/01/07,227695,0.23,0.31,0.27,10,0.08,Top Scorer
+Arnor Traustason,Arnor,Traustason,Iceland,1993/04/30,1966,0.18,0.1,0.14,11,-0.08,Underscorer
+Ragnar Sigurdsson,Ragnar,Sigurdsson,Iceland,1986/06/19,2786,0.05,0.03,0.04,13,-0.02,Neutral
+Kári Árnason,Kári,Árnason,Iceland,1982/10/13,2789,0.05,0.04,0.05,16,-0.01,Neutral
+Birkir Bjarnason,Birkir,Bjarnason,Iceland,1988/05/27,2791,0.15,0.08,0.12,13,-0.07,Underscorer
+Gylfi Sigurdsson,Gylfi,Sigurdsson,Iceland,1989/09/08,2795,0.25,0.24,0.25,12,-0.01,Neutral
+Alfred Finnbogason,Alfred,Finnbogason,Iceland,1989/02/01,2797,0.44,0.28,0.36,13,-0.16,Extreme Underscorer
+Kjartan Finnbogason,Kjartan,Finnbogason,Iceland,1986/07/09,15678,0.35,0.17,0.26,13,-0.18,Extreme Underscorer
+Gunnar Thorvaldsson,Gunnar,Thorvaldsson,Iceland,1982/04/01,89711,0.27,0.06,0.17,13,-0.21,Extreme Underscorer
+Heidar Helguson,Heidar,Helguson,Iceland,1977/08/22,114869,0.29,0.12,0.21,10,-0.17,Extreme Underscorer
+Stephen Ward,Stephen,Ward,Ireland,1985/08/20,18919,0.04,0.02,0.03,14,-0.02,Neutral
+Robert Brady,Robert,Brady,Ireland,1992/01/14,18921,0.09,0.16,0.13,10,0.07,Top Scorer
+Jeff Hendrick,Jeff,Hendrick,Ireland,1992/01/31,18924,0.09,0.02,0.06,10,-0.07,Underscorer
+Shane Long,Shane,Long,Ireland,1987/01/22,18956,0.21,0.19,0.2,15,-0.02,Neutral
+Shane Duffy,Shane,Duffy,Ireland,1992/01/01,18962,0.05,0.04,0.05,11,-0.01,Neutral
+James McClean,James,McClean,Ireland,1989/04/22,19507,0.1,0.11,0.11,10,0.01,Neutral
+Aiden McGeady,Aiden,McGeady,Ireland,1986/04/04,19907,0.18,0.03,0.11,15,-0.15,Extreme Underscorer
+Stephen Ireland,Stephen,Ireland,Ireland,1986/08/22,90492,0.06,0.4,0.23,14,0.34,National Pride
+Robbie Keane,Robbie,Keane,Ireland,1980/07/08,105424,0.48,0.42,0.45,19,-0.06,Underscorer
+Antonio Candreva,Antonio,Candreva,Italy,1987/02/28,202,0.13,0.1,0.12,14,-0.03,Neutral
+Lorenzo Insigne,Lorenzo,Insigne,Italy,1991/06/04,331,0.25,0.29,0.27,10,0.04,Neutral
+Daniele De Rossi,Daniele,De Rossi,Italy,1983/07/24,779,0.09,0.17,0.13,15,0.08,Top Scorer
+Giorgio Chiellini,Giorgio,Chiellini,Italy,1984/08/14,856,0.07,0.05,0.06,17,-0.02,Neutral
+Ciro Immobile,Ciro,Immobile,Italy,1990/02/20,1863,0.42,0.19,0.31,12,-0.23,Extreme Underscorer
+Mario Balotelli,Mario,Balotelli,Italy,1990/08/12,1917,0.39,0.27,0.33,13,-0.12,Underscorer
+Graziano Pellè,Graziano,Pellè,Italy,1985/07/15,12765,0.39,0.43,0.41,15,0.04,Neutral
+Fabio Quagliarella,Fabio,Quagliarella,Italy,1983/01/31,30463,0.35,0.22,0.29,15,-0.13,Extreme Underscorer
+Andrea Belotti,Andrea,Belotti,Italy,1993/12/20,30509,0.35,0.19,0.27,9,-0.16,Extreme Underscorer
+Francesco Totti,Francesco,Totti,Italy,1976/09/27,91371,0.42,0.08,0.25,12,-0.34,Extreme Underscorer
+Alberto Gilardino,Alberto,Gilardino,Italy,1982/07/05,91419,0.33,0.36,0.35,13,0.03,Neutral
+Andrea Pirlo,Andrea,Pirlo,Italy,1979/05/19,105405,0.09,0.08,0.09,15,-0.01,Neutral
+Antonio Di Natale,Antonio,Di Natale,Italy,1977/10/13,115141,0.51,0.36,0.44,11,-0.15,Extreme Underscorer
+Luca Toni,Luca,Toni,Italy,1977/05/26,115142,0.47,0.16,0.32,11,-0.31,Extreme Underscorer
+Antonio Cassano,Antonio,Cassano,Italy,1982/07/12,115145,0.23,0.18,0.21,12,-0.05,Underscorer
+Vincent Janssen,Vincent,Janssen,Netherlands,1994/06/15,183,0.32,0.56,0.44,7,0.24,National Pride
+Luuk de Jong,Luuk,de Jong,Netherlands,1990/08/27,246,0.39,0.22,0.31,12,-0.17,Extreme Underscorer
+Georginio Wijnaldum,Georginio,Wijnaldum,Netherlands,1990/11/11,300,0.21,0.28,0.25,14,0.07,Top Scorer
+Arjen Robben,Arjen,Robben,Netherlands,1984/01/23,516,0.38,0.57,0.48,15,0.19,National Pride
+Klaas-Jan Huntelaar,Klaas-Jan,Huntelaar,Netherlands,1983/08/12,551,0.55,0.5,0.53,15,-0.05,Underscorer
+Memphis Depay,Memphis,Depay,Netherlands,1994/02/13,667,0.36,0.36,0.36,9,0,Neutral
+Quincy Promes,Quincy,Promes,Netherlands,1992/01/04,2062,0.38,0.12,0.25,9,-0.26,Extreme Underscorer
+Ryan Babel,Ryan,Babel,Netherlands,1986/12/19,19034,0.21,0.27,0.24,14,0.06,Top Scorer
+Luciano Narsingh,Luciano,Narsingh,Netherlands,1990/09/13,19339,0.14,0.13,0.14,12,-0.01,Neutral
+Davy Klaassen,Davy,Klaassen,Netherlands,1993/02/21,25321,0.2,0.37,0.29,9,0.17,National Pride
+Robin van Persie,Robin,van Persie,Netherlands,1983/08/06,37162,0.45,0.26,0.36,16,-0.19,Extreme Underscorer
+Ibrahim Afellay,Ibrahim,Afellay,Netherlands,1986/04/02,72157,0.11,0.09,0.1,15,-0.02,Neutral
+Dirk Kuyt,Dirk,Kuyt,Netherlands,1980/07/22,93990,0.35,0.16,0.26,20,-0.19,Extreme Underscorer
+Rafael van der Vaart,Rafael,van der Vaart,Netherlands,1983/02/11,114799,0.23,0.26,0.25,14,0.03,Neutral
+Gareth McAuley,Gareth,McAuley,Northern-Ireland,1979/12/05,1742,0.06,0.05,0.06,15,-0.01,Neutral
+Steven Davis,Steven,Davis,Northern-Ireland,1985/01/01,1749,0.07,0.11,0.09,16,0.04,Neutral
+Kyle Lafferty,Kyle,Lafferty,Northern-Ireland,1987/09/16,1759,0.22,0.16,0.19,15,-0.06,Underscorer
+Jonny Evans,Jonny,Evans,Northern-Ireland,1988/01/03,18772,0.04,0.04,0.04,15,0,Neutral
+Conor Washington,Conor,Washington,Northern-Ireland,1992/05/18,19110,0.18,0.12,0.15,8,-0.06,Underscorer
+Paddy McNair,Paddy,McNair,Northern-Ireland,1995/04/27,19242,0.1,0.1,0.1,6,0,Neutral
+Josh Magennis,Josh,Magennis,Northern-Ireland,1990/08/15,19715,0.16,0.07,0.12,11,-0.09,Underscorer
+Niall McGinn,Niall,McGinn,Northern-Ireland,1987/07/20,44817,0.23,0.06,0.15,11,-0.17,Extreme Underscorer
+David Healy,David,Healy,Northern-Ireland,1979/05/08,117487,0.17,0.33,0.25,10,0.16,National Pride
+Warren Feeney,Warren,Feeney,Northern-Ireland,1981/01/17,232231,0.07,0.15,0.11,7,0.08,Top Scorer
+Erling Haaland,Erling,Haaland,Norway,2000/07/21,1100,0.44,0,0.22,5,-0.44,Extreme Underscorer
+Alexander Sørloth,Alexander,Sørloth,Norway,1993/02/07,1851,0.12,0.11,0.12,11,-0.01,Neutral
+Ola Kamara,Ola,Kamara,Norway,1989/10/15,12888,0.36,0.42,0.39,12,0.06,Top Scorer
+Joshua King,Joshua,King,Norway,1992/01/15,18881,0.18,0.21,0.2,11,0.03,Neutral
+Mohamed Elyounoussi,Mohamed,Elyounoussi,Norway,1994/08/04,18946,0.28,0.13,0.21,10,-0.15,Extreme Underscorer
+Stefan Johansen,Stefan,Johansen,Norway,1991/01/08,19159,0.14,0.14,0.14,12,0,Neutral
+Tarik Elyounoussi,Tarik,Elyounoussi,Norway,1988/02/23,48152,0.23,0.09,0.16,16,-0.14,Extreme Underscorer
+Erik Huseklepp,Erik,Huseklepp,Norway,1984/09/05,94593,0.2,0.12,0.16,14,-0.08,Underscorer
+Mohammed Abdellaoue,Mohammed,Abdellaoue,Norway,1985/10/23,99991,0.25,0.19,0.22,11,-0.06,Underscorer
+John Arne Riise,John Arne,Riise,Norway,1980/09/24,114787,0.04,0.16,0.1,15,0.12,Top Scorer
+Lukasz Teodorczyk,Lukasz,Teodorczyk,Poland,1985/06/03,10,0.1,0.03,0.07,16,-0.07,Underscorer
+Kamil Glik,Kamil,Glik,Poland,1988/02/03,97,0.06,0.04,0.05,12,-0.02,Neutral
+Piotr Zielinski,Piotr,Zielinski,Poland,1994/05/20,329,0.07,0.15,0.11,8,0.08,Top Scorer
+Arkadiusz Milik,Arkadiusz,Milik,Poland,1994/02/28,333,0.39,0.26,0.33,10,-0.13,Extreme Underscorer
+Grzegorz Krychowiak,Grzegorz,Krychowiak,Poland,1990/01/29,481,0.07,0.02,0.05,11,-0.05,Underscorer
+Robert Lewandowski,Robert,Lewandowski,Poland,1988/08/21,521,0.69,0.52,0.61,13,-0.17,Extreme Underscorer
+Krzysztof Piatek,Krzysztof,Piatek,Poland,1995/07/01,1651,0.32,0.52,0.42,7,0.2,National Pride
+Jakub Blaszczykowski,Jakub,Blaszczykowski,Poland,1985/12/14,3006,0.14,0.2,0.17,16,0.06,Top Scorer
+Kamil Grosicki,Kamil,Grosicki,Poland,1988/06/08,3012,0.19,0.14,0.17,13,-0.05,Underscorer
+Waldemar Sobota,Waldemar,Sobota,Poland,1987/05/19,24943,0.12,0.39,0.26,11,0.27,National Pride
+Pepe,,Pepe,Portugal,1983/02/26,373,0.06,0.05,0.06,16,-0.01,Neutral
+Éder Lopes,Éder,Lopes,Portugal,1987/12/22,492,0.23,0.1,0.17,12,-0.13,Extreme Underscorer
+Bernardo Silva,Bernardo,Silva,Portugal,1994/08/10,636,0.16,0.15,0.16,7,-0.01,Neutral
+Cristiano Ronaldo,Cristiano,Ronaldo,Portugal,1985/02/05,874,0.73,0.57,0.65,18,-0.16,Extreme Underscorer
+Gonçalo Guedes,Gonçalo,Guedes,Portugal,1996/11/29,925,0.12,0.27,0.2,6,0.15,National Pride
+Ricardo Quaresma,Ricardo,Quaresma,Portugal,1983/09/26,1989,0.22,0.09,0.16,16,-0.13,Extreme Underscorer
+André Silva,André,Silva,Portugal,1995/11/06,2063,0.34,0.31,0.33,5,-0.03,Neutral
+João Moutinho,João,Moutinho,Portugal,1986/09/08,2677,0.08,0.04,0.06,16,-0.04,Neutral
+Bruno Alves,Bruno,Alves,Portugal,1981/11/27,31015,0.06,0.08,0.07,15,0.02,Neutral
+Hugo Almeida,Hugo,Almeida,Portugal,1984/05/23,41658,0.26,0.22,0.24,15,-0.04,Neutral
+Silvestre Varela,Silvestre,Varela,Portugal,1985/02/02,50123,0.15,0.12,0.14,15,-0.03,Neutral
+Luís Nani,Luís,Nani,Portugal,1986/11/17,50940,0.18,0.12,0.15,14,-0.06,Underscorer
+Raul Meireles,Raul,Meireles,Portugal,1983/03/17,114800,0.09,0.13,0.11,12,0.04,Neutral
+Hélder Postiga,Hélder,Postiga,Portugal,1982/08/02,115228,0.17,0.46,0.32,14,0.29,National Pride
+Simão Sabrosa,Simão,Sabrosa,Portugal,1979/10/31,116873,0.23,0.29,0.26,12,0.06,Top Scorer
+Claudiu Keserü,Claudiu,Keserü,Romania,1986/12/02,1074,0.36,0.39,0.38,13,0.03,Neutral
+Gheorghe-Teodor Grozav,Gheorghe-Teodor,Grozav,Romania,1990/09/29,28539,0.2,0.18,0.19,12,-0.02,Neutral
+George Puscas,George,Puscas,Romania,1996/04/08,31562,0.21,0.19,0.2,8,-0.02,Neutral
+Nicolae Stanciu,Nicolae,Stanciu,Romania,1993/05/07,44439,0.18,0.3,0.24,11,0.12,Top Scorer
+Gabriel Torje,Gabriel,Torje,Romania,1989/11/22,50095,0.12,0.15,0.14,11,0.03,Neutral
+Alexandru Chipciu,Alexandru,Chipciu,Romania,1989/05/18,55967,0.16,0.16,0.16,11,0,Neutral
+Bogdan Stancu,Bogdan,Stancu,Romania,1987/06/28,61828,0.35,0.4,0.38,12,0.05,Top Scorer
+Cristian Tanase,Cristian,Tanase,Romania,1987/02/18,62256,0.09,0.14,0.12,12,0.05,Top Scorer
+Adrian Mutu,Adrian,Mutu,Romania,1979/01/08,113670,0.17,0.25,0.21,2,0.08,Top Scorer
+Ciprian Marica,Ciprian,Marica,Romania,1985/10/02,114998,0.21,0.42,0.32,12,0.21,National Pride
+Aleksei Miranchuk,Aleksei,Miranchuk,Russia,1995/10/17,484,0.17,0.26,0.22,8,0.09,Top Scorer
+Fyodor Smolov,Fyodor,Smolov,Russia,1990/02/09,493,0.21,0.47,0.34,14,0.26,National Pride
+Alan Dzagoev,Alan,Dzagoev,Russia,1990/06/17,835,0.2,0.05,0.13,13,-0.15,Extreme Underscorer
+Denis Cheryshev,Denis,Cheryshev,Russia,1990/12/26,923,0.14,0.31,0.23,10,0.17,National Pride
+Artyom Dzyuba,Artyom,Dzyuba,Russia,1988/08/22,1223,0.32,0.26,0.29,15,-0.06,Underscorer
+Aleksander Kokorin,Aleksander,Kokorin,Russia,1991/03/19,1224,0.31,0.21,0.26,13,-0.1,Underscorer
+Pavel Pogrebnyak,Pavel,Pogrebnyak,Russia,1983/11/08,53645,0.3,0.29,0.3,16,-0.01,Neutral
+Aleksandr Samedov,Aleksandr,Samedov,Russia,1984/07/19,53687,0.16,0.15,0.16,14,-0.01,Neutral
+Sergei Ignashevich,Sergei,Ignashevich,Russia,1979/07/14,104575,0.09,0.04,0.07,15,-0.05,Underscorer
+Aleksandr Kerzhakov,Aleksandr,Kerzhakov,Russia,1982/11/27,104610,0.33,0.25,0.29,14,-0.08,Underscorer
+Roman Pavlyuchenko,Roman,Pavlyuchenko,Russia,1981/12/15,104620,0.33,0.42,0.38,14,0.09,Top Scorer
+Diniyar Bilyaletdinov,Diniyar,Bilyaletdinov,Russia,1985/02/27,104625,0.22,0.1,0.16,13,-0.12,Underscorer
+Roman Shirokov,Roman,Shirokov,Russia,1981/07/06,105797,0.19,0.26,0.23,11,0.07,Top Scorer
+Andrei Arshavin,Andrei,Arshavin,Russia,1981/05/29,105837,0.24,0.2,0.22,15,-0.04,Neutral
+Dmitri Sychev,Dmitri,Sychev,Russia,1983/10/26,118072,0.24,0.24,0.24,11,0,Neutral
+James Forrest,James,Forrest,Scotland,1991/07/07,1127,0.23,0.17,0.2,11,-0.06,Underscorer
+Robert Snodgrass,Robert,Snodgrass,Scotland,1987/09/07,18828,0.17,0.16,0.17,12,-0.01,Neutral
+John McGinn,John,McGinn,Scotland,1994/10/18,19191,0.1,0.16,0.13,8,0.06,Top Scorer
+Steven Fletcher,Steven,Fletcher,Scotland,1987/03/26,19398,0.27,0.14,0.21,15,-0.13,Extreme Underscorer
+Kris Boyd,Kris,Boyd,Scotland,1983/08/18,44792,0.46,0.1,0.28,15,-0.36,Extreme Underscorer
+Steven Naismith,Steven,Naismith,Scotland,1986/09/14,44881,0.27,0.22,0.25,15,-0.05,Underscorer
+Kenny Miller,Kenny,Miller,Scotland,1979/12/23,45047,0.31,0.22,0.27,14,-0.09,Underscorer
+Shaun Maloney,Shaun,Maloney,Scotland,1983/01/24,90510,0.12,0.06,0.09,12,-0.06,Underscorer
+James McFadden,James,McFadden,Scotland,1983/04/14,97943,0.12,0.21,0.17,13,0.09,Top Scorer
+Dusan Tadic,Dusan,Tadic,Serbia,1988/11/20,554,0.26,0.18,0.22,14,-0.08,Underscorer
+Aleksandar Kolarov,Aleksandar,Kolarov,Serbia,1985/11/10,771,0.1,0.06,0.08,16,-0.04,Neutral
+Branislav Ivanovic,Branislav,Ivanovic,Serbia,1984/02/22,1200,0.09,0.11,0.1,16,0.02,Neutral
+Sergej Milinkovic-Savic,Sergej,Milinkovic-Savic,Serbia,1995/02/27,1856,0.2,0.08,0.14,7,-0.12,Underscorer
+Adem Ljajic,Adem,Ljajic,Serbia,1991/09/29,2002,0.21,0.22,0.22,12,0.01,Neutral
+Aleksandar Mitrovic,Aleksandar,Mitrovic,Serbia,1994/09/16,2825,0.39,0.56,0.48,9,0.17,National Pride
+Lazar Markovic,Lazar,Markovic,Serbia,1994/03/02,19028,0.14,0.13,0.14,10,-0.01,Neutral
+Filip Djuricic,Filip,Djuricic,Serbia,1992/01/30,30536,0.1,0.09,0.1,11,-0.01,Neutral
+Filip Djordjevic,Filip,Djordjevic,Serbia,1987/09/28,30762,0.24,0.31,0.28,13,0.07,Top Scorer
+Zoran Tosic,Zoran,Tosic,Serbia,1987/04/28,45838,0.22,0.15,0.19,14,-0.07,Underscorer
+Danko Lazovic,Danko,Lazovic,Serbia,1983/05/17,89024,0.33,0.28,0.31,13,-0.05,Underscorer
+Nikola Žigic,Nikola,Žigic,Serbia,1980/09/25,115957,0.29,0.31,0.3,12,0.02,Neutral
+Róbert Mak,Róbert,Mak,Slovakia,1991/03/08,1213,0.23,0.25,0.24,10,0.02,Neutral
+Miroslav Stoch,Miroslav,Stoch,Slovakia,1989/10/19,1244,0.12,0.05,0.09,15,-0.07,Underscorer
+Martin Skrtel,Martin,Skrtel,Slovakia,1984/12/15,1350,0.05,0.07,0.06,17,0.02,Neutral
+Marek Hamsík,Marek,Hamsík,Slovakia,1987/07/27,12994,0.2,0.16,0.18,16,-0.04,Neutral
+Michal Duris,Michal,Duris,Slovakia,1988/06/01,15414,0.29,0.12,0.21,11,-0.17,Extreme Underscorer
+Adam Nemec,Adam,Nemec,Slovakia,1985/09/02,15447,0.23,0.15,0.19,16,-0.08,Underscorer
+Ondrej Duda,Ondrej,Duda,Slovakia,1994/12/05,25349,0.12,0.1,0.11,8,-0.02,Neutral
+Juraj Kucka,Juraj,Kucka,Slovakia,1987/02/26,31023,0.13,0.13,0.13,14,0,Neutral
+Vladimír Weiss,Vladimír,Weiss,Slovakia,1989/11/30,42316,0.28,0.06,0.17,12,-0.22,Extreme Underscorer
+Albert Rusnak,Albert,Rusnak,Slovakia,1994/07/07,51212,0.2,0.13,0.17,7,-0.07,Underscorer
+Filip Holosko,Filip,Holosko,Slovakia,1984/01/17,66106,0.25,0.12,0.19,15,-0.13,Extreme Underscorer
+Róbert Vittek,Róbert,Vittek,Slovakia,1982/04/01,72041,0.27,0.11,0.19,16,-0.16,Extreme Underscorer
+Marek Cech,Marek,Cech,Slovakia,1983/01/26,114887,0.02,0.06,0.04,11,0.04,Neutral
+Martin Jakubko,Martin,Jakubko,Slovakia,1980/02/26,117995,0.19,0.3,0.25,11,0.11,Top Scorer
+Filip Sebo,Filip,Sebo,Slovakia,1984/02/25,210711,0.34,0.33,0.34,9,-0.01,Neutral
+Miha Zajc,Miha,Zajc,Slovenia,1994/07/01,1369,0.14,0.22,0.18,9,0.08,Top Scorer
+Benjamin Verbic,Benjamin,Verbic,Slovenia,1993/11/27,2183,0.25,0.13,0.19,10,-0.12,Underscorer
+Zlatko Dedic,Zlatko,Dedic,Slovenia,1984/10/05,7740,0.23,0.11,0.17,15,-0.12,Underscorer
+Josip Ilicic,Josip,Ilicic,Slovenia,1988/01/29,30434,0.29,0.09,0.19,13,-0.2,Extreme Underscorer
+Valter Birsa,Valter,Birsa,Slovenia,1986/08/07,30559,0.15,0.08,0.12,16,-0.07,Underscorer
+Haris Vuckic,Haris,Vuckic,Slovenia,1992/08/21,36845,0.18,0.17,0.18,11,-0.01,Neutral
+Tim Matavž,Tim,Matavž,Slovenia,1989/01/13,37135,0.34,0.31,0.33,14,-0.03,Neutral
+Nejc Pecnik,Nejc,Pecnik,Slovenia,1986/01/03,91662,0.15,0.14,0.15,11,-0.01,Neutral
+Andraž Kirm,Andraž,Kirm,Slovenia,1984/09/06,105757,0.11,0.04,0.08,13,-0.07,Underscorer
+Milivoje Novakovic,Milivoje,Novakovic,Slovenia,1979/05/18,115030,0.38,0.41,0.4,12,0.03,Neutral
+Paco Alcácer,Paco,Alcácer,Spain,1993/08/30,21,0.33,0.79,0.56,10,0.46,National Pride
+Diego Costa,Diego,Costa,Spain,1988/10/07,54,0.35,0.18,0.27,14,-0.17,Extreme Underscorer
+Álvaro Morata,Álvaro,Morata,Spain,1992/10/23,59,0.37,0.36,0.37,10,-0.01,Neutral
+Cesc Fàbregas,Cesc,Fàbregas,Spain,1987/05/04,108,0.18,0.19,0.19,16,0.01,Neutral
+David Silva,David,Silva,Spain,1986/01/08,634,0.18,0.29,0.24,15,0.11,Top Scorer
+Sergio Ramos,Sergio,Ramos,Spain,1986/03/30,738,0.13,0.16,0.15,17,0.03,Neutral
+Isco Alarcón,Isco,Alarcón,Spain,1992/04/21,745,0.16,0.14,0.15,11,-0.02,Neutral
+Santi Cazorla,Santi,Cazorla,Spain,1984/12/13,1695,0.15,0.2,0.18,16,0.05,Top Scorer
+Pedro Rodríguez,Pedro,Rodríguez,Spain,1987/07/28,2299,0.23,0.21,0.22,13,-0.02,Neutral
+Andrés Iniesta,Andrés,Iniesta,Spain,1984/05/11,33243,0.11,0.1,0.11,17,-0.01,Neutral
+David Villa,David,Villa,Spain,1981/12/03,33257,0.46,0.44,0.45,14,-0.02,Neutral
+Fernando Torres,Fernando,Torres,Spain,1984/03/20,33413,0.35,0.33,0.34,16,-0.02,Neutral
+Xabi Alonso,Xabi,Alonso,Spain,1981/11/25,90657,0.06,0.11,0.09,14,0.05,Top Scorer
+Mikael Lustig,Mikael,Lustig,Sweden,1986/12/13,1113,0.1,0.04,0.07,16,-0.06,Underscorer
+Emil Forsberg,Emil,Forsberg,Sweden,1991/10/23,1152,0.24,0.07,0.16,12,-0.17,Extreme Underscorer
+Viktor Claesson,Viktor,Claesson,Sweden,1992/01/02,2080,0.24,0.31,0.28,11,0.07,Top Scorer
+Andreas Granqvist,Andreas,Granqvist,Sweden,1985/04/16,2853,0.07,0.05,0.06,16,-0.02,Neutral
+Marcus Berg,Marcus,Berg,Sweden,1986/08/17,2863,0.47,0.28,0.38,16,-0.19,Extreme Underscorer
+Alexander Isak,Alexander,Isak,Sweden,1999/09/21,2864,0.39,0.29,0.34,6,-0.1,Underscorer
+Robin Quaison,Robin,Quaison,Sweden,1993/10/09,2866,0.15,0.17,0.16,10,0.02,Neutral
+Ola Toivonen,Ola,Toivonen,Sweden,1986/07/03,6868,0.32,0.16,0.24,16,-0.16,Extreme Underscorer
+Zlatan Ibrahimovic,Zlatan,Ibrahimovic,Sweden,1981/10/03,51070,0.66,0.47,0.57,15,-0.19,Extreme Underscorer
+Kim Kallstrom,Kim,Kallstrom,Sweden,1982/08/24,105161,0.08,0.12,0.1,16,0.04,Neutral
+Xherdan Shaqiri,Xherdan,Shaqiri,Switzerland,1991/10/10,307,0.18,0.29,0.24,11,0.11,Top Scorer
+Eren Derdiyok,Eren,Derdiyok,Switzerland,1988/06/12,457,0.28,0.19,0.24,14,-0.09,Underscorer
+Haris Seferovic,Haris,Seferovic,Switzerland,1992/02/22,582,0.18,0.3,0.24,12,0.12,Top Scorer
+Mario Gavranovic,Mario,Gavranovic,Switzerland,1989/11/24,1326,0.31,0.39,0.35,12,0.08,Top Scorer
+Stephan Lichtsteiner,Stephan,Lichtsteiner,Switzerland,1984/01/16,1444,0.04,0.04,0.04,17,0,Neutral
+Granit Xhaka,Granit,Xhaka,Switzerland,1992/09/27,1464,0.06,0.13,0.1,10,0.07,Top Scorer
+Ricardo Rodríguez,Ricardo,Rodríguez,Switzerland,1992/08/25,1631,0.07,0.08,0.08,11,0.01,Neutral
+Fabian Schär,Fabian,Schär,Switzerland,1991/12/20,2806,0.1,0.11,0.11,11,0.01,Neutral
+Admir Mehmedi,Admir,Mehmedi,Switzerland,1991/03/16,2808,0.19,0.17,0.18,12,-0.02,Neutral
+Josip Drmic,Josip,Drmic,Switzerland,1992/08/08,25643,0.2,0.19,0.2,11,-0.01,Neutral
+Blerim Dzemaili,Blerim,Dzemaili,Switzerland,1986/04/12,30478,0.1,0.23,0.17,15,0.13,National Pride
+Tranquillo Barnetta,Tranquillo,Barnetta,Switzerland,1985/05/22,48486,0.11,0.11,0.11,16,0,Neutral
+Johan Vonlanthen,Johan,Vonlanthen,Switzerland,1986/02/01,100541,0.16,0.15,0.16,11,-0.01,Neutral
+Alexander Frei,Alexander,Frei,Switzerland,1979/07/15,117969,0.55,0.25,0.4,11,-0.3,Extreme Underscorer
+Marco Streller,Marco,Streller,Switzerland,1981/06/18,118101,0.3,0.14,0.22,11,-0.16,Extreme Underscorer
+Emre Akbaba,Emre,Akbaba,Turkey,1992/10/04,443,0.3,0.5,0.4,8,0.2,National Pride
+Cengiz Under,Cengiz,Under,Turkey,1997/07/14,785,0.2,0.25,0.23,6,0.05,Top Scorer
+Hakan Çalhanoglu,Hakan,Çalhanoglu,Turkey,1994/02/08,1640,0.23,0.22,0.23,9,-0.01,Neutral
+Mustafa Pektemek,Mustafa,Pektemek,Turkey,1988/08/11,2004,0.22,0.05,0.14,14,-0.17,Extreme Underscorer
+Cenk Tosun,Cenk,Tosun,Turkey,1991/06/07,18768,0.33,0.26,0.3,12,-0.07,Underscorer
+Gökhan Unal,Gökhan,Unal,Turkey,1994/03/09,47443,0.08,0.02,0.05,11,-0.06,Underscorer
+Arda Turan,Arda,Turan,Turkey,1987/01/30,49859,0.16,0.1,0.13,16,-0.06,Underscorer
+Ozan Tufan,Ozan,Tufan,Turkey,1995/03/23,49942,0.1,0.1,0.1,8,0,Neutral
+Gökdeniz Karadeniz,Gökdeniz,Karadeniz,Turkey,1991/04/24,62733,0.3,0,0.15,13,-0.3,Extreme Underscorer
+Yevhen Konoplyanka,Yevhen,Konoplyanka,Ukraine,1989/09/29,413,0.18,0.28,0.23,12,0.1,Top Scorer
+Oleksandr Zinchenko,Oleksandr,Zinchenko,Ukraine,1996/12/15,641,0.02,0.14,0.08,6,0.12,Top Scorer
+Yaroslav Rakitskiy,Yaroslav,Rakitskiy,Ukraine,1989/08/03,1204,0.05,0.07,0.06,11,0.02,Neutral
+Viktor Tsygankov,Viktor,Tsygankov,Ukraine,1997/11/15,2182,0.3,0.1,0.2,5,-0.2,Extreme Underscorer
+Roman Yaremchuk,Roman,Yaremchuk,Ukraine,1995/11/27,8493,0.24,0.25,0.25,7,0.01,Neutral
+Andriy Yarmolenko,Andriy,Yarmolenko,Ukraine,1989/10/23,18834,0.33,0.44,0.39,12,0.11,Top Scorer
+Roman Zozulya,Roman,Zozulya,Ukraine,1989/11/17,46726,0.19,0.18,0.19,12,-0.01,Neutral
+Artem Kravets,Artem,Kravets,Ukraine,1989/06/03,50131,0.36,0.18,0.27,13,-0.18,Extreme Underscorer
+Andriy Shevchenko,Andriy,Shevchenko,Ukraine,1976/09/29,118048,0.31,0.29,0.3,15,-0.02,Neutral
+Gareth Bale,Gareth,Bale,Wales,1989/07/16,758,0.29,0.34,0.32,15,0.05,Top Scorer
+Aaron Ramsey,Aaron,Ramsey,Wales,1990/12/26,1459,0.15,0.24,0.2,14,0.09,Top Scorer
+Hal Robson-Kanu,Hal,Robson-Kanu,Wales,1989/05/21,19168,0.15,0.05,0.1,13,-0.1,Underscorer
+Sam Vokes,Sam,Vokes,Wales,1989/10/21,19513,0.21,0.26,0.24,14,0.05,Top Scorer
+Kieffer Moore,Kieffer,Moore,Wales,1992/08/08,19804,0.22,0.2,0.21,7,-0.02,Neutral
+Joe Ledley,Joe,Ledley,Wales,1987/01/23,81774,0.11,0.11,0.11,15,0,Neutral
+Craig Bellamy,Craig,Bellamy,Wales,1979/07/13,114773,0.24,0.16,0.2,12,-0.08,Underscorer
+Ryan Giggs,Ryan,Giggs,Wales,1973/11/29,114774,0.16,0.2,0.18,14,0.04,Neutral
+Robert Earnshaw,Robert,Earnshaw,Wales,1981/04/06,163805,0.32,0.17,0.25,12,-0.15,Extreme Underscorer
+Freddy Eastwood,Freddy,Eastwood,Wales,1983/10/29,230998,0.19,0.17,0.18,10,-0.02,Neutral
