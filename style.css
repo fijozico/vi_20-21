@@ -292,7 +292,7 @@ i.info-button {
   background-color: rgb(74 74 74);
   border: 2px solid rgb(27 27 27);
   color: white;
-  width: 350px;
+  width: 339px;
   position: absolute;
   z-index: 20;
 }
@@ -538,14 +538,6 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 /* ================================================================ */
 /*             HAPPINESS VS NT PERFORMANCE VISUALIZATION            */
 /* ================================================================ */
-
-#country-line-chart, #country-line-chart > #country-line-chart-svg{
-  flex-grow: 1;
-  height: 185.48px;
-  width: calc(100% - 16px);
-  display: flex;
-  justify-content: center;
-}
 
 #country-line-chart{
   padding: 8px;

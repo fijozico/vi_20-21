@@ -30,5 +30,6 @@
   "Switzerland": {"active": ["hsl(0deg, 50%, 50%)", "hsl(23deg, 50%, 50%)"], "hover": ["hsl(0deg, 67%, 67%)", "hsl(23deg, 67%, 67%)"]},
   "Turkey": {"active": ["hsl(0deg, 50%, 50%)", "hsl(180deg, 50%, 50%)"], "hover": ["hsl(0deg, 67%, 67%)", "hsl(180deg, 67%, 67%)"]},
   "Ukraine": {"active": ["hsl(58deg, 50%, 50%)", "hsl(232deg, 50%, 50%)"], "hover": ["hsl(58deg, 67%, 67%)", "hsl(232deg, 67%, 67%)"]},
-  "Wales": {"active": ["hsl(131deg, 50%, 50%)", "hsl(0deg, 50%, 50%)"], "hover": ["hsl(131deg, 67%, 67%)", "hsl(0deg, 67%, 67%)"]}
+  "Wales": {"active": ["hsl(131deg, 50%, 50%)", "hsl(0deg, 50%, 50%)"], "hover": ["hsl(131deg, 67%, 67%)", "hsl(0deg, 67%, 67%)"]},
+  "Overall": {"active": ["hsl(141deg, 50%, 50%)", "hsl(141deg, 50%, 50%)"], "hover": ["hsl(141deg, 67%, 67%)", "hsl(141deg, 67%, 67%)"]}
 }

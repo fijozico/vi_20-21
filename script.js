@@ -18,17 +18,18 @@ var country_rank = {};
 var country_happiness = {};
 var country_gpm = {};
 var players;
+var players_total_gpm = 0;
 
 // text to display when hovering for help
 var help = {
-    "map": "Click a country's position or name to select it. Add a second country to compare with by clicking '+ add country' below. Remove countries by closing them with the cross.",
-    "spider": "spider",
-    "happiness": "happiness",
-    "stadium": "stadium",
-    "player": "player",
-    "scatterplot": "scatterplot",
-    "barchart": "barchart",
-    "underscore": "underscore"
+    "map": "Click a country's position or name to select it. Add a second country to compare with by clicking '+ add country' below. Remove countries by closing them with the cross to see global data.",
+    "spider": "Brief display of a country's National Team Points, Happiness Index, Stadium Occupancy on National Team games, Stadium Occupancy on National League games and average National Goals per Match.",
+    "happiness": "Curve growth correlation between Happiness Index and National Team Points.",
+    "stadium": "National Team and League stadium occupancy. The color saturation hints the occupation by year in each section. Hovering over the sections shows the stadium occupancy in percentage",
+    "player": "Brief Player Statistics and average GPM. The line chart compares National Team GPM and Club GPM over the years.",
+    "scatterplot": "2D GPM plot. Y axis represents National Team GPM and X axis represents Club GPM. Clicking or hovering on the dots, highlights the player in other idioms.",
+    "barchart": "Click on the radio buttons to sort the players by different parameters or click on the switch to change the order. Clicking or hovering on the bars, highlights the player in other idioms. ",
+    "underscore": "National Team Proficiency represents how much better a player is on the national team compared to their club, based on the average goals scored. Clicking or hovering on the dots, highlights the player in other idioms."
 };
 
 /* ================================================================ */
@@ -108,6 +109,11 @@ function loadDB(){
         dataType: "text",       
         success: function (response) {
             players_compact_data = $.csv.toObjects(response);
+
+            for (var i = 0; i < players_compact_data.length; i++)
+                players_total_gpm += parseFloat(players_compact_data[i].nt_avg);
+
+            players_total_gpm /= players_compact_data.length;
         }   
     });
 
@@ -126,6 +132,16 @@ function loadDB(){
                 }
                 country_rank[item.country] = values;
             });
+
+            var values = [];
+            for (var i = 0; i < 11; i++) {
+                var value = 0;
+                for (country in country_rank) {
+                    value += parseInt(country_rank[country][i][1]);
+                }
+                values.push([2008 + i, value / Object.keys(country_rank).length]);
+            }
+            country_rank["Overall"] = values;
         }   
     });
 
@@ -140,6 +156,16 @@ function loadDB(){
                 country_happiness[item.country] = [["2008", item[2008]], ["2018", item[2018]]];
                 country_gpm[item.country] = item.nt_gpm;
             });
+
+            var values = [];
+            for (var i = 0; i < 2; i++) {
+                var value = 0;
+                for (country in country_happiness) {
+                    value += parseInt(country_happiness[country][i][1]);
+                }
+                values.push([2008 + i * 10, value / Object.keys(country_happiness).length]);
+            }
+            country_happiness["Overall"] = values;
         }   
     });
 
@@ -158,6 +184,16 @@ function loadDB(){
                 }
                 attendance_data.push(item);
             });
+
+            var values = [];
+            ["league", "national"].forEach(function (item) {
+                var value = 0;
+                for (var j = 0; j < attendance_data.length; j++)
+                    value += attendance_data[j].occ_type === item ? parseFloat(attendance_data[j].occ_avg) : 0;
+                values.push({"country": "Overall", "occ_type": item, "occ_avg": value / (attendance_data.length / 2)});
+            });
+            attendance_data.push(values[0]);
+            attendance_data.push(values[1]);
         }   
     });
     
@@ -520,6 +556,7 @@ function closeCountry(country) {
     udpateStadium();
     updateScatterplot();
     updateSpiderChart();
+    updateHappinessChart();
 
     setTimeout(function () {
         $(".player-bar-rect-nt:nth-of-type(1)").trigger("mouseover");
@@ -541,45 +578,39 @@ function insertCountryBar(src, name_s, name_d) {
 /*                      (2) COUNTRIES' SPIDER CHART                 */
 /* ================================================================ */
 // creates the quick stats spider chart
-function createSpiderChart(){    
+function createSpiderChart() {
     var width = 466;
     var height = 258;
     var centerX = width / 2;
     var centerY = (height / 2) - 10;
     var numPoints = 5;
 
-    var pentagon = 
-    d3.line()
+    var pentagon = d3.line()
         .x(function(d) { return d.x; })
         .y(function(d) { return d.y; })
         .curve(d3.curveLinearClosed);
 
-    var svg = 
-    d3.select('#spider_chart')
+    var svg = d3.select('#spider_chart')
         .attr('width', width)
         .attr('height', height);
 
-    for(index = 0; index < 5; index++){
-
-        var radius = (height / 3) - 17*index;
+    for (index = 0; index < 5; index++) {
+        var radius = (height / 3) - 17 * index;
     
-        var points = d3.range(numPoints)
-            .map(i => {
-             var angle = i / numPoints * Math.PI * 2 + Math.PI;
-             return {
+        var points = d3.range(numPoints).map(i => {
+            var angle = i / numPoints * Math.PI * 2 + Math.PI;
+            return {
                 x: Math.sin(angle) * radius + centerX,
                 y: Math.cos(angle) * radius + centerY
-             };
-            });
+            };
+        });
 
-       
-    
         var spokes = points.map(point => ({
-         x1: centerX,
-         y1: centerY,
-         x2: point.x,
-         y2: point.y
-         }));
+            x1: centerX,
+            y1: centerY,
+            x2: point.x,
+            y2: point.y
+        }));
     
         var wheelLines = d3.range(numPoints).map(i => ({
             x1: points[i].x,
@@ -590,134 +621,166 @@ function createSpiderChart(){
     
         var lines = spokes.concat(wheelLines);
         
-
-        var path = 
-        svg.insert('path', ":first-child")
-        .attr('d', pentagon(points))
-        .attr('stroke', 'white')
-        .attr('stroke-width', 1)
-        .attr('fill', 'transparent');
+        var path = svg.insert('path', ":first-child")
+            .attr('d', pentagon(points))
+            .attr('stroke', 'white')
+            .attr('stroke-width', 1)
+            .attr('fill', 'transparent');
     }
 
-    svg.append('line')
-    .style("stroke", "white")
-    .style("stroke-width", 1)
-    .attr('fill', 'transparent')
-    .attr("x1", centerX)
-    .attr("y1", centerY)
-    .attr("x2", 314.7908604013832)
-    .attr("y2", 92.42453848375455);
+    svg.insert('line', ":first-child")
+        .style("stroke", "white")
+        .style("stroke-width", 1)
+        .attr('fill', 'transparent')
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", 315)
+        .attr("y2", 92);
 
-    svg.append('line')
-    .style("stroke", "white")
-    .style("stroke-width", 1)
-    .attr('fill', 'transparent')
-    .attr("x1", centerX)
-    .attr("y1", centerY)
-    .attr("x2", 283.5495316971527)
-    .attr("y2", 188.5754615162455);
+    svg.insert('line', ":first-child")
+        .style("stroke", "white")
+        .style("stroke-width", 1)
+        .attr('fill', 'transparent')
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", 284)
+        .attr("y2", 189);
 
-    svg.append('line')
-    .style("stroke", "white")
-    .style("stroke-width", 1)
-    .attr('fill', 'transparent')
-    .attr("x1", centerX)
-    .attr("y1", centerY)
-    .attr("x2", 182.4504683028473)
-    .attr("y2", 188.57546151624547);
+    svg.insert('line', ":first-child")
+        .style("stroke", "white")
+        .style("stroke-width", 1)
+        .attr('fill', 'transparent')
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", 182)
+        .attr("y2", 189);
 
-    svg.append('line')
-    .style("stroke", "white")
-    .style("stroke-width", 1)
-    .attr('fill', 'transparent')
-    .attr("x1", centerX)
-    .attr("y1", centerY)
-    .attr("x2", 233)
-    .attr("y2", 33);
+    svg.insert('line', ":first-child")
+        .style("stroke", "white")
+        .style("stroke-width", 1)
+        .attr('fill', 'transparent')
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", 233)
+        .attr("y2", 33);
 
-    svg.append('line')
-    .style("stroke", "white")
-    .style("stroke-width", 1)
-    .attr('fill', 'transparent')
-    .attr("x1", centerX)
-    .attr("y1", centerY)
-    .attr("x2", 151.2091395986168)
-    .attr("y2", 92.4245384837545);
+    svg.insert('line', ":first-child")
+        .style("stroke", "white")
+        .style("stroke-width", 1)
+        .attr('fill', 'transparent')
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", 151)
+        .attr("y2", 92);
+
+    var path = svg.selectAll('.spider-path').attr('d', [
+        "M", centerX, centerY,
+        "L", centerX, centerY,
+        "L", centerX, centerY,
+        "L", centerX, centerY,
+        "L", centerX, centerY,
+        "Z"
+    ].join(" "));
+
+    updateSpiderChart();
 }
 
-
-function updateSpiderChart(){
-
+// 
+function updateSpiderChart() {
     var width = 466;
     var height = 258;
     var centerX = width / 2;
     var centerY = (height / 2) - 10;
 
-    var pentagon = 
-    d3.line()
+    var pentagon = d3.line()
         .x(function(d) { return d[0]; })
         .y(function(d) { return d[1]; })
         .curve(d3.curveLinearClosed);
 
-    if (active_countries[0] === "") return;
+    if (active_countries[0] === "") this_country = "Overall";
+    else this_country = active_countries[no_countries_mode];
 
-    var happiness1 = country_happiness[active_countries[no_countries_mode]][1][1];
+    // uses "Overall" country
+    var happiness1 = country_happiness[this_country][1][1];
     happinessScale = d3.scaleLinear()
-    .domain([0, 1000])
-    .range([[centerX,centerY],[314.7908604013832,92.42453848375455]])
+        .domain([0, 1000])
+        .range([[centerX, centerY], [315, 92]]);
     var happinessPoint1 = happinessScale(happiness1);
 
-
+    // uses "Overall" country
     var attendanceNational1 = attendance_data.find(
-    x => (x.country === active_countries[no_countries_mode] && x.occ_type === "national")).occ_avg;
+        x => (x.country === this_country && x.occ_type === "national")).occ_avg;
     nationalScale = d3.scaleLinear()
-    .domain([0, 1])
-    .range([[centerX,centerY],[283.5495316971527,188.5754615162455]])
+        .domain([0, 1])
+        .range([[centerX, centerY], [284, 189]]);
     var nationalPoint1 = nationalScale(attendanceNational1);
 
-
+    // uses "Overall" country
     var attendanceLeague1 = attendance_data.find(
-    x => (x.country === active_countries[no_countries_mode] && x.occ_type === "league")).occ_avg;
+        x => (x.country === this_country && x.occ_type === "league")).occ_avg;
     leagueScale = d3.scaleLinear()
-    .domain([0, 1])
-    .range([[centerX,centerY],[182.4504683028473,188.57546151624547]])
+        .domain([0, 1])
+        .range([[centerX, centerY], [182, 189]]);
     var leaguePoint1 = leagueScale(attendanceLeague1);
 
-
-    var rank1 = country_rank[active_countries[no_countries_mode]][10][1];
+    // uses "Overall" country
+    var rank1 = country_rank[this_country][10][1];
     rankScale = d3.scaleLinear()
-    .domain([0, 2200])
-    .range([[centerX,centerY],[233,33]])
+        .domain([0, 2200])
+        .range([[centerX, centerY], [233, 33]]);
     var rankPoint1 = rankScale(rank1);
 
-
-    var totalGPM1 = country_gpm[active_countries[no_countries_mode]];
     gpmScale = d3.scaleLinear()
-    .domain([0, 0.5])
-    .range([[centerX,centerY],[151.2091395986168,92.4245384837545]])
-    var gpmPoint1 = gpmScale(totalGPM1);
+        .domain([0, 0.5])
+        .range([[centerX, centerY], [151, 92]]);
+    
+    if (active_countries[0] === "") var gpmPoint1 = gpmScale(players_total_gpm);
+    else var gpmPoint1 = gpmScale(country_gpm[this_country]);
 
     var colorNo = function (country) {
-    if (active_countries[0] === "") return 0;
-    return active_countries_colors[active_countries.indexOf(country)];
+        if (active_countries[0] === "") return 0;
+        if (country === "Overall") return 0;
+        return active_countries_colors[active_countries.indexOf(country)];
     };
 
     var points = [happinessPoint1, nationalPoint1, leaguePoint1, gpmPoint1, rankPoint1];
-
     
-    var svg = 
-    d3.select('#spider_chart')
+    var svg = d3.select('#spider_chart')
         .attr('width', width)
         .attr('height', height);
 
-    var path = 
-        svg.select('#spider-path-' + no_countries_mode)
+    var path = svg.select('#spider-path-' + no_countries_mode)
+        .attr('stroke-width', 4)
+        .attr('fill-opacity', '0.15')
+        .transition().duration(500)
         .attr('d', pentagon(points))
-        .attr('stroke', country_colors[active_countries[no_countries_mode]].active[colorNo(active_countries[no_countries_mode])])
-        .attr('stroke-width', 3)
-        .attr('fill', country_colors[active_countries[no_countries_mode]].hover[colorNo(active_countries[no_countries_mode])])
-        .attr('fill-opacity', '0.3');
+        .attr('stroke', country_colors[this_country].active[colorNo(this_country)])
+        .attr('fill', country_colors[this_country].hover[colorNo(this_country)]);
 
+    if (no_countries_mode === 0)
+        d3.select('#spider-path-1')
+            .transition().duration(500)
+            .attr("d", [
+                "M", centerX, centerY,
+                "L", centerX, centerY,
+                "L", centerX, centerY,
+                "L", centerX, centerY,
+                "L", centerX, centerY,
+                "Z"
+            ].join(" "))
+            .attr("stroke", "transparent")
+            .attr("fill", "transparent");
+
+    $(`#spider-legend-${no_countries_mode + 1}`).fadeIn(500);
+    $("#spider-legend-" + (no_countries_mode + 1) + " text").html(
+        active_countries[0] === "" ? "Worldwide" : this_country.replaceAll("-", " ")
+    );
+
+    d3.selectAll($("#spider-legend-" + (no_countries_mode + 1) + " circle"))
+        .transition().duration(500)
+        .attr("fill", country_colors[this_country].active[colorNo(this_country)]);
+
+    if (no_countries_mode === 0) $("#spider-legend-2").fadeOut(500);
 }
 
 /* ================================================================ */
@@ -730,13 +793,15 @@ function createHappinessChart() {
     height = 223 - margin.top - margin.bottom;
 
     var svg = d3.select("#country-line-chart-svg")
-        .attr("viewbox", `0 0 ${width} ${height}`)
+        .attr("width", width)
+        .attr("height", height + 30)
+        .attr("viewbox", `0 0 ${width} ${height + 30}`)
 
     // add "Years" label
     svg.append("text")
         .attr("id", "player_years_label")
         .attr("x", width / 2 + 5 )
-        .attr("y", height - 10)
+        .attr("y", height - 15)
         .attr("fill", "white")
         .style("text-anchor", "middle")
         .text("Years");
@@ -772,10 +837,17 @@ function createHappinessChart() {
     
     // add y axis
     svg.insert("g", ":first-child")
-       .attr("transform", "translate(" + (2 * margin.left + 25) + ",0)")
-       .attr("id", "happiness_y")
-       .attr("color", "white")
-       .call(d3.axisLeft(y))
+        .attr("transform", "translate(" + (2 * margin.left + 25) + ",0)")
+        .attr("id", "happiness_y")
+        .attr("color", "white")
+        .call(d3.axisLeft(y))
+
+    //
+    d3.select("#country-line-chart-svg")
+        .selectChildren("path")
+        .attr("stroke", "transparent");
+
+    updateHappinessChart();
 }
 
 // 
@@ -785,6 +857,9 @@ function updateHappinessChart() {
     height = 223 - margin.top - margin.bottom;
 
     var svg = d3.select("#country-line-chart-svg");
+
+    if (active_countries[0] === "") this_country = "Overall";
+    else this_country = active_countries[no_countries_mode];
 
     var x = d3.scaleLinear()
         .domain([2007, 2019])
@@ -797,28 +872,61 @@ function updateHappinessChart() {
     // generate lines
     var happiness_line = d3.line()
         .x(function (d) { return x(d[0]) })
-        .y(function (d) { return y(d[1]/10) });
+        .y(function (d) { return y(d[1]/10) })
+        .curve(d3.curveMonotoneX);
 
     var ranking_line = d3.line()
         .x(function (d) { return x(d[0]) })
-        .y(function (d) { return y(d[1] * 100 / 1980) });
+        .y(function (d) { return y(d[1] * 100 / 1980) })
+        .curve(d3.curveMonotoneX);
 
+    var colorNo = function (country) {
+        if (active_countries[0] === "") return 0;
+        if (country === "Overall") return 0;
+        return active_countries_colors[active_countries.indexOf(country)];
+    };
     var color_no = active_countries_colors[no_countries_mode];
 
     // alter happiness and ranking paths
-    svg.select("#path-happiness" + no_countries_mode)
+    svg.select("#path-happiness-" + no_countries_mode)
         .attr("fill", "none")
         .attr("stroke-width", 2.5)
         .transition().duration(500)
-        .attr("stroke", country_colors[active_countries[no_countries_mode]].active[color_no])
-        .attr("d", happiness_line(country_happiness[active_countries[no_countries_mode]]));
+        .attr("stroke", country_colors[this_country].active[colorNo(this_country)])
+        .attr("d", happiness_line(country_happiness[this_country]));
 
-    svg.select("#path-ranking" + no_countries_mode)
+    svg.select("#path-ranking-" + no_countries_mode)
         .attr("fill", "none")
         .attr("stroke-width", 2.5)
         .transition().duration(500)
-        .attr("stroke", country_colors[active_countries[no_countries_mode]].hover[color_no])
-        .attr("d", ranking_line(country_rank[active_countries[no_countries_mode]]));
+        .attr("stroke", country_colors[this_country].hover[colorNo(this_country)])
+        .attr("d", ranking_line(country_rank[this_country]));
+
+    if (no_countries_mode === 0) {
+        svg.select("#path-ranking-1")
+            .transition().duration(500)
+            .attr("stroke", "transparent");
+
+        svg.select("#path-happiness-1")
+            .transition().duration(500)
+            .attr("stroke", "transparent");
+    }
+
+    d3.select($("#happiness-legend-1 circle")[no_countries_mode])
+        .transition().duration(500)
+        .attr("fill", country_colors[this_country].active[colorNo(this_country)]);
+    d3.select($("#happiness-legend-2 circle")[no_countries_mode])
+        .transition().duration(500)
+        .attr("fill", country_colors[this_country].hover[colorNo(this_country)]);
+
+    if (no_countries_mode === 0) {
+        d3.select($("#happiness-legend-1 circle")[1])
+            .transition().duration(500)
+            .attr("fill", "transparent");
+        d3.select($("#happiness-legend-2 circle")[1])
+            .transition().duration(500)
+            .attr("fill", "transparent");
+    }
 }
 
 /* ================================================================ */
@@ -971,13 +1079,19 @@ function changeLegend(mode, country = "") {
                 .transition().duration(500)
                 .attr("fill", "transparent");
             });
+        $("#scatterplot-legend-" + (no_countries_mode + 1)).fadeOut(500)
+            .children("circle").each(function (index) {
+            d3.select(this)
+                .transition().duration(500)
+                .attr("fill", "transparent");
+            });
 
         d3.select($("#bar-chart-legend-nt rect")[no_countries_mode])
             .transition().duration(500)
-            .attr("fill", "transparent")
+            .attr("fill", "transparent");
         d3.select($("#bar-chart-legend-club rect")[no_countries_mode])
             .transition().duration(500)
-            .attr("fill", "transparent")
+            .attr("fill", "transparent");
        
         return;
     }
@@ -2050,7 +2164,7 @@ function createGauge() {
     };
     var that = {};
     var config = {
-        arcColorFn: d3.interpolateHsl(d3.rgb('#ff0000'), d3.rgb('#00ff00')),
+        arcColorFn: d3.interpolateHsl(d3.rgb('#bd5151'), d3.rgb('#51bd51')),
         clipHeight: 110,
         clipWidth: 200,
         labelFormat: d3.format(',g'),
@@ -2356,6 +2470,8 @@ function updateGauge() {
 
     // edit gauge legend
     d3.select($(`#avg-underscore-${no_countries_mode}`).fadeIn(500)[0])
+        .transition().duration(500)
+        .attr("fill", active_countries[0] === "" ? "#aaa" : country_colors[active_countries[no_countries_mode]].hover[colorNo(active_countries[no_countries_mode])])
         .text(Math.round(avg * 100) / 100);
 
     if (no_countries_mode == 0)

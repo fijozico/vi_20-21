@@ -45,8 +45,18 @@
             <text x="195" y="25" fill="white">NT Points</text>
             <text x="85" y="190" fill="white">League Occ.</text>
             <text x="300" y="190" fill="white">NT Occ.</text>
-            <path id="spider-path-0"/>
-            <path id="spider-path-1"/>
+            <path id="spider-path-1" class="spider-path"/>
+            <path id="spider-path-0" class="spider-path"/>
+            <g id="spider-legend">
+              <g id="spider-legend-1">
+                <circle cx="28" cy="208" r="8" fill="transparent" />
+                <text x="42" y="213" fill="white"></text>
+              </g>
+              <g id="spider-legend-2">
+                <circle cx="260" cy="208" r="8" fill="transparent" />
+                <text x="274" y="213" fill="white"></text>
+              </g>
+            </g>
           </svg>
         </div>
 
@@ -56,10 +66,22 @@
           <h1 class="idiom-title">Happiness vs <abbr title="National Team">NT</abbr> Performance</h1>
           <div id="country-line-chart">
             <svg id="country-line-chart-svg">
-              <path id="path-happiness0" d="M 0 0 L 0 0"/>
-              <path id="path-ranking0" d="M 0 0 L 0 0"/>
-              <path id="path-happiness1" d="M 0 0 L 0 0"/>
-              <path id="path-ranking1" d="M 0 0 L 0 0"/>
+              <path id="path-happiness-0"/>
+              <path id="path-ranking-0"/>
+              <path id="path-happiness-1"/>
+              <path id="path-ranking-1"/>
+              <g id="spider-legend" transform="translate(25,0)">
+                <g id="happiness-legend-1">
+                  <circle cx="8" cy="198" r="8" fill="transparent" />
+                  <circle cx="28" cy="198" r="8" fill="transparent" />
+                  <text x="42" y="203" fill="white">Happiness Index</text>
+                </g>
+                <g id="happiness-legend-2">
+                  <circle cx="200" cy="198" r="8" fill="transparent" />
+                  <circle cx="220" cy="198" r="8" fill="transparent" />
+                  <text x="234" y="203" fill="white">NT FIFA Points</text>
+                </g>
+              </g>
             </svg>
           </div>
         </div>
