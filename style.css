@@ -26,7 +26,7 @@ body {
 svg#map-svg path:not(.greyed-out) { cursor: pointer; }
 svg#map-svg path.greyed-out { cursor: not-allowed; }
 
-
+/* idiom titles */
 h1.idiom-title {
   color: white;
   font-size: 2.04vh;
@@ -74,8 +74,8 @@ h1.idiom-title {
 
 #gauge-legend text {
   alignment-baseline: middle;
-  text-anchor: middle;
   fill: white;
+  text-anchor: middle;
 }
 
 .secondary-container.top,
@@ -104,9 +104,9 @@ h1.idiom-title {
 #stadium-container,
 #gpm-bar-container,
 #underscore-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 /* terciary containers */
@@ -126,15 +126,56 @@ h1.idiom-title {
 }
 
 div.before-svg {
-  height: calc(100% - 2.79vh);
-  flex-grow: 1;
-  width: 100%;
   display: flex;
+  flex-grow: 1;
+  height: calc(100% - 2.79vh);
   justify-content: center;
+  width: 100%;
 }
 
 /* ================================================================ */
-/*           TOP-LEFT BIG CONTAINER (MAP AND COUNTRY LIST)          */
+/*                           INFO BUTTONS                           */
+/* ================================================================ */
+i.info-button {
+  align-self: flex-start;
+  background-color: #1b1bdc;
+  border-radius: 50%;
+  border: .19vh solid white;
+  color: white;
+  cursor: help;
+  font-family: monospace;
+  font-size: 1.58vh;
+  font-weight: bold;
+  height: 1.9vh;
+  line-height: 2vh;
+  margin: .56vh;
+  position: absolute;
+  text-align: center;
+  width: 1.9vh;
+  z-index: 10;
+}
+
+#pc-left-top i.info-button {
+  align-self: flex-start;
+}
+
+.help-box {
+  background-color: rgb(74 74 74);
+  border: .19vh solid rgb(27 27 27);
+  color: white;
+  width: 31.39vh;
+  position: absolute;
+  z-index: 20;
+}
+
+.help-box p {
+  margin: .37vh;
+  font-size: 1.48vh;
+  text-align: center;
+}
+
+/* ================================================================ */
+/*                     (1) COUNTRY LIST AND MAP                     */
 /* ================================================================ */
 /* country list */
 ul#country-pick {
@@ -188,15 +229,16 @@ svg#map-svg path:not(.greyed-out)[data-active="0"], svg#map-svg path:not(.greyed
 }
 
 /* ================================================================ */
-/*       MIDDLE-LEFT BIG CONTAINER (COUNTRY NAME AND FLAG BAR)      */
+/*        (1) COUNTRY LIST AND MAP (COUNTRY NAMES AND FLAGS)        */
 /* ================================================================ */
-
+/* whole container */
 #country-title-bar {
   display: inherit;
   height: 4.63vh;
   width: 100%;
 }
 
+/* the two sub-containers */
 #country-title-bar > div {
   align-items: center;
   display: flex;
@@ -238,9 +280,8 @@ svg#map-svg path:not(.greyed-out)[data-active="0"], svg#map-svg path:not(.greyed
 }
 
 /* ================================================================ */
-/*                       STADIUM VISUALIZATION                      */
+/*                     (4) STADIUM VISUALIZATION                    */
 /* ================================================================ */
-
 svg#stadium text {
   fill: white;
   font-size: 200%;
@@ -249,10 +290,10 @@ svg#stadium text {
 
 text.cnt-label {
   paint-order: stroke;
-  stroke: rgb(30,30,30);
-  stroke-width: .74vh;
   stroke-linecap: butt;
   stroke-linejoin: miter;
+  stroke-width: .74vh;
+  stroke: rgb(30,30,30);
 }
 
 /* legend */
@@ -262,49 +303,117 @@ svg#stadium g#legend text {
 }
 
 /* ================================================================ */
-/*                           INFO BUTTONS                           */
+/*           (3) HAPPINESS VS NT PERFORMANCE VISUALIZATION          */
 /* ================================================================ */
+#country-line-chart {
+  display: flex;
+  height: calc(100% - 2.79vh);
+  justify-content: center;
+  width: 100%;
+}
 
-i.info-button {
-  align-self: flex-start;
-  background-color: #1b1bdc;
+/* ================================================================ */
+/*                           (5) PLAYER ID                          */
+/* ================================================================ */
+#pc-right-top {
+  flex-direction: column;
+  justify-content: space-between;
+  padding: .55vh;
+}
+
+.image {
   border-radius: 50%;
-  border: .19vh solid white;
+  border: .46vh solid #555;
+  height: 11.11vh;
+  width: 11.11vh;
+}
+
+#nat {
   color: white;
-  cursor: help;
-  font-family: monospace;
-  font-size: 1.58vh;
-  font-weight: bold;
-  height: 1.9vh;
-  line-height: 2vh;
-  margin: .56vh;
-  position: absolute;
+  float: left;
+  font-size: 1.3vh;
+  overflow: hidden;
   text-align: center;
-  width: 1.9vh;
-  z-index: 10;
+  text-overflow: ellipsis;
 }
 
-#pc-left-top i.info-button {
-  align-self: flex-start;
+#image-nat {
+  max-width: 12.04vh;
 }
 
-.help-box {
-  background-color: rgb(74 74 74);
-  border: 2px solid rgb(27 27 27);
+#image-nat > div {
+  align-items: center;
+  display: flex;
+  height: 3.52vh;
+  justify-content: center;
+}
+
+#player-gpm {
+  flex-grow: 1;
+  height: fit-content;
+  width: 100%;
+}
+
+#player-id {
+  display: flex;
+  height: fit-content;
+  justify-content: space-between;
+  width: 100%;  
+}
+
+#player-info {
   color: white;
-  width: 339px;
-  position: absolute;
-  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.48vh;
+  height: 100%;
+  justify-content: space-around;
+  margin-left: .55vh;
+  overflow:hidden;
+  word-wrap: break-word;
 }
 
-.help-box p {
-  margin: 4px;
-  font-size: 16px;
+#player-bars {
+  display: flex;
+  height: fit-content;
+  justify-content: space-between;
+}
+
+.player-bar-title {
+  -webkit-text-stroke: .1px black;
+  color: white;
+  font-size: .93vh;
+  margin-left: .55vh;
   text-align: center;
+  width: 4.63vh;  
+}
+
+.player-bar {
+  height: 14.08vh;
+  margin-top: .55vh;
+  width: 2.78vh;
+}
+
+.player-bar text {
+  alignment-baseline: hanging;
+  fill: white;
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+#player-flag {
+  border: 1px solid black;
+  height: 1.7vh;
+  margin-right: .46vh;
+}
+
+#pc-right-top > .idiom-title, #pc-right-top > .info-button {
+  margin-bottom: 1.3vh;
+  margin: 0;
 }
 
 /* ================================================================ */
-/*                         PLAYER BAR CHART                         */
+/*                      (7) PLAYERS' BAR CHART                      */
 /* ================================================================ */
 /* submission form */
 form#player-barchart-form {
@@ -405,18 +514,15 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 #bar-chart-div {
   align-self: flex-end;
   height: calc(100% - 14.44vh);
-  width: 100%;
-  overflow-y: scroll;
   overflow-x: hidden;
+  overflow-y: scroll;
+  width: 100%;
 }
 
 #scatterplot-legend text {
   text-anchor: middle;
 }
 
-/* ================================================================ */
-/*                         PLAYER BAR CHART                         */
-/* ================================================================ */
 .player-bar-rect-nt,
 .player-bar-rect-club,
 .player-bar-rect-avg,
@@ -436,117 +542,8 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 }
 
 /* ================================================================ */
-/*                             PLAYER ID                            */
+/*                        (8) NT PROFICIENCY                        */
 /* ================================================================ */
-#pc-right-top {
-  flex-direction: column;
-  justify-content: space-between;
-  padding: .55vh;
-}
-
-.image {
-  width: 11.11vh;
-  height: 11.11vh;
-  border-radius: 50%;
-  border: .46vh solid #555;
-}
-
-#nat {
-  color: white;
-  text-align: center;
-  font-size: 1.30vh;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  float: left;
-}
-
-#image-nat {
-  max-width: 12.04vh;
-}
-
-#image-nat > div {
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  height: 3.52vh;
-}
-
-#player-gpm {
-  width: 100%;
-  height: fit-content;
-  flex-grow: 1;
-}
-
-#player-id {
-  display: flex;
-  height: fit-content;
-  width: 100%;  
-  justify-content: space-between;
-}
-
-#player-info {
-  margin-left: .55vh;
-  display: flex;
-  flex-direction: column;
-  color: white;
-  overflow:hidden;
-  word-wrap: break-word;
-  justify-content: space-around;
-  height: 100%;
-  font-size: 1.48vh;
-}
-
-#player-bars {
-  justify-content: space-between;
-  display: flex;
-  height: fit-content;
-}
-
-.player-bar-title {
-  text-align: center;
-  -webkit-text-stroke: .1px black;
-  color: white;
-  margin-left: .55vh;
-  width: 4.63vh;  
-  font-size: .93vh;
-}
-
-.player-bar {
-  height: 14.08vh;
-  width: 2.78vh;
-  margin-top: .55vh;
-}
-
-.player-bar text {
-  fill: white;
-  font-size: 14px;
-  text-anchor: middle;
-  alignment-baseline: hanging;
-}
-
-#player-flag {
-  border: 1px solid black;
-  height: 1.7vh;
-  margin-right: .46vh;
-}
-
-#pc-right-top > .idiom-title, #pc-right-top > .info-button {
-  margin: 0;
-  margin-bottom: 1.3vh;
-}
-
-/* ================================================================ */
-/*             HAPPINESS VS NT PERFORMANCE VISUALIZATION            */
-/* ================================================================ */
-
-#country-line-chart{
-  padding: 8px;
-}
-
-/* ================================================================ */
-/*                      SCORABILITY VISUALIZATION                   */
-/* ================================================================ */
-
 #power-gauge g.arc {
   fill: steelblue;
 }
@@ -557,16 +554,16 @@ form#player-barchart-form > div.ascdesc input[type=checkbox]:checked:before { le
 }
 
 #power-gauge g.label text {
-  text-anchor: middle;
-  font-size: 14px;
-  font-weight: bold;
-  z-index: 5;
   alignment-baseline: middle;
+  font-size: 1.3vh;
+  font-weight: bold;
+  text-anchor: middle;
+  z-index: 5;
 }
 
-#power-gauge{
-  margin-top: 8px;
-  padding: 8px;
+#power-gauge {
+  height: 100%;
+  width: 100%;
 }
 
 #avg-underscore text {

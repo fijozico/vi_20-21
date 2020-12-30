@@ -37,7 +37,7 @@ var help = {
 /* ================================================================ */
 // what to do when the page loads
 $(window).on("load", function () {
-    loadDB();    
+    loadDatabases();    
 
     resizeBody($(this));
     createMap();
@@ -55,6 +55,7 @@ $(window).on("load", function () {
     createHappinessChart();
     resizeHappinessChart();
     createSpiderChart();
+    resizeSpiderChart();
 
     bindCountryHover();
     bindCountryUnhover();
@@ -72,10 +73,11 @@ $(window).on("resize", function () {
     resizeHappinessChart();
     resizeGauge();
     resizeScatterplot();
+    resizeSpiderChart();
 });
 
 // loads all necessary files
-function loadDB(){
+function loadDatabases(){
     // load country colors
     $.ajax({
         async: false,
@@ -239,6 +241,20 @@ function resizeMap() {
     $("ul#country-pick").css("width", map_container.width() - map.width());
 }
 
+// resizes spiderchart to fit container
+function resizeSpiderChart() {
+    var spider = $("#spider_chart");
+    var dim = Math.min(spider.parent().height(), spider.parent().width() * (236 / 463));
+    spider.attr({"height": dim, "width": dim * (463 / 236)});
+}
+
+// resizes happiness vs NT performance line chart
+function resizeHappinessChart() {
+    var happiness = $("#country-line-chart-svg");
+    var dim = Math.min(happiness.parent().height(), happiness.parent().width() * (217 / 385));
+    happiness.attr({"height": dim, "width": dim * (385 / 217)});
+}
+
 // makes the stadium always fit its container
 function resizeStadium() {
     var stadium_container = $("svg#stadium").parent();
@@ -253,12 +269,19 @@ function resizeStadium() {
 
 // resizes the player stats' linechart
 function resizePlayerStats() {
+    // resize bars
+    var parent_chart = $("#pc-right-top");
+    var parent_chart_dim = { "width": parent_chart.width(), "height": parent_chart.height() };
 
-}
+    $(".player-bar").attr({
+        "width": parent_chart_dim.width * (30 / 525),
+        "height": parent_chart_dim.height * (152 / 525)
+    });
 
-// resizes happiness vs NT performance line chart
-function resizeHappinessChart() {
-
+    // resize line chart
+    var player_chart = $("#player-line-gpm");
+    var dim = Math.min(player_chart.parent().height(), player_chart.parent().width() * (314 / 542));
+    player_chart.attr({"height": dim, "width": dim * (542 / 314)});
 }
 
 // make the player scatterplot fit the container
@@ -287,14 +310,27 @@ function resizePlayersBarChart() {
     });
 
     chart.attr({
-        "width": parent_chart_dim.width - 14,
-        "height": (parent_chart_dim.width - 14) * (chart_dim.height / chart_dim.width)
+        "width": parent_chart_dim.width,
+        "height": parent_chart_dim.width * (chart_dim.height / chart_dim.width)
+    });
+
+    // resize legends
+    $("#bar-chart-legend-avg").attr({
+        "width": parent_chart_dim.width * (12 / 384),
+        "height": parent_chart_dim.height * (12 / 384)
+    });
+
+    $("#bar-chart-legend-club, #bar-chart-legend-nt").attr({
+        "width": parent_chart_dim.width * (29 / 384),
+        "height": parent_chart_dim.height * (12 / 384)
     });
 }
 
 // resizes the underscorability gauge
 function resizeGauge() {
-
+    var gauge = $(".gauge");
+    var dim = Math.min(gauge.parent().height(), gauge.parent().width() * (470 / 380));
+    gauge.attr({"height": dim, "width": dim * (380 / 470)});
 }
 
 // manipulate help box
@@ -372,9 +408,8 @@ function bindCountryHover() {
         // this way, it deals with all the country"s paths, along with the list item
         $("svg#map-svg path[data-country=" + this.dataset.country + "], ul#country-pick li#li-" + this.dataset.country).each(function () {
             // if it's the path, just changes its color
-            if (this.localName == "path" && !["0","1"].includes($(this).attr("data-active"))) {
+            if (this.localName == "path" && !["0","1"].includes($(this).attr("data-active")))
                 $(this).css("fill", country_colors[this.dataset.country].hover[color_no]);
-            }
 
             // if it's the list item, only "hovers" it if item not active
             // important because list item may be "hovered" (temporary highlight) or "active" (permanent highlight)
@@ -579,7 +614,7 @@ function insertCountryBar(src, name_s, name_d) {
 /* ================================================================ */
 // creates the quick stats spider chart
 function createSpiderChart() {
-    var width = 466;
+    var width = 463;
     var height = 258;
     var centerX = width / 2;
     var centerY = (height / 2) - 10;
@@ -592,8 +627,10 @@ function createSpiderChart() {
 
     var svg = d3.select('#spider_chart')
         .attr('width', width)
-        .attr('height', height);
+        .attr('height', height - 22)
+        .attr("viewBox", `0 0 ${width} ${height - 22}`);
 
+    // creating 5 pentagons
     for (index = 0; index < 5; index++) {
         var radius = (height / 3) - 17 * index;
     
@@ -628,6 +665,7 @@ function createSpiderChart() {
             .attr('fill', 'transparent');
     }
 
+    // creating lines connectiong center to edges
     svg.insert('line', ":first-child")
         .style("stroke", "white")
         .style("stroke-width", 1)
@@ -673,6 +711,7 @@ function createSpiderChart() {
         .attr("x2", 151)
         .attr("y2", 92);
 
+    // inserts initial path in the center (important for animating)
     var path = svg.selectAll('.spider-path').attr('d', [
         "M", centerX, centerY,
         "L", centerX, centerY,
@@ -685,9 +724,9 @@ function createSpiderChart() {
     updateSpiderChart();
 }
 
-// 
+// updates spiderchart line when needed
 function updateSpiderChart() {
-    var width = 466;
+    var width = 463;
     var height = 258;
     var centerX = width / 2;
     var centerY = (height / 2) - 10;
@@ -697,17 +736,18 @@ function updateSpiderChart() {
         .y(function(d) { return d[1]; })
         .curve(d3.curveLinearClosed);
 
+    // checks if overall is to be used
     if (active_countries[0] === "") this_country = "Overall";
     else this_country = active_countries[no_countries_mode];
 
-    // uses "Overall" country
+    // happiness value
     var happiness1 = country_happiness[this_country][1][1];
     happinessScale = d3.scaleLinear()
         .domain([0, 1000])
         .range([[centerX, centerY], [315, 92]]);
     var happinessPoint1 = happinessScale(happiness1);
 
-    // uses "Overall" country
+    // national attendance
     var attendanceNational1 = attendance_data.find(
         x => (x.country === this_country && x.occ_type === "national")).occ_avg;
     nationalScale = d3.scaleLinear()
@@ -715,7 +755,7 @@ function updateSpiderChart() {
         .range([[centerX, centerY], [284, 189]]);
     var nationalPoint1 = nationalScale(attendanceNational1);
 
-    // uses "Overall" country
+    // league attendance
     var attendanceLeague1 = attendance_data.find(
         x => (x.country === this_country && x.occ_type === "league")).occ_avg;
     leagueScale = d3.scaleLinear()
@@ -723,13 +763,14 @@ function updateSpiderChart() {
         .range([[centerX, centerY], [182, 189]]);
     var leaguePoint1 = leagueScale(attendanceLeague1);
 
-    // uses "Overall" country
+    // FIFA points
     var rank1 = country_rank[this_country][10][1];
     rankScale = d3.scaleLinear()
         .domain([0, 2200])
         .range([[centerX, centerY], [233, 33]]);
     var rankPoint1 = rankScale(rank1);
 
+    // average NT GPMs
     gpmScale = d3.scaleLinear()
         .domain([0, 0.5])
         .range([[centerX, centerY], [151, 92]]);
@@ -749,6 +790,7 @@ function updateSpiderChart() {
         .attr('width', width)
         .attr('height', height);
 
+    // creates spiderchart line
     var path = svg.select('#spider-path-' + no_countries_mode)
         .attr('stroke-width', 4)
         .attr('fill-opacity', '0.15')
@@ -771,6 +813,7 @@ function updateSpiderChart() {
             .attr("stroke", "transparent")
             .attr("fill", "transparent");
 
+    // handles legends
     $(`#spider-legend-${no_countries_mode + 1}`).fadeIn(500);
     $("#spider-legend-" + (no_countries_mode + 1) + " text").html(
         active_countries[0] === "" ? "Worldwide" : this_country.replaceAll("-", " ")
@@ -786,16 +829,16 @@ function updateSpiderChart() {
 /* ================================================================ */
 /*           (3) HAPPINESS VS NT PERFORMANCE VISUALIZATION          */
 /* ================================================================ */
-// 
+// creates the basis of the happiness vs NT performance line chart
 function createHappinessChart() {
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
     width = 413 - margin.left - margin.right,
-    height = 223 - margin.top - margin.bottom;
+    height = 215 - margin.top - margin.bottom;
 
     var svg = d3.select("#country-line-chart-svg")
         .attr("width", width)
         .attr("height", height + 30)
-        .attr("viewbox", `0 0 ${width} ${height + 30}`)
+        .attr("viewBox", `0 0 ${width} ${height + 30}`)
 
     // add "Years" label
     svg.append("text")
@@ -842,7 +885,7 @@ function createHappinessChart() {
         .attr("color", "white")
         .call(d3.axisLeft(y))
 
-    //
+    // adds initial line for the animation
     d3.select("#country-line-chart-svg")
         .selectChildren("path")
         .attr("stroke", "transparent");
@@ -850,11 +893,11 @@ function createHappinessChart() {
     updateHappinessChart();
 }
 
-// 
+// updates happiness and NT performance lines when needed
 function updateHappinessChart() {
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
     width = 413 - margin.left - margin.right,
-    height = 223 - margin.top - margin.bottom;
+    height = 215 - margin.top - margin.bottom;
 
     var svg = d3.select("#country-line-chart-svg");
 
@@ -912,6 +955,7 @@ function updateHappinessChart() {
             .attr("stroke", "transparent");
     }
 
+    // deal with legends
     d3.select($("#happiness-legend-1 circle")[no_countries_mode])
         .transition().duration(500)
         .attr("fill", country_colors[this_country].active[colorNo(this_country)]);
@@ -1066,6 +1110,7 @@ function udpateStadium() {
 function changeLegend(mode, country = "") {
     // if a delete was requested, removes the line
     if (mode === "delete") {
+        // stadium legends
         $("#stadium #legend-line-" + (no_countries_mode + 1)).fadeOut(500)
             .children("circle").each(function (index) {
             d3.select(this)
@@ -1073,6 +1118,7 @@ function changeLegend(mode, country = "") {
                 .attr("fill", "transparent");
             });
         
+        // scatterplot legends
         $("#scatterplot-legend-" + (no_countries_mode + 1)).fadeOut(500)
             .children("circle").each(function (index) {
             d3.select(this)
@@ -1086,6 +1132,7 @@ function changeLegend(mode, country = "") {
                 .attr("fill", "transparent");
             });
 
+        // players' bar chart legends
         d3.select($("#bar-chart-legend-nt rect")[no_countries_mode])
             .transition().duration(500)
             .attr("fill", "transparent");
@@ -1143,6 +1190,7 @@ function changeLegend(mode, country = "") {
 /* ================================================================ */
 /*                           (5) PLAYER ID                          */
 /* ================================================================ */
+// create basis for the player ID idiom
 function createPlayerStats() {
     // adding gpm line chart
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
@@ -1150,7 +1198,7 @@ function createPlayerStats() {
     height = 300 - margin.top - margin.bottom;
 
     var svg = d3.select("#player-line-gpm")
-        .attr("viewbox", `0 0 ${width} ${height}`)
+        .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
@@ -1188,6 +1236,7 @@ function createPlayerStats() {
        .attr("color", "white");
 }
 
+// update player ID when needed
 function updatePlayerStats(playerID) {
     bar_height = 131;
     corner_round = 0;
@@ -1204,11 +1253,11 @@ function updatePlayerStats(playerID) {
         x => (x.id === playerID && x.type === "nt")
     );
 
-    // IMAGE
+    // set player image
     $("#player-id").show();
     $("#player-id .image").attr("src", "images/players/" + playerID + ".png")
 
-    // INFO
+    // add textual info
     var age = new Date(Date.now() - Date.parse(player_club[0].dob)).getFullYear() - 1970;
     $("#nat").html(player_club[0].country.replaceAll("-", " "));
     $("#player-flag").attr("src", "images/flags/flag-" + player_club[0].country + ".png");
@@ -1232,7 +1281,7 @@ function updatePlayerStats(playerID) {
         .transition().duration(500)
         .attr("fill", country_colors[player_club[0].country].hover[colorNo(player_club[0].country)]);
 
-    // NT GPM
+    // NT GPM bar
     var gpm_scale = d3.scaleLinear()
         .domain([0, 1])
         .range([0, bar_height]);
@@ -1250,7 +1299,7 @@ function updatePlayerStats(playerID) {
         .attr("width", 28);
     d3.select("#player-bar-number-nt").text(player_nt[0].type_avg);
 
-    // CLUB GPM
+    // club GPM bar
     var gpm_club = gpm_scale(player_club[0].type_avg);
 
     d3.select("#player-value-club-gpm")
@@ -1559,6 +1608,7 @@ function createScatterPlot() {
     updateScatterplot();
 }
 
+// update players' scatterplot when needed
 function updateScatterplot() {
     var margin = {top: 14, right: 14, bottom: 14, left: 14},
     width = 495,
@@ -2140,7 +2190,9 @@ function bindPlayerClick() {
         $("#scatter-help-line-active-x").show();
         $("#scatter-help-line-hover-x").hide();
 
+        // deal with player ID
         updatePlayerStats(this.dataset.playerid);
+
         $(".player-club-line-marker, .player-nt-line-marker")
             .attr("data-year-active", "false")
             .attr("r", "4")
@@ -2151,7 +2203,7 @@ function bindPlayerClick() {
 /* ================================================================ */
 /*                        (8) NT PROFICIENCY                        */
 /* ================================================================ */
-
+// creates gauge idim basis. way too much code, but ok
 function createGauge() {
     var container = "#power-gauge";
     var configuration = {
@@ -2193,10 +2245,12 @@ function createGauge() {
     var tickData = undefined;
     var pointer = undefined;
     
+    // convert from degrees to radians
     function deg2rad(deg) {
         return deg * Math.PI / 180;
     }
     
+    // increments current angle by 'd'
     function newAngle(d) {
         var ratio = scale(d);
         var newAngle = config.minAngle + (ratio * range);
@@ -2241,7 +2295,8 @@ function createGauge() {
         .append('svg:svg')
         .attr('class', 'gauge')
         .attr('width', config.clipWidth)
-        .attr('height', config.clipHeight);
+        .attr('height', config.clipHeight)
+        .attr("viewBox", `0 0 ${config.clipWidth} ${config.clipHeight}`);
     
     var arcs = svg.append('g')
         .attr('class', 'arc')
@@ -2344,7 +2399,7 @@ function createGauge() {
     updateGauge();
 };
 
-
+// updates gauge idim when needed
 function updateGauge() {
     var center = {"x": 190, "y": 190};
     var svg = d3.select(".gauge");
